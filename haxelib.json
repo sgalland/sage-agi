@@ -1,0 +1,14 @@
+{
+    "name": "sage-agi",
+    "url" : "https://github.com/sgalland/sage-agi",
+    "license": "GPL",
+    "tags": ["sierra", "agi"],
+    "description": "Library for handling Sierra AGI game data.",
+    "version": "0.0.1",
+    "classPath": "src/",
+    "releasenote": "Initial Release",
+    "contributors": ["sgalland"],
+    "dependencies": {
+        "hxcpp": "4.0.4"
+    }
+  }
