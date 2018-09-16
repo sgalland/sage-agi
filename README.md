@@ -13,7 +13,7 @@ Standard build hxml and debugging configuration is included.
 ## Quick Commands to install VSCode Extensions
 ````
 code --install-extension vshaxe.haxe-extension-pack
-code --install-extension  vshaxe.haxe-checkstyle
+code --install-extension vshaxe.haxe-checkstyle
 ````
 
 ## Required Haxelib's
@@ -21,9 +21,4 @@ code --install-extension  vshaxe.haxe-checkstyle
 haxelib install dox
 haxelib install checkstyle
 haxelib install hxcpp
-````
-
-## Build Commands
-````
-haxe build.hxml
 ````
