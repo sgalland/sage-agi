@@ -3,6 +3,7 @@ package sage.agi;
 import haxe.io.Path;
 import sys.io.File;
 import sage.agi.EAGIFileName;
+import sage.agi.AGIFileNameTools;
 import sage.core.StringExtender;
 
 /**
@@ -13,7 +14,6 @@ import sage.core.StringExtender;
 
  @see http://wiki.scummvm.org/index.php/Sierra_Game_Versions 
  **/
- @:export
 class AGIVersion {
 
     public static inline var MIN_AGI_VERSION = 0;
@@ -92,8 +92,8 @@ class AGIVersion {
     public static function getVersion() : AGIVersion {
         var version:String = "";
         var versionBuffer:String = new String("00000000");
-        var isVersionFound = false;
-        var agiDataFileName = EAGIFileName.AGIDATA;
+        var isVersionFound:Bool = false;
+        var agiDataFileName:String = AGIFileNameTools.getFileName(EAGIFileName.AGIDATA);
 
         var path = new Path(Path.join([Sys.getCwd(), agiDataFileName]));
         if (!sys.FileSystem.exists(path.toString()))

@@ -1,10 +1,16 @@
 package sage.agi;
 
+using haxe.EnumTools;
 /**
- Enumeration detailing all the normal filenames for AGI game files.
+ Enumeration detailing all the normal file types for an AGI game files.
 
  Note that VOL files are numbered and are not standardized since they differ per game. 
  **/
-@:enum abstract EAGIFileName(String) to String {
-    var AGIDATA = "AGIDATA.OVL";
+enum EAGIFileName {
+    AGIDATA;
+    LOGIC;
+    VIEW;
+    PICTURE;
+    SOUND;
+    WORDS;
 }
