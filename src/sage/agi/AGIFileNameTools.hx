@@ -15,6 +15,7 @@ class AGIFileNameTools {
             case EAGIFileName.AGIDATA: returnValue = "AGIDATA.OVL";
             case EAGIFileName.VIEW: returnValue = "VIEWDIR";
             case EAGIFileName.SOUND: returnValue = "SNDDIR";
+            case EAGIFileName.LOGIC: returnValue = "LOGDIR";
             default: returnValue = fileType.getName();
         }
 
