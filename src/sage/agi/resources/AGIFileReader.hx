@@ -74,9 +74,6 @@ class AGIFileReader {
 			agiFile.fileSize = b1 + (b2 << 8); // int16 signed
 
 			agiFile.data = file.read(agiFile.fileSize);
-            trace(agiFile.data.get(0));
-            trace(agiFile.data.get(1));
-            trace(agiFile.data.get(2));
 		}
 
 		file.close();

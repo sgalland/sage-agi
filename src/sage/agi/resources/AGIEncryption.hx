@@ -12,9 +12,9 @@ class AGIEncryption {
 		var newString:String = "";
 		while (i < end) {
 			// this logic needs rewritten
-			var decryptedString:Int = sourceData[i] ^Std.parseInt(ENCRYPTION_STRING.charCodeAt(stringPosition++ % ENCRYPTION_STRING.length));
-			i++;
-			trace(String.fromCharCode(decryptedString));
+			//var decryptedString:Int = sourceData[i] ^Std.parseInt(ENCRYPTION_STRING.charCodeAt(stringPosition++ % ENCRYPTION_STRING.length));
+			//i++;
+			//trace(String.fromCharCode(decryptedString));
 			
 		}
 	}
