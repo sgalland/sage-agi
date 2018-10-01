@@ -21,7 +21,7 @@ class AGILogic extends Resource {
 		if (file.data.length > 0) {
 			var codeSize = file.data.get(0) + (file.data.get(1) << 8);
 			if (codeSize > 1) {
-				file.data.getData().slice(2, codeSize).map(function(v) {
+				file.data.getData().slice(2, codeSize + 2).map(function(v) {
 					logicData.push(v);
 				});
 			}
