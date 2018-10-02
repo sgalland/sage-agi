@@ -1,6 +1,7 @@
 package sage.agi.resources;
 
 import sage.agi.helpers.AGIStringHelper;
+import haxe.io.Bytes;
 
 class AGILogic extends Resource {
 	@:isVar public var logicData(default, set):Array<Int> = new Array<Int>();
@@ -38,7 +39,6 @@ class AGILogic extends Resource {
 		var msgHeaderLength = msgCount * 2; // message indexes are two bytes each
 		var dataPosStart = msgSectionStart + msgHeaderLength;
 		var dataPosEnd = msgSectionStart + msgSectionEnd - 2;
-
 		AGIEncryption.decryptArray(file.data, dataPosStart, dataPosEnd);
 
 		var message = 0;
