@@ -9,7 +9,7 @@ import sys.io.File;
 import sys.io.FileSeek;
 
 class AGIFileReader {
-	private var directoryEntries:Array<AGIDirectoryEntry> = new Array<AGIDirectoryEntry>();
+	public var directoryEntries:Array<AGIDirectoryEntry> = new Array<AGIDirectoryEntry>();
 
 	public function new() {}
 
