@@ -1,7 +1,6 @@
 package sage.agi.resources;
 
 import sage.agi.helpers.AGIStringHelper;
-import haxe.io.Bytes;
 
 class AGILogic extends Resource {
 	@:isVar public var logicData(default, set):Array<Int> = new Array<Int>();
@@ -20,9 +19,9 @@ class AGILogic extends Resource {
 
 	private function extractLogicCode() {
 		if (file.data.length > 0) {
-			var codeSize = file.data.get(0) + (file.data.get(1) << 8);
+			var codeSize = file.data[0] + (file.data[1] << 8);
 			if (codeSize > 1) {
-				file.data.getData().slice(2, codeSize + 2).map(function(v) {
+				file.data.slice(2, codeSize + 2).map(function(v) {
 					logicData.push(v);
 				});
 			}
@@ -30,9 +29,9 @@ class AGILogic extends Resource {
 	}
 
 	private function loadMessages() {
-		var msgSectionStart = file.data.get(0) + (file.data.get(1) << 8) + 2;
-		var msgSectionEnd = file.data.get(msgSectionStart + 1) + (file.data.get(msgSectionStart + 2) << 8);
-		var msgCount = file.data.get(msgSectionStart);
+		var msgSectionStart = file.data[0] + (file.data[1] << 8) + 2;
+		var msgSectionEnd = file.data[msgSectionStart + 1] + (file.data[msgSectionStart + 2] << 8);
+		var msgCount = file.data[msgSectionStart];
 		msgSectionStart += 3; // The messages start after the message section header
 
 		// Decrypt the message section
@@ -43,7 +42,7 @@ class AGILogic extends Resource {
 
 		var message = 0;
 		while (message < msgCount) {
-			var msgIndex = file.data.get(msgSectionStart + message * 2) + (file.data.get(msgSectionStart + message * 2 + 1) << 8) - 2;
+			var msgIndex = file.data[msgSectionStart + message * 2] + (file.data[msgSectionStart + message * 2 + 1] << 8) - 2;
 			if (msgIndex > 0) {
 				messages[message] = AGIStringHelper.getString(file.data, msgSectionStart + msgIndex);
 			}

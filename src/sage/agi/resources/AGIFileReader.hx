@@ -42,7 +42,7 @@ class AGIFileReader {
 		}
 		file.close();
 
-        this.directoryEntries = directoryEntries;
+		this.directoryEntries = directoryEntries;
 	}
 
 	public function getFile(resourceID:Int):AGIFile {
@@ -73,7 +73,9 @@ class AGIFileReader {
 			var b2 = file.readByte(); // uint8_t
 			agiFile.fileSize = b1 + (b2 << 8); // int16 signed
 
-			agiFile.data = file.read(agiFile.fileSize);
+			for (i in 0...agiFile.fileSize) {
+				agiFile.data.push(file.readByte());
+			}
 		}
 
 		file.close();

@@ -25,7 +25,7 @@ class AGIView {
 
 	private function loadViewHeader(file:AGIFile) {
 		// Skip the first two bytes, which are unknown bytes.
-		loopCount = file.data.get(2);
+		loopCount = file.data[2];
 		var descriptionLocation = BitConverter.toInt(file.data, 3);
 		if (descriptionLocation > 0)
 			description = sage.agi.helpers.AGIStringHelper.getString(file.data, descriptionLocation);
@@ -41,7 +41,7 @@ class AGIView {
 		// Read the loop header
 		for (loopIndex in 0...loopCount) {
 			var loopLocation = loopLocations[loopIndex];
-			celsInLoopCount[loopIndex] = file.data.get(loopLocation++);
+			celsInLoopCount[loopIndex] = file.data[loopLocation++];
 
 			// Read the cel positions in each loop.
 			for (celIndex in 0...celsInLoopCount[loopIndex])
