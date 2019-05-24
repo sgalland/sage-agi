@@ -4,6 +4,7 @@ import haxe.ds.Vector;
 import sage.agi.resources.AGIFile;
 import sage.core.BitConverter;
 import sage.core.BitSet;
+import sage.agi.helpers.AGIColor;
 
 class AGIView {
 	private static inline var MAX_CEL:Int = 255;
@@ -101,7 +102,8 @@ class AGIView {
 					}
 				}
 
-viewLoop.loopCels[viewLoop.loopCels.length]= new ViewCell();
+				viewLoop.loopCels[viewLoop.loopCels.length] = new ViewCell(AGIColor.getColorByDosColor(transparentColor), width, height, isMirrored,
+					pixelData, mirroredLoopId);
 				// 		viewLoop.cels().emplace_back(AgiColor::getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId);
 			}
 
@@ -136,5 +138,5 @@ class ViewLoop {
 }
 
 class ViewCell {
-	public function new(){}
+	public function new(agiColor:AGIColor, width:Int, height:Int, isMirrored:Bool, data:Array<Int>, mirroredLoopId:Int) {}
 }
