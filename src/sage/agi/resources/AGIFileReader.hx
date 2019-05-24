@@ -1,14 +1,18 @@
 package sage.agi.resources;
 
-import sage.agi.EAGIFileName;
-import sage.agi.resources.AGIDirectoryEntry;
-import sage.agi.resources.AGIFile;
 import sys.FileSystem;
+import sage.agi.EAGIFileName;
 import haxe.io.Path;
 import sys.io.File;
 import sys.io.FileSeek;
 
+/**
+	Reads directory entries and allows the retrival of AGIFile from a VOL file.
+**/
 class AGIFileReader {
+	/**
+		List of AGIDirectoryEntry read from the VOL file.
+	**/
 	public var directoryEntries:Array<AGIDirectoryEntry> = new Array<AGIDirectoryEntry>();
 
 	public function new() {}
@@ -23,11 +27,11 @@ class AGIFileReader {
 		var file = File.read(path.toString(), true);
 		var fileSize = FileSystem.stat(path.toString());
 		var resourceCount = 0;
-		var directoryEntries = new Array<AGIDirectoryEntry>();
+		var tempDirectoryEntries = new Array<AGIDirectoryEntry>();
 		while (file.tell() < fileSize.size) {
-			var b1 = file.readByte(); // 8bit unsigned
-			var b2 = file.readByte(); // 8bit unsigned
-			var b3 = file.readByte(); // 8bit unsigned
+			var b1 = file.readByte();
+			var b2 = file.readByte();
+			var b3 = file.readByte();
 
 			var directoryEntry = new AGIDirectoryEntry();
 			directoryEntry.volNumber = (b1 & 0xF0) >> 4;
@@ -35,14 +39,14 @@ class AGIFileReader {
 
 			if (directoryEntry.isEmpty()) {
 				directoryEntry.resourceID = resourceCount;
-				directoryEntries.push(directoryEntry);
+				tempDirectoryEntries.push(directoryEntry);
 			}
 
 			resourceCount++;
 		}
 		file.close();
 
-		this.directoryEntries = directoryEntries;
+		this.directoryEntries = tempDirectoryEntries;
 	}
 
 	public function getFile(resourceID:Int):AGIFile {
@@ -63,15 +67,15 @@ class AGIFileReader {
 		var file = File.read(path.toString(), true);
 
 		file.seek(dirEntry.dataOffset, FileSeek.SeekBegin);
-		dirEntry.signature = file.readInt16(); // 16bit signed int
+		dirEntry.signature = file.readInt16();
 		var agiFile:AGIFile = new AGIFile();
 
 		if (dirEntry.isValid()) {
 			agiFile.resourceID = resourceID;
-			agiFile.volNumber = file.readByte(); // uint8_t
-			var b1 = file.readByte(); // uint8_t
-			var b2 = file.readByte(); // uint8_t
-			agiFile.fileSize = b1 + (b2 << 8); // int16 signed
+			agiFile.volNumber = file.readByte();
+			var b1 = file.readByte();
+			var b2 = file.readByte();
+			agiFile.fileSize = b1 + (b2 << 8);
 
 			for (i in 0...agiFile.fileSize) {
 				agiFile.data.push(file.readByte());

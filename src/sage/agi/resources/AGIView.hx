@@ -33,7 +33,7 @@ class AGIView {
 
 		// Read the loop header positions
 		// Loop indices start 5 bytes past the start of the file and are two bytes wide
-		var offset = 5;
+		var offset:Int = 5;
 		for (loopIndex in 0...loopCount)
 			loopLocations[loopIndex] = BitConverter.toInt(file.data, offset + (loopIndex * 2));
 	}
@@ -41,7 +41,7 @@ class AGIView {
 	private function readLoopHeaders(file:AGIFile) {
 		// Read the loop header
 		for (loopIndex in 0...loopCount) {
-			var loopLocation = loopLocations[loopIndex];
+			var loopLocation:Int = loopLocations[loopIndex];
 			celsInLoopCount[loopIndex] = file.data[loopLocation++];
 
 			// Read the cel positions in each loop.
@@ -56,14 +56,16 @@ class AGIView {
 
 			for (cellIndex in 0...loopCount) {
 				var offset:Int = 0;
-				var cellPosition = loopLocations[loopIndex] + cellLocations[loopIndex][cellIndex];
-				var width = file.data[cellPosition] * 2;
-				var height = file.data[cellPosition + ++offset];
+				var cellPosition:Int = loopLocations[loopIndex] + cellLocations[loopIndex][cellIndex];
+				var width:Int = file.data[cellPosition] * 2;
+				var height:Int = file.data[cellPosition + ++offset];
 
 				var bitset:BitSet = new BitSet(8, file.data[cellPosition + ++offset]);
-				var transparentColor = bitset.getRangeByte(0, 3);
-				var mirroredLoopId = bitset.getRangeByte(4, 6);
-				var isMirrored = bitset[7] == 1 && mirroredLoopId != loopIndex;
+				var transparentColor:Int = bitset.getRangeByte(0, 3);
+				var mirroredLoopId:Int = bitset.getRangeByte(4, 6);
+				var isMirrored:Bool = bitset[7] == 1 && mirroredLoopId != loopIndex;
+
+				var pixelData:Array<Int> = new Array<Int>();
 			}
 		}
 

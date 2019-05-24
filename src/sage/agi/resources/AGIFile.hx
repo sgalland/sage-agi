@@ -1,14 +1,31 @@
 package sage.agi.resources;
 
-import haxe.io.Bytes;
-
+/**
+	AGIFile represents the raw contents of bits from a VOL.* file.
+	The raw bits are used to represent an AGI Resource (View, Pic, Sound, Logic).
+**/
 class AGIFile {
 	public function new() {
 		data = new Array<Int>();
 	}
 
-	public var resourceID:Int; // 16bit int signed
-	public var volNumber:Int; // unsigned 8bit
-	public var fileSize:Int; // 16bit int signed
-	public var data:Array<Int>; // Bytes; // unsigned 8bit array
+	/**
+		The Resource ID of the file.
+	**/
+	public var resourceID:Int;
+
+	/**
+		The VOL file that the AGIFile was read from.
+	**/
+	public var volNumber:Int;
+
+	/**
+		Length of bytes in the AGIFile.
+	**/
+	public var fileSize:Int;
+
+	/**
+		Raw bytes in the AGIFile.
+	**/
+	public var data:Array<Int>;
 }
