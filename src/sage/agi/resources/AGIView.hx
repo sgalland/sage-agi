@@ -13,8 +13,8 @@ class AGIView {
 	private var cellLocations:Vector<Vector<Int>>;
 	private var loopLocations:Vector<Int>;
 	private var celsInLoopCount:Vector<Int>;
+	private var viewLoops:Array<ViewLoop>; // NOTE: This might be better to make it a Vector...
 
-	// std::vector<ViewLoop> viewLoops;
 	private function initialize() {
 		cellLocations = new Vector(MAX_CEL);
 		for (i in 0...cellLocations.length)
@@ -22,6 +22,7 @@ class AGIView {
 
 		loopLocations = new Vector(MAX_CEL);
 		celsInLoopCount = new Vector(MAX_CEL);
+		viewLoops = new Array<ViewLoop>();
 	}
 
 	private function loadViewHeader(file:AGIFile) {
@@ -66,61 +67,46 @@ class AGIView {
 				var isMirrored:Bool = bitset[7] == 1 && mirroredLoopId != loopIndex;
 
 				var pixelData:Array<Int> = new Array<Int>();
+				for (cellDataIndex in 0...height) {
+					var x = 0; // uint16_t x = 0;
+					var chunk = 0; // uint8_t chunk = 0;
+
+					while ((chunk = file.data[cellPosition + ++offset]) != 0) {
+						var bitArray = new BitSet(8, chunk);
+
+						var pixelCount = bitArray.getRangeByte(0, 3);
+						var pixelColor = bitArray.getRangeByte(4, 7);
+						var maxPixels = x + pixelCount * 2;
+
+						if (!isMirrored) {
+							// var originalCelx = x;
+
+							// for (originalCelx = x; x < originalCelx + pixelCount * 2; x += 2)
+							while (x < maxPixels) {
+								pixelData[(cellDataIndex * width) + x] = pixelColor;
+								pixelData[(cellDataIndex * width) + x + 1] = pixelColor;
+								x += 2;
+							}
+						} else {
+							// var maxPixels = x + pixelCount * 2;
+							// for (originalCelx = x;
+							// x < originalCelx + pixelCount * 2;
+							// x += 2) {
+							while (x < maxPixels) {
+								pixelData[(cellDataIndex * width) + width - x - 1] = pixelColor;
+								pixelData[(cellDataIndex * width) + width - x - 2] = pixelColor;
+								x += 2;
+							}
+						}
+					}
+				}
+
+viewLoop.loopCels[viewLoop.loopCels.length]= new ViewCell();
+				// 		viewLoop.cels().emplace_back(AgiColor::getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId);
 			}
+
+			viewLoops.push(viewLoop);
 		}
-
-		// 	for (uint8_t loopIndex = 0; loopIndex < this->loopCount; loopIndex++)
-		// {
-		// 	ViewLoop viewLoop(loopIndex);
-
-		// 	for (uint8_t celIndex = 0; celIndex < celsInLoopCount[loopIndex]; celIndex++)
-		// 	{
-		// 		uint16_t offset = 0;
-		// 		uint16_t celPosition = this->loopLocations[loopIndex] + this->celLocations[loopIndex][celIndex];
-		// 		uint8_t width = file.data[celPosition] * 2;
-		// 		uint8_t height = file.data[celPosition + ++offset];
-
-		// 		BitSetHelper<8> bitset(file.data[celPosition + ++offset]);
-		// 		uint8_t transparentColor = bitset.get_range_byte(0, 3);
-		// 		// this mirroring appears correct but needs to be better tested
-		// 		uint8_t mirroredLoopId = bitset.get_range_byte(4, 6);
-		// 		bool isMirrored = bitset[7] == 1 && mirroredLoopId != loopIndex;
-
-		// 		std::vector<uint32_t> pixelData(width * height, transparentColor);
-		// 		for (uint8_t celDataIndex = 0; celDataIndex < height; celDataIndex++)
-		// 		{
-		// 			uint16_t x = 0;
-		// 			uint8_t chunk = 0;
-
-		// 			while ((chunk = file.data[celPosition + ++offset]) != 0)
-		// 			{
-		// 				BitSetHelper<8> bitArray(chunk);
-		// 				uint8_t pixelCount = bitArray.get_range_byte(0, 3);
-		// 				uint8_t pixelColor = bitArray.get_range_byte(4, 7);
-		// 				if (!isMirrored)
-		// 				{
-		// 					for (uint16_t originalCelx = x; x < originalCelx + pixelCount * 2; x += 2)
-		// 					{
-		// 						pixelData[(celDataIndex * width) + x] = pixelColor;
-		// 						pixelData[(celDataIndex * width) + x + 1] = pixelColor;
-		// 					}
-		// 				}
-		// 				else
-		// 				{
-		// 					for (uint16_t originalCelx = x; x < originalCelx + pixelCount * 2; x += 2)
-		// 					{
-		// 						pixelData[(celDataIndex * width) + width - x - 1] = pixelColor;
-		// 						pixelData[(celDataIndex * width) + width - x - 2] = pixelColor;
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-
-		// 		viewLoop.cels().emplace_back(AgiColor::getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId);
-		// 	}
-
-		// 	viewLoops.push_back(viewLoop);
-		// }
 	}
 
 	public function new(file:AGIFile) {
@@ -140,13 +126,15 @@ class ViewLoop {
 		return loopID = value;
 	}
 
-	private var loopCels(default, set):Vector<ViewCell>;
+	public var loopCels(default, set):Vector<ViewCell>;
 
-	private function set_loopCels(value:Vector<ViewCell>) {
+	public function set_loopCels(value:Vector<ViewCell>) {
 		return loopCels = value;
 	}
 
 	public function new(loopID:Int) {}
 }
 
-class ViewCell {}
+class ViewCell {
+	public function new(){}
+}
