@@ -57,7 +57,7 @@ abstract BitSet(Array<Int>) {
 		if (startPosition < 0 || startPosition > endPosition || endPosition < startPosition || endPosition > this.length)
 			throw "getRangeByte must have a range within the bits you are attemping to return";
 
-		for (i in startPosition...endPosition) {
+		for (i in startPosition...endPosition + 1) {
 			if (this[i] != 0) {
 				r |= (1 << idx);
 			}

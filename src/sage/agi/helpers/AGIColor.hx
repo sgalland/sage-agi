@@ -9,22 +9,22 @@ class AGIColor {
 	/**
 		RGB value of red.
 	**/
-	var r:Int;
+	public var r:Int;
 
 	/**
 		RGB value of green.
 	**/
-	var g:Int;
+	public var g:Int;
 
 	/**
 		RGB value of blue.
 	**/
-	var b:Int;
+	public var b:Int;
 
 	/**
 		DOS color code.
 	**/
-	var dosColor:Int;
+	public var dosColor:Int;
 
 	public function new(dosColor:Int, r:Int, g:Int, b:Int) {
 		this.r = r;

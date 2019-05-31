@@ -56,7 +56,7 @@ class AGIView {
 		for (loopIndex in 0...loopCount) {
 			var viewLoop:ViewLoop = new ViewLoop(loopIndex);
 
-			for (cellIndex in 0...loopCount) {
+			for (cellIndex in 0...celsInLoopCount[loopIndex]) {
 				var offset:Int = 0;
 				var cellPosition:Int = loopLocations[loopIndex] + cellLocations[loopIndex][cellIndex];
 				var width:Int = file.data[cellPosition] * 2;
@@ -80,19 +80,12 @@ class AGIView {
 						var maxPixels = x + pixelCount * 2;
 
 						if (!isMirrored) {
-							// var originalCelx = x;
-
-							// for (originalCelx = x; x < originalCelx + pixelCount * 2; x += 2)
 							while (x < maxPixels) {
 								pixelData[(cellDataIndex * width) + x] = pixelColor;
 								pixelData[(cellDataIndex * width) + x + 1] = pixelColor;
 								x += 2;
 							}
 						} else {
-							// var maxPixels = x + pixelCount * 2;
-							// for (originalCelx = x;
-							// x < originalCelx + pixelCount * 2;
-							// x += 2) {
 							while (x < maxPixels) {
 								pixelData[(cellDataIndex * width) + width - x - 1] = pixelColor;
 								pixelData[(cellDataIndex * width) + width - x - 2] = pixelColor;
@@ -102,8 +95,7 @@ class AGIView {
 					}
 				}
 
-				viewLoop.loopCels[viewLoop.loopCels.length] = new ViewCell(AGIColor.getColorByDosColor(transparentColor), width, height, isMirrored,
-					pixelData, mirroredLoopId);
+				viewLoop.loopCells.push(new ViewCell(AGIColor.getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId));
 				// 		viewLoop.cels().emplace_back(AgiColor::getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId);
 			}
 
@@ -118,25 +110,44 @@ class AGIView {
 		readCellHeader(file);
 	}
 
-	public function getViewLoops() {}
+	public function getViewLoops() {
+		return viewLoops;
+	}
 }
 
 class ViewLoop {
-	public var loopID(default, set):Int;
+	// public var loopID(default, set):Int;
+	// private function set_loopID(value:Int) {
+	// 	return loopID = value;
+	// }
+	public var loopID:Int;
+	public var loopCells:Array<ViewCell>;
 
-	private function set_loopID(value:Int) {
-		return loopID = value;
+	// public var loopCels(default, set):Vector<ViewCell>;
+	// public function set_loopCels(value:Vector<ViewCell>) {
+	// 	return loopCels = value;
+	// }
+
+	public function new(loopID:Int) {
+		this.loopID = loopID;
+		this.loopCells = new Array<ViewCell>();
 	}
-
-	public var loopCels(default, set):Vector<ViewCell>;
-
-	public function set_loopCels(value:Vector<ViewCell>) {
-		return loopCels = value;
-	}
-
-	public function new(loopID:Int) {}
 }
 
 class ViewCell {
-	public function new(agiColor:AGIColor, width:Int, height:Int, isMirrored:Bool, data:Array<Int>, mirroredLoopId:Int) {}
+	public var width:Int;
+	public var height:Int;
+	public var isMirrored:Bool;
+	public var mirroredLoopId:Int;
+	public var data:Array<Int>;
+	public var transparentColor:AGIColor;
+
+	public function new(transparentColor:AGIColor, width:Int, height:Int, isMirrored:Bool, data:Array<Int>, mirroredLoopId:Int) {
+		this.transparentColor = transparentColor;
+		this.width = width;
+		this.height = height;
+		this.isMirrored = isMirrored;
+		this.data = data;
+		this.mirroredLoopId = mirroredLoopId;
+	}
 }
