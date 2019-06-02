@@ -9,6 +9,6 @@
     "releasenote": "Initial Release",
     "contributors": ["sgalland"],
     "dependencies": {
-        "hxcpp": "4.0.4"
+        "dox": ""
     }
   }
