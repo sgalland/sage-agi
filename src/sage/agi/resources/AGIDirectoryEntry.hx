@@ -6,8 +6,8 @@ package sage.agi.resources;
 	the offset of the vol file of where the data for the resources is located.
 **/
 class AGIDirectoryEntry {
-	private static inline var EMPTY_DIRECTORY:Int = 0xFFFFF;
-	private static inline var VALID_SIGNATURE:Int = 0x3412;
+	static inline var EMPTY_DIRECTORY:Int = 0xFFFFF;
+	static inline var VALID_SIGNATURE:Int = 0x3412;
 
 	public function new() {}
 
@@ -47,6 +47,9 @@ class AGIDirectoryEntry {
 		return dataOffset != EMPTY_DIRECTORY;
 	}
 
+	/**
+		Checks if the file has a valid signature.
+	**/
 	public function isValid():Bool {
 		return signature == VALID_SIGNATURE;
 	}
