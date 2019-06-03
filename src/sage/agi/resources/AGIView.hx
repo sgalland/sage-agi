@@ -14,7 +14,7 @@ class AGIView {
 	private var cellLocations:Vector<Vector<Int>>;
 	private var loopLocations:Vector<Int>;
 	private var celsInLoopCount:Vector<Int>;
-	private var viewLoops:Array<ViewLoop>; // NOTE: This might be better to make it a Vector...
+	private var viewLoops:Array<ViewLoop>;
 
 	private function initialize() {
 		cellLocations = new Vector(MAX_CEL);
@@ -69,8 +69,8 @@ class AGIView {
 
 				var pixelData:Array<Int> = new Array<Int>();
 				for (cellDataIndex in 0...height) {
-					var x = 0; // uint16_t x = 0;
-					var chunk = 0; // uint8_t chunk = 0;
+					var x = 0;
+					var chunk = 0;
 
 					while ((chunk = file.data[cellPosition + ++offset]) != 0) {
 						var bitArray = new BitSet(8, chunk);
@@ -94,9 +94,8 @@ class AGIView {
 						}
 					}
 				}
-
+				
 				viewLoop.loopCells.push(new ViewCell(AGIColor.getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId));
-				// 		viewLoop.cels().emplace_back(AgiColor::getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId);
 			}
 
 			viewLoops.push(viewLoop);
@@ -116,17 +115,8 @@ class AGIView {
 }
 
 class ViewLoop {
-	// public var loopID(default, set):Int;
-	// private function set_loopID(value:Int) {
-	// 	return loopID = value;
-	// }
 	public var loopID:Int;
 	public var loopCells:Array<ViewCell>;
-
-	// public var loopCels(default, set):Vector<ViewCell>;
-	// public function set_loopCels(value:Vector<ViewCell>) {
-	// 	return loopCels = value;
-	// }
 
 	public function new(loopID:Int) {
 		this.loopID = loopID;
