@@ -23,6 +23,7 @@ class AGILogic extends Resource {
 			if (codeSize > 1) {
 				file.data.slice(2, codeSize + 2).map(function(v) {
 					logicData.push(v);
+					return v;
 				});
 			}
 		}
@@ -43,9 +44,8 @@ class AGILogic extends Resource {
 		var message = 0;
 		while (message < msgCount) {
 			var msgIndex = file.data[msgSectionStart + message * 2] + (file.data[msgSectionStart + message * 2 + 1] << 8) - 2;
-			if (msgIndex > 0) {
-				messages[message] = AGIStringHelper.getString(file.data, msgSectionStart + msgIndex);
-			}
+			messages[message] = AGIStringHelper.getString(file.data, msgSectionStart + msgIndex);
+			
 			message++;
 		}
 	}
