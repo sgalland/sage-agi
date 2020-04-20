@@ -98,12 +98,12 @@ abstract AGIByte(Int) {
 		If the value is outside of these ranges the value will wrap.
 		@param m
 	**/
-	static function wrap(m:Int):Int {
-		if (m > HIGH_UBYTE_RANGE)
-			return m % HIGH_UBYTE_RANGE - 1;
-		else if (m < LOW_UBYTE_RANGE)
-			return wrap(m + HIGH_UBYTE_RANGE + 1);
-		return m;
+	static function wrap(value:Int):Int {
+		if (value > HIGH_UBYTE_RANGE)
+			return value % HIGH_UBYTE_RANGE - 1;
+		else if (value < LOW_UBYTE_RANGE)
+			return wrap(value + HIGH_UBYTE_RANGE + 1);
+		return value;
 	}
 
 	/**
