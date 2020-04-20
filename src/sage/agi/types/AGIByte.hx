@@ -89,12 +89,6 @@ abstract AGIByte(Int) {
 	public static inline function divInt(a:AGIByte, b:Int):AGIByte
 		return new AGIByte((a.toInt() / b).int());
 
-	// @:arrayAccess public inline function get_arrayAGIByte(a:AGIByte):AGIByte {
-	// 	return a;
-	// }
-	// @:arrayAccess public inline function set_arrayAGIByte(a:Array<AGIByte>, b:AGIByte):AGIByte {
-	// 	a.
-	// }
 	inline function toInt():Int {
 		return this;
 	}
@@ -121,9 +115,4 @@ abstract AGIByte(Int) {
 		Defines the maximum value of an unsigned byte.
 	**/
 	static var HIGH_UBYTE_RANGE:Int = 255;
-
-	/**
-		Defines the value range of an unsigned byte.
-	**/
-	// static var UBYTE_RANGE_SIZE:Int = HIGH_UBYTE_RANGE - LOW_UBYTE_RANGE + 1;
 }
