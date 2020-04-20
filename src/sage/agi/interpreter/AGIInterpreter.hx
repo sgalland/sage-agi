@@ -30,7 +30,8 @@ class AGIInterpreter {
 	/**
 		Defines an array of 24 40 character wide strings for use in the interpreter.
 
-		Note that while some versions of the AGI Interpreter only supported 12 strings, some had the capacity to store 24. It is unknown if all 24 strings were used in those versions.
+		Note that while some versions of the AGI Interpreter only supported 12 strings, some had the capacity to store 24. 
+		It is unknown if all 24 strings were used in those versions.
 
 		See specification for more information.
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals#String
