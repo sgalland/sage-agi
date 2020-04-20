@@ -1,0 +1,6 @@
+-cp src
+-D doc-gen
+-xml docs\docs.xml
+--macro include('sage.agi')
+# --no-output
+-cmd haxelib run dox -i docs -o docs

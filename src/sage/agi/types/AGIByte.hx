@@ -1,5 +1,7 @@
 package sage.agi.types;
 
+using Std;
+
 /**
 	Represents an unsigned byte data type.
 **/
@@ -71,6 +73,28 @@ abstract AGIByte(Int) {
 	public static inline function addAGIByte(a:AGIByte, b:AGIByte):AGIByte
 		return new AGIByte(a.toInt() + b.toInt());
 
+	@:op(A * B)
+	public static inline function mulAGIByte(a:AGIByte, b:AGIByte):AGIByte
+		return new AGIByte(a.toInt() * b.toInt());
+
+	@:op(A * B)
+	public static inline function mulInt(a:AGIByte, b:Int):AGIByte
+		return new AGIByte(a.toInt() * b);
+
+	@:op(A / B)
+	public static inline function divAGIByte(a:AGIByte, b:AGIByte):AGIByte
+		return new AGIByte((a.toInt() / b.toInt()).int());
+
+	@:op(A / B)
+	public static inline function divInt(a:AGIByte, b:Int):AGIByte
+		return new AGIByte((a.toInt() / b).int());
+
+	// @:arrayAccess public inline function get_arrayAGIByte(a:AGIByte):AGIByte {
+	// 	return a;
+	// }
+	// @:arrayAccess public inline function set_arrayAGIByte(a:Array<AGIByte>, b:AGIByte):AGIByte {
+	// 	a.
+	// }
 	inline function toInt():Int {
 		return this;
 	}
