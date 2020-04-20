@@ -13,8 +13,8 @@ class Arithmetic {
 		@param n Variable to increment.
 	**/
 	public static function increment(n:UInt) {
-		if (AGIInterpreter.variables[n] < 255)
-			AGIInterpreter.variables[n]++;
+		if (AGIInterpreter.VARIABLES[n] < 255)
+			AGIInterpreter.VARIABLES[n]++;
 	}
 
 	/**
@@ -22,8 +22,8 @@ class Arithmetic {
 		@param n Variable to decrement.
 	**/
 	public static function decrement(n:UInt) {
-		if (AGIInterpreter.variables[n] > 0)
-			AGIInterpreter.variables[n]--;
+		if (AGIInterpreter.VARIABLES[n] > 0)
+			AGIInterpreter.VARIABLES[n]--;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Arithmetic {
 		@param value Value to assign to variable n.
 	**/
 	public static function assign(n:UInt, value:Int) {
-		AGIInterpreter.variables[n] = value;
+		AGIInterpreter.VARIABLES[n] = value;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Arithmetic {
 		@param m Variable to read the value.
 	**/
 	public static function assignv(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] = AGIInterpreter.variables[m];
+		AGIInterpreter.VARIABLES[n] = AGIInterpreter.VARIABLES[m];
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Arithmetic {
 		@param m Value to add to the variable.
 	**/
 	public static function addn(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] + m;
+		AGIInterpreter.VARIABLES[n] = AGIInterpreter.VARIABLES[n] + m;
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Arithmetic {
 		@param m Variable to add.
 	**/
 	public static function addv(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] + AGIInterpreter.variables[m];
+		AGIInterpreter.VARIABLES[n] = AGIInterpreter.VARIABLES[n] + AGIInterpreter.VARIABLES[m];
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Arithmetic {
 		@param m Value to subtract from the variable.
 	**/
 	public static function subn(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] + m;
+		AGIInterpreter.VARIABLES[n] = AGIInterpreter.VARIABLES[n] + m;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Arithmetic {
 		@param m Variable to subtract.
 	**/
 	public static function subv(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] - AGIInterpreter.variables[m];
+		AGIInterpreter.VARIABLES[n] = AGIInterpreter.VARIABLES[n] - AGIInterpreter.VARIABLES[m];
 	}
 
 	/**
@@ -87,8 +87,8 @@ class Arithmetic {
 	**/
 	public static function lindirectn(n:UInt, m:UInt) {
 		// TODO: Test
-		var variable1 = AGIInterpreter.variables[n];
-		AGIInterpreter.variables[variable1] = m;
+		var variable1 = AGIInterpreter.VARIABLES[n];
+		AGIInterpreter.VARIABLES[variable1] = m;
 	}
 
 	/**
@@ -98,9 +98,9 @@ class Arithmetic {
 	**/
 	public static function lindirectv(n:UInt, m:UInt) {
 		// TODO: Test
-		var variable1 = AGIInterpreter.variables[n];
-		var variable2 = AGIInterpreter.variables[m];
-		AGIInterpreter.variables[variable1] = variable2;
+		var variable1 = AGIInterpreter.VARIABLES[n];
+		var variable2 = AGIInterpreter.VARIABLES[m];
+		AGIInterpreter.VARIABLES[variable1] = variable2;
 	}
 
 	/**
@@ -110,9 +110,9 @@ class Arithmetic {
 	**/
 	public static function rindirect(n:UInt, m:UInt) {
 		// TODO: Test
-		var variable1 = AGIInterpreter.variables[m];
-		var variable2 = AGIInterpreter.variables[variable1];
-		AGIInterpreter.variables[n] = variable2;
+		var variable1 = AGIInterpreter.VARIABLES[m];
+		var variable2 = AGIInterpreter.VARIABLES[variable1];
+		AGIInterpreter.VARIABLES[n] = variable2;
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Arithmetic {
 		@param m Value to multiply by.
 	**/
 	public static function muln(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] *= m;
+		AGIInterpreter.VARIABLES[n] *= m;
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Arithmetic {
 		 @param m Variable to multiply by.
 	**/
 	public static function mulv(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] *= AGIInterpreter.variables[m];
+		AGIInterpreter.VARIABLES[n] *= AGIInterpreter.VARIABLES[m];
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Arithmetic {
 		@param m Value to divide by.
 	**/
 	public static function divn(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] /= m;
+		AGIInterpreter.VARIABLES[n] /= m;
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Arithmetic {
 		@param m Variable to divide by.
 	**/
 	public static function divv(n:UInt, m:UInt) {
-		AGIInterpreter.variables[n] /= AGIInterpreter.variables[m];
+		AGIInterpreter.VARIABLES[n] /= AGIInterpreter.VARIABLES[m];
 	}
 
 	/**
@@ -158,6 +158,6 @@ class Arithmetic {
 		@param k Variable to store the random number in.
 	**/
 	public static function random(n:UInt, m:UInt, k:UInt) {
-		AGIInterpreter.variables[k] = MathExtender.random(n, m);
+		AGIInterpreter.VARIABLES[k] = MathExtender.random(n, m);
 	}
 }
