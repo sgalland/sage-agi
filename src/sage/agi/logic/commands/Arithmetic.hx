@@ -80,45 +80,90 @@ class Arithmetic {
 		AGIInterpreter.variables[varableID] = AGIInterpreter.variables[varableID] - AGIInterpreter.variables[variableID2];
 	}
 
+	/**
+		Indirectly assign m to variable n
+		@param n ID of the variable to set.
+		@param m Value to set the variable to.
+	**/
 	public static function lindirectn(n:UInt, m:UInt) {
+		// TODO: Test
 		// TODO: Fix the casts. This is a hack to get rid of an error from direct assignment.
 		var variable1 = Std.int(Std.parseFloat(Std.string(AGIInterpreter.variables[n])));
 		AGIInterpreter.variables[variable1] = m;
 	}
 
+	/**
+		Indirectly assign variable m to variable n
+		@param n ID of the variable to get the variable id to set.
+		@param m Id of the variable to get the value.
+	**/
 	public static function lindirectv(n:UInt, m:UInt) {
+		// TODO: Test
 		// TODO: Fix the casts. This is a hack to get rid of an error from direct assignment.
 		var variable1 = Std.int(Std.parseFloat(Std.string(AGIInterpreter.variables[n])));
 		var variable2 = AGIInterpreter.variables[m];
 		AGIInterpreter.variables[variable1] = variable2;
 	}
 
+	/**
+		Indirectly assign variable m to variable n
+		@param n ID of the variable to set.
+		@param m Value to set the variable to.
+	**/
 	public static function rindirect(n:UInt, m:UInt) {
+		// TODO: Test
 		// TODO: Fix the casts. This is a hack to get rid of an error from direct assignment.
 		var variable1 = Std.int(Std.parseFloat(Std.string(AGIInterpreter.variables[m])));
 		var variable2 = AGIInterpreter.variables[variable1];
 		AGIInterpreter.variables[n] = variable2;
 	}
 
+	/**
+		Multiply variable n by m.
+		@param n ID of the variable to multiply and set.
+		@param m Value to multiply by.
+	**/
 	public static function muln(n:UInt, m:UInt) {
 		AGIInterpreter.variables[n] *= m;
 	}
 
+	/**
+		Multiply variable n by variable m.
+		 @param n ID of the variable to multiply and set.
+		 @param m ID of the variable to multiply by.
+	**/
 	public static function mulv(n:UInt, m:UInt) {
 		AGIInterpreter.variables[n] *= AGIInterpreter.variables[m];
 	}
 
+	/**
+		Divide variable n by m.
+		@param n ID of the variable to divide and set.
+		@param m Value to divide by.
+	**/
 	public static function divn(n:UInt, m:UInt) {
 		AGIInterpreter.variables[n] /= m;
 	}
 
+	/**
+		Divide variable n by variable m.
+		@param n ID of the variable to divide and set.
+		@param m ID of the variable to divide by.
+	**/
 	public static function divv(n:UInt, m:UInt) {
 		AGIInterpreter.variables[n] /= AGIInterpreter.variables[m];
 	}
 
+	/**
+		Generate a random number between n and m. Assign the random number t variable k.
+		@param n Minimum random range.
+		@param m Maximum random range.
+		@param k ID of the variable to set.
+	**/
 	public static function random(n:UInt, m:UInt, k:UInt) {
 		AGIInterpreter.variables[k] = MathExtender.random(n, m);
 	}
 
 	// TODO: Complete Arithmetic.hx
+	// TODO: Complete class documentation
 }

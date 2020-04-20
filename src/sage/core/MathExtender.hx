@@ -14,6 +14,7 @@ class MathExtender {
 		// C generates random numbers between 0 and RAND_MAX which is compiler defined
 		// and can differ between implementations. RAND_MAX minimum possible value as per
 		// the standard is 32767.
+		// https://www.gnu.org/software/libc/manual/html_node/ISO-Random.html
 		var genRandNum = Math.random() * MAX_C_RANDOM_VALUE;
 		return Std.int((genRandNum % ((max - min) + 1)) + min);
 	}
