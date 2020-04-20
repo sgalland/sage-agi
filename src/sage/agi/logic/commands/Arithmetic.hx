@@ -9,80 +9,80 @@ import sage.core.MathExtender;
 **/
 class Arithmetic {
 	/**
-		Increments a variable location by 1. If the value is 255 or greater, the value is unchanged.
-		@param variableID ID of the variable to increment.
+		Increments variable n by 1. If the value is 255 or greater, the value is unchanged.
+		@param n Variable to increment.
 	**/
-	public static function increment(variableID:UInt) {
-		if (AGIInterpreter.variables[variableID] < 255)
-			AGIInterpreter.variables[variableID]++;
+	public static function increment(n:UInt) {
+		if (AGIInterpreter.variables[n] < 255)
+			AGIInterpreter.variables[n]++;
 	}
 
 	/**
-		Decrements a variable location by 1.  If the value is 0 or less, the value is unchanged.
-		@param variableID ID of the variable to decrement.
+		Decrements variable n by 1.  If the value is 0 or less, the value is unchanged.
+		@param n Variable to decrement.
 	**/
-	public static function decrement(variableID:UInt) {
-		if (AGIInterpreter.variables[variableID] > 0)
-			AGIInterpreter.variables[variableID]--;
+	public static function decrement(n:UInt) {
+		if (AGIInterpreter.variables[n] > 0)
+			AGIInterpreter.variables[n]--;
 	}
 
 	/**
-		Assigns a value to a variable location.
-		@param variableID ID of the variable to assign a value.
-		@param value Value to assign to the variable location.
+		Assigns a value to variable n.
+		@param n Variable to assign a value.
+		@param value Value to assign to variable n.
 	**/
-	public static function assign(variableID:UInt, value:Int) {
-		AGIInterpreter.variables[variableID] = value;
+	public static function assign(n:UInt, value:Int) {
+		AGIInterpreter.variables[n] = value;
 	}
 
 	/**
-		Assigns a variable2 to variable1.
-		@param variableID ID of the variable to assign the value.
-		@param variableID2 ID of the variable to read the value.
+		Assigns a variable n to variable m.
+		@param n Variable to assign the value.
+		@param m Variable to read the value.
 	**/
-	public static function assignv(variableID:UInt, variableID2:UInt) {
-		AGIInterpreter.variables[variableID] = AGIInterpreter.variables[variableID2];
+	public static function assignv(n:UInt, m:UInt) {
+		AGIInterpreter.variables[n] = AGIInterpreter.variables[m];
 	}
 
 	/**
 		Add the variable by m.
-		@param varableID ID of the variable to add.
+		@param n Variable to add and set.
 		@param m Value to add to the variable.
 	**/
-	public static function addn(varableID:UInt, m:UInt) {
-		AGIInterpreter.variables[varableID] = AGIInterpreter.variables[varableID] + m;
+	public static function addn(n:UInt, m:UInt) {
+		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] + m;
 	}
 
 	/**
-		Add the variable by variable 2.
-		@param varableID ID of the variable to assign the added value.
-		@param variableID2 ID of the variable to add.
+		Add variable n by variable m.
+		@param n Variable to add and set.
+		@param m Variable to add.
 	**/
-	public static function addv(variableID:UInt, variableID2:UInt) {
-		AGIInterpreter.variables[variableID] = AGIInterpreter.variables[variableID] + AGIInterpreter.variables[variableID2];
+	public static function addv(n:UInt, m:UInt) {
+		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] + AGIInterpreter.variables[m];
 	}
 
 	/**
-		Subtract from the variable the value of m.
-		@param variableID ID of the variable to assign the subtracted value.
+		Subtract from variable n the value of variable m.
+		@param n Variable to assign the subtracted value.
 		@param m Value to subtract from the variable.
 	**/
-	public static function subn(variableID:UInt, m:UInt) {
-		AGIInterpreter.variables[variableID] = AGIInterpreter.variables[variableID] + m;
+	public static function subn(n:UInt, m:UInt) {
+		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] + m;
 	}
 
 	/**
-		Subtract the variable by variable 2.
-		@param varableID ID of the variable to assign the value to.
-		@param variableID2 ID of the variable to subtract.
+		Subtract the variable n by variable m.
+		@param n Variable to assign the value to.
+		@param m Variable to subtract.
 	**/
-	public static function subv(varableID:UInt, variableID2:UInt) {
-		AGIInterpreter.variables[varableID] = AGIInterpreter.variables[varableID] - AGIInterpreter.variables[variableID2];
+	public static function subv(n:UInt, m:UInt) {
+		AGIInterpreter.variables[n] = AGIInterpreter.variables[n] - AGIInterpreter.variables[m];
 	}
 
 	/**
 		Indirectly assign m to variable n
-		@param n ID of the variable to set.
+		@param n Variable to set.
 		@param m Value to set the variable to.
 	**/
 	public static function lindirectn(n:UInt, m:UInt) {
@@ -94,8 +94,8 @@ class Arithmetic {
 
 	/**
 		Indirectly assign variable m to variable n
-		@param n ID of the variable to get the variable id to set.
-		@param m Id of the variable to get the value.
+		@param n Variable to get the variable id to set.
+		@param m Variable to get the value.
 	**/
 	public static function lindirectv(n:UInt, m:UInt) {
 		// TODO: Test
@@ -107,7 +107,7 @@ class Arithmetic {
 
 	/**
 		Indirectly assign variable m to variable n
-		@param n ID of the variable to set.
+		@param n Variable to set.
 		@param m Value to set the variable to.
 	**/
 	public static function rindirect(n:UInt, m:UInt) {
@@ -120,7 +120,7 @@ class Arithmetic {
 
 	/**
 		Multiply variable n by m.
-		@param n ID of the variable to multiply and set.
+		@param n Variable to multiply and set.
 		@param m Value to multiply by.
 	**/
 	public static function muln(n:UInt, m:UInt) {
@@ -129,8 +129,8 @@ class Arithmetic {
 
 	/**
 		Multiply variable n by variable m.
-		 @param n ID of the variable to multiply and set.
-		 @param m ID of the variable to multiply by.
+		 @param n Variable to multiply and set.
+		 @param m Variable to multiply by.
 	**/
 	public static function mulv(n:UInt, m:UInt) {
 		AGIInterpreter.variables[n] *= AGIInterpreter.variables[m];
@@ -138,7 +138,7 @@ class Arithmetic {
 
 	/**
 		Divide variable n by m.
-		@param n ID of the variable to divide and set.
+		@param n Variable to divide and set.
 		@param m Value to divide by.
 	**/
 	public static function divn(n:UInt, m:UInt) {
@@ -147,23 +147,20 @@ class Arithmetic {
 
 	/**
 		Divide variable n by variable m.
-		@param n ID of the variable to divide and set.
-		@param m ID of the variable to divide by.
+		@param n Variable to divide and set.
+		@param m Variable to divide by.
 	**/
 	public static function divv(n:UInt, m:UInt) {
 		AGIInterpreter.variables[n] /= AGIInterpreter.variables[m];
 	}
 
 	/**
-		Generate a random number between n and m. Assign the random number t variable k.
+		Generate a random number between n and m. Assign the random number to variable k.
 		@param n Minimum random range.
 		@param m Maximum random range.
-		@param k ID of the variable to set.
+		@param k Variable to store the random number in.
 	**/
 	public static function random(n:UInt, m:UInt, k:UInt) {
 		AGIInterpreter.variables[k] = MathExtender.random(n, m);
 	}
-
-	// TODO: Complete Arithmetic.hx
-	// TODO: Complete class documentation
 }
