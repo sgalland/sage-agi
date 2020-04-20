@@ -12,13 +12,13 @@ abstract AGIByte(Int) {
 	}
 
 	@:from
-	static public function fromInt(i:Int):AGIByte {
+	static public inline function fromInt(i:Int):AGIByte {
 		return new AGIByte(i);
 	}
 
 	@:to
-	public function toAGIByte():AGIByte {
-		return new AGIByte(this);
+	public inline function toInt():Int {
+		return Std.int(this);
 	}
 
 	@:op(A > B)
@@ -88,10 +88,6 @@ abstract AGIByte(Int) {
 	@:op(A / B)
 	public static inline function divInt(a:AGIByte, b:Int):AGIByte
 		return new AGIByte((a.toInt() / b).int());
-
-	inline function toInt():Int {
-		return this;
-	}
 
 	/**
 		AGI variables are a unsigned byte value between 0 and 255.

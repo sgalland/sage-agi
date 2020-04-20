@@ -87,8 +87,7 @@ class Arithmetic {
 	**/
 	public static function lindirectn(n:UInt, m:UInt) {
 		// TODO: Test
-		// TODO: Fix the casts. This is a hack to get rid of an error from direct assignment.
-		var variable1 = Std.int(Std.parseFloat(Std.string(AGIInterpreter.variables[n])));
+		var variable1 = AGIInterpreter.variables[n];
 		AGIInterpreter.variables[variable1] = m;
 	}
 
@@ -99,8 +98,7 @@ class Arithmetic {
 	**/
 	public static function lindirectv(n:UInt, m:UInt) {
 		// TODO: Test
-		// TODO: Fix the casts. This is a hack to get rid of an error from direct assignment.
-		var variable1 = Std.int(Std.parseFloat(Std.string(AGIInterpreter.variables[n])));
+		var variable1 = AGIInterpreter.variables[n];
 		var variable2 = AGIInterpreter.variables[m];
 		AGIInterpreter.variables[variable1] = variable2;
 	}
@@ -112,8 +110,7 @@ class Arithmetic {
 	**/
 	public static function rindirect(n:UInt, m:UInt) {
 		// TODO: Test
-		// TODO: Fix the casts. This is a hack to get rid of an error from direct assignment.
-		var variable1 = Std.int(Std.parseFloat(Std.string(AGIInterpreter.variables[m])));
+		var variable1 = AGIInterpreter.variables[m];
 		var variable2 = AGIInterpreter.variables[variable1];
 		AGIInterpreter.variables[n] = variable2;
 	}
