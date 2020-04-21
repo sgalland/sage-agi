@@ -12,7 +12,7 @@ class Flag {
 		@param n Flag to set
 	**/
 	public static function set(n:UInt) {
-		AGIInterpreter.flags[n] = true;
+		AGIInterpreter.FLAGS[n] = true;
 	}
 
 	/**
@@ -20,8 +20,8 @@ class Flag {
 		@param n Variable location to get the flag location.
 	**/
 	public static function setv(n:UInt) {
-		var flag = AGIInterpreter.variables[n];
-		AGIInterpreter.flags[flag] = true;
+		var flag = AGIInterpreter.VARIABLES[n];
+		AGIInterpreter.FLAGS[flag] = true;
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Flag {
 		@param n Flag location to set to false.
 	**/
 	public static function reset(n:UInt) {
-		AGIInterpreter.flags[n] = false;
+		AGIInterpreter.FLAGS[n] = false;
 	}
 
 	/**
@@ -37,8 +37,8 @@ class Flag {
 		@param n Variable location to get the flag to set to false.
 	**/
 	public static function resetv(n:UInt) {
-		var flag = AGIInterpreter.variables[n];
-		AGIInterpreter.flags[flag] = false;
+		var flag = AGIInterpreter.VARIABLES[n];
+		AGIInterpreter.FLAGS[flag] = false;
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Flag {
 		@param n Flag location to toggle.
 	**/
 	public static function toggle(n:UInt) {
-		AGIInterpreter.flags[n] = !AGIInterpreter.flags[n];
+		AGIInterpreter.FLAGS[n] = !AGIInterpreter.FLAGS[n];
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Flag {
 		@param n Variable location to get the flag to set to toggle.
 	**/
 	public static function togglev(n:UInt) {
-		var flag = AGIInterpreter.variables[n];
-		AGIInterpreter.flags[flag] = !AGIInterpreter.flags[flag];
+		var flag = AGIInterpreter.VARIABLES[n];
+		AGIInterpreter.FLAGS[flag] = !AGIInterpreter.FLAGS[flag];
 	}
 }
