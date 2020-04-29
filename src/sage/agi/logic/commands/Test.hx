@@ -3,6 +3,10 @@ package sage.agi.logic.commands;
 import sage.agi.helpers.AGIColor;
 import sage.agi.interpreter.AGIInterpreter;
 
+/**
+	Logical test commands.
+	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Logic#Logical_test_commands
+**/
 class Test {
 	public static function equaln(n:UInt, m:UInt):Bool {
 		return AGIInterpreter.VARIABLES[n] == m;
