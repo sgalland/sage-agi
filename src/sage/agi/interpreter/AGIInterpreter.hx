@@ -1,5 +1,8 @@
 package sage.agi.interpreter;
 
+import haxe.ds.IntMap;
+import sage.agi.resources.AGILogic;
+import sage.agi.resources.AGIFileReader;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import haxe.ds.Vector;
@@ -38,5 +41,29 @@ class AGIInterpreter {
 	**/
 	public static var STRINGS:Vector<String> = new Vector<String>(MAX_STRINGS);
 
-	public function new() {}
+	/**
+		A map of <Int,AGILogic> that represents all the Logic files keyed by resource id.
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Resources#Logic_resources
+	**/
+	public static var LOGIC:IntMap<AGILogic> = new IntMap<AGILogic>();
+
+	public function new() {
+		loadResources(EAGIFileName.LOGIC);
+	}
+
+	function loadResources(fileName:EAGIFileName) {
+		var resources = new AGIFileReader();
+		resources.loadDirectoryEntries(fileName);
+		for (entry in resources.directoryEntries) {
+			var file = resources.getFile(entry.resourceID);
+			if (file != null) {
+				switch (fileName) {
+					case LOGIC:
+						LOGIC.set(entry.resourceID, new AGILogic(file, entry.resourceID));
+					default:
+						throw "An invalid AGI FileType was added.";
+				}
+			}
+		}
+	}
 }
