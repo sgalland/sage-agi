@@ -51,14 +51,15 @@ class AGIFileReader {
 
 	public function getFile(resourceID:Int):AGIFile {
 		if (resourceID < 0 || resourceID > 255) {
-			throw "resourceID value $resourceID must be between 0 and 255.";
-		} else if (resourceID > directoryEntries.length) {
-			throw "resourceID value $resourceID does not exist.";
+			throw 'resourceID value $resourceID must be between 0 and 255.';
 		}
 
 		var dirEntry:AGIDirectoryEntry = directoryEntries.filter(function(entry) {
 			return entry.resourceID == resourceID;
 		})[0];
+
+		if (dirEntry == null)
+			return null;
 
 		var path = new Path(Path.join([Sys.getCwd(), "VOL." + Std.string(dirEntry.volNumber)]));
 		if (!sys.FileSystem.exists(path.toString()))
