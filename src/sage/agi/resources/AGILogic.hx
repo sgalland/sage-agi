@@ -45,12 +45,20 @@ class AGILogic extends Resource {
 		while (message < msgCount) {
 			var msgIndex = file.data[msgSectionStart + message * 2] + (file.data[msgSectionStart + message * 2 + 1] << 8) - 2;
 			messages[message] = AGIStringHelper.getString(file.data, msgSectionStart + msgIndex);
-			
+
 			message++;
 		}
 	}
 
+	public var logicIndex(default, default):Int;
+
 	public function getMessage(index:Int):String {
 		return messages[index];
+	}
+
+	public var nextByte(get, null):Int;
+
+	public function get_nextByte() {
+		return logicData[logicIndex++];
 	}
 }
