@@ -33,11 +33,11 @@ class LogicProcessor {
 			currentByte = currentLogic.nextByte;
 
 			#if debug
-			var output:String = ">>> ";
+			var output:String = "";
 			output += switch (currentByte) {
-				case 0x00: "return";
-				case 0xFF: "if ";
-				default: "command";
+				case 0x00: "-->	ret\n}";
+				case 0xFF: "";
+				default: "--> 	command";
 			}
 			trace(output);
 			#end
@@ -63,7 +63,7 @@ class LogicProcessor {
 
 			switch (currentByte) {
 				case 0xFD:
-					notCondition = false; // is this supposed to be true??
+					notCondition = false; // TODO: is this supposed to be true??
 				case 0xFC:
 					orCondition = true;
 				case 0xFF:
@@ -77,17 +77,31 @@ class LogicProcessor {
 							#if debug
 							var argTypes:Array<String> = new Array<String>();
 
-							var output:String = ">>>    if (" + condition.agiFunctionName;
+							var output:String = "if (" + condition.agiFunctionName + "(";
 
 							for (i in 0...condition.argCount) {
-								output += argTypes[i] + args[i];
+								var prefix:String = "";
+								if (condition.argTypes[i] == Variable)
+									prefix = "v";
+								else if (condition.argTypes[i] == Flag)
+									prefix = "f";
+								else if (condition.argTypes[i] == Number)
+									prefix = "";
+								output += prefix + args[i];
+
+								if (i != condition.argCount - 1)
+									output += ", ";
 
 								// handle "not" and "and" cases
-								if (i != condition.argCount - 1) {
-									if (orCondition)
-										output += " || ";
-								}
+								// if (i != condition.argCount - 1) {
+								// 	if (orCondition)
+								// 		output += " || ";
+								// 	else
+								// 		output += " && ";
+								// }
 							}
+
+							output += ") ";
 
 							// condition.argTypes.map(function(v:LogicArgumentType) {
 							// 	return switch (v) {
@@ -105,13 +119,23 @@ class LogicProcessor {
 		} while (currentByte != 0xFF);
 	}
 
-	static function processAction(currentByte:UInt) {}
+	static function processAction(opcode:UInt) {
+		var container:Container = ActionDispatcher.ACTIONS.get(opcode);
+		if (container != null) {
+			#if debug
+			trace("-->	" + container.agiFunctionName);
+			#end
+
+			var args = getArguments(container.argCount);
+			container.callback(args);
+		}
+	}
 
 	static function getArguments(argCount:Int) {
 		var arguments:Array<UInt> = new Array<UInt>();
 
 		for (i in 0...argCount) {
-			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i + 1];
+			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i];
 		}
 
 		return arguments;
