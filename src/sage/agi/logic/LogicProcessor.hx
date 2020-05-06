@@ -57,6 +57,7 @@ class LogicProcessor {
 		var currentByte = 0xFF;
 		var notCondition:Bool = false;
 		var orCondition:Bool = false;
+		var logicOperator:Bool = false;
 
 		do {
 			currentByte = currentLogic.nextByte;
@@ -113,6 +114,14 @@ class LogicProcessor {
 							// Get the arguments and bind them to the LogicArgumentType
 							trace(output);
 							#end
+
+							if (orCondition)
+								logicOperator = logicOperator || condition.callback(args);
+							else
+								logicOperator = logicOperator && condition.callback(args);
+
+							if (notCondition)
+								logicOperator = !logicOperator;
 						}
 					}
 			}
@@ -138,6 +147,8 @@ class LogicProcessor {
 			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i];
 		}
 
+		currentLogic.logicIndex += argCount;
+		trace("--> logicIndex: " + currentLogic.logicIndex);
 		return arguments;
 	}
 }

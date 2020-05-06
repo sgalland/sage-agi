@@ -50,11 +50,11 @@ class AGILogic extends Resource {
 		}
 	}
 
-	public var logicIndex(get, null):Int;
+	public var logicIndex(default, default):Int;
 
-	private function get_logicIndex():Int {
-		return logicIndex;
-	}
+	// private function get_logicIndex():Int {
+	// 	return logicIndex;
+	// }
 
 	public function getMessage(index:Int):String {
 		return messages[index];
