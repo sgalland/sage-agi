@@ -143,11 +143,13 @@ class LogicProcessor {
 	static function getArguments(argCount:Int) {
 		var arguments:Array<UInt> = new Array<UInt>();
 
+		trace("--> logicIndex: " + currentLogic.logicIndex);
+		
 		for (i in 0...argCount) {
 			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i];
 		}
 
-		currentLogic.logicIndex += argCount;
+		currentLogic.logicIndex += argCount - 1;
 		trace("--> logicIndex: " + currentLogic.logicIndex);
 		return arguments;
 	}
