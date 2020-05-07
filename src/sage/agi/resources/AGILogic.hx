@@ -2,6 +2,8 @@ package sage.agi.resources;
 
 import sage.agi.helpers.AGIStringHelper;
 
+// TODO: AGILogic needs to be cleaned up and documented
+
 class AGILogic extends Resource {
 	@:isVar public var logicData(default, set):Array<Int> = new Array<Int>();
 
@@ -62,15 +64,21 @@ class AGILogic extends Resource {
 
 	public var nextByte(get, null):Int;
 
-	public function get_nextByte() {
+	private function get_nextByte() {
 		return logicData[logicIndex++];
 	}
 
 	public var nextSingle(get, null):Int;
 
-	public function get_nextSingle() {
+	private function get_nextSingle() {
 		var b1 = logicData[logicIndex++];
 		var b2 = logicData[logicIndex++];
 		return (b2 << 8) | (b1 & 0xff);
+	}
+
+	public var tell(get, null):Int;
+
+	private function get_tell():Int {
+		return logicData[logicIndex];
 	}
 }
