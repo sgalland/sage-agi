@@ -42,12 +42,16 @@ class LogicProcessor {
 			trace(output);
 			#end
 
+			trace(currentLogic.logicData.slice(0,20));
+
 			switch (currentByte) {
 				case 0x00:
 					running = false;
 				case 0xFF:
 					processIf();
 				default:
+					var functionSize = currentLogic.nextSingle; // we are 1 byte too far in the array...
+					trace(functionSize);
 					processAction(currentByte);
 			}
 		} while (currentLogic.logicIndex < currentLogic.logicData.length && running);
@@ -144,12 +148,12 @@ class LogicProcessor {
 		var arguments:Array<UInt> = new Array<UInt>();
 
 		trace("--> logicIndex: " + currentLogic.logicIndex);
-		
+
 		for (i in 0...argCount) {
 			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i];
 		}
 
-		currentLogic.logicIndex += argCount - 1;
+		currentLogic.logicIndex += argCount;
 		trace("--> logicIndex: " + currentLogic.logicIndex);
 		return arguments;
 	}

@@ -65,4 +65,12 @@ class AGILogic extends Resource {
 	public function get_nextByte() {
 		return logicData[logicIndex++];
 	}
+
+	public var nextSingle(get, null):Int;
+
+	public function get_nextSingle() {
+		var b1 = logicData[logicIndex++];
+		var b2 = logicData[logicIndex++];
+		return (b2 << 8) | (b1 & 0xff);
+	}
 }
