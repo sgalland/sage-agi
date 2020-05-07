@@ -30,7 +30,7 @@ class LogicProcessor {
 		var currentByte:Int = 0;
 
 		do {
-			currentByte = currentLogic.nextByte;
+			currentByte = currentLogic.nextByte; // Change this to a tellByte so we can check without incrementing the index
 
 			#if debug
 			var output:String = "";
