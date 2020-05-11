@@ -30,19 +30,19 @@ class LogicProcessor {
 		var currentByte:Int = 0;
 
 		do {
-			currentByte = currentLogic.nextByte; // Change this to a tellByte so we can check without incrementing the index
+			trace(currentLogic.logicData.slice(currentLogic.logicIndex, currentLogic.logicIndex + 20));
+
+			currentByte = currentLogic.tell; // Change this to a tellByte so we can check without incrementing the index
 
 			#if debug
 			var output:String = "";
 			output += switch (currentByte) {
-				case 0x00: "-->	ret\n}";
+				case 0x00: "-->	return;\n}";
 				case 0xFF: "";
-				default: "--> 	command";
+				default: "";
 			}
 			trace(output);
 			#end
-
-			trace(currentLogic.logicData.slice(0,20));
 
 			switch (currentByte) {
 				case 0x00:
@@ -50,29 +50,36 @@ class LogicProcessor {
 				case 0xFF:
 					processIf();
 				default:
-					var functionSize = currentLogic.nextSingle; // we are 1 byte too far in the array...
-					trace(functionSize);
-					processAction(currentByte);
+					processAction();
 			}
 		} while (currentLogic.logicIndex < currentLogic.logicData.length && running);
 	}
 
 	static function processIf() {
-		var currentByte = 0xFF;
+		var currentByte:UInt = currentLogic.nextByte;
 		var notCondition:Bool = false;
 		var orCondition:Bool = false;
-		var logicOperator:Bool = false;
+		var logicOperator:Bool = true;
+
+		#if debug
+		var output:String = "if ( ";
+		#end
 
 		do {
 			currentByte = currentLogic.nextByte;
 
 			switch (currentByte) {
 				case 0xFD:
-					notCondition = false; // TODO: is this supposed to be true??
+					notCondition = true;
 				case 0xFC:
 					orCondition = true;
 				case 0xFF:
-					break;
+					{
+						var functionSize = currentLogic.nextSingle;
+						if (!logicOperator)
+							currentLogic.logicIndex += functionSize;
+						break;
+					}
 				default:
 					{
 						var condition:Container = TestDispatcher.TESTS.get(currentByte);
@@ -80,9 +87,7 @@ class LogicProcessor {
 							var args:Array<Int> = getArguments(condition.argCount);
 
 							#if debug
-							var argTypes:Array<String> = new Array<String>();
-
-							var output:String = "if (" + condition.agiFunctionName + "(";
+							output += condition.agiFunctionName + "(";
 
 							for (i in 0...condition.argCount) {
 								var prefix:String = "";
@@ -92,37 +97,32 @@ class LogicProcessor {
 									prefix = "f";
 								else if (condition.argTypes[i] == Number)
 									prefix = "";
-								output += prefix + args[i];
+								output += (notCondition ? "not(" : "") + prefix + args[i];
 
 								if (i != condition.argCount - 1)
 									output += ", ";
 
-								// handle "not" and "and" cases
-								// if (i != condition.argCount - 1) {
-								// 	if (orCondition)
-								// 		output += " || ";
-								// 	else
-								// 		output += " && ";
-								// }
+								if (i != condition.argCount - 1) {
+									if (orCondition)
+										output += " || ";
+									else if (condition.argCount > 1)
+										output += " && ";
+								}
 							}
 
-							output += ") ";
-
-							// condition.argTypes.map(function(v:LogicArgumentType) {
-							// 	return switch (v) {
-							// 		case Flag: "f";
-							// 		case Variable: "v";
-							// 		default: "";
-							// 	}
-							// });
-							// Get the arguments and bind them to the LogicArgumentType
-							trace(output);
+							output += (notCondition ? ")" : "") + ") ";
 							#end
 
+							var arg1:Int = condition.argCount >= 1 ? args[0] : 0;
+							var arg2:Int = condition.argCount >= 2 ? args[1] : 0;
+							var arg3:Int = condition.argCount >= 3 ? args[2] : 0;
+							var arg4:Int = condition.argCount >= 4 ? args[3] : 0;
+							var arg5:Int = condition.argCount >= 5 ? args[4] : 0;
+
 							if (orCondition)
-								logicOperator = logicOperator || condition.callback(args);
+								logicOperator = logicOperator || condition.callback(arg1, arg2, arg3, arg4, arg5);
 							else
-								logicOperator = logicOperator && condition.callback(args);
+								logicOperator = logicOperator && condition.callback(arg1, arg2, arg3, arg4, arg5);
 
 							if (notCondition)
 								logicOperator = !logicOperator;
@@ -130,31 +130,61 @@ class LogicProcessor {
 					}
 			}
 		} while (currentByte != 0xFF);
+
+		#if debug
+		output += ")";
+		trace(output);
+		#end
 	}
 
-	static function processAction(opcode:UInt) {
-		var container:Container = ActionDispatcher.ACTIONS.get(opcode);
+	static function processAction() {
+		var container:Container = ActionDispatcher.ACTIONS.get(currentLogic.nextByte);
 		if (container != null) {
+			var args = getArguments(container.argCount);
+
 			#if debug
-			trace("-->	" + container.agiFunctionName);
+			switch (container.argCount) {
+				case 1:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + ")");
+				case 2:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + ")");
+				case 3:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + ")");
+				case 4:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + ")");
+				case 5:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4] + ")");
+				case 6:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4] + "," + args[5]
+						+ ")");
+				case 7:
+					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4] + "," + args[5]
+						+ "," + args[6] + ")");
+			}
 			#end
 
-			var args = getArguments(container.argCount);
-			container.callback(args);
+			// Actions can take up to 7 parameters. Load the arguments and pass them to the bind call.
+			// It will send only the ones it needs.
+			var arg1:Int = container.argCount >= 1 ? args[0] : 0;
+			var arg2:Int = container.argCount >= 2 ? args[1] : 0;
+			var arg3:Int = container.argCount >= 3 ? args[2] : 0;
+			var arg4:Int = container.argCount >= 4 ? args[3] : 0;
+			var arg5:Int = container.argCount >= 5 ? args[4] : 0;
+			var arg6:Int = container.argCount >= 6 ? args[5] : 0;
+			var arg7:Int = container.argCount == 7 ? args[6] : 0;
+
+			container.callback(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 		}
 	}
 
 	static function getArguments(argCount:Int) {
 		var arguments:Array<UInt> = new Array<UInt>();
 
-		trace("--> logicIndex: " + currentLogic.logicIndex);
-
 		for (i in 0...argCount) {
 			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i];
 		}
 
 		currentLogic.logicIndex += argCount;
-		trace("--> logicIndex: " + currentLogic.logicIndex);
 		return arguments;
 	}
 }

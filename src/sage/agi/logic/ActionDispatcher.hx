@@ -31,6 +31,8 @@ class ActionDispatcher {
 		0x0E => new Container("toggle", 1, [Flag], Flag.toggle.bind(_)),
 		0x0F => new Container("set.v", 1, [Variable], Flag.setv.bind(_)),
 		// ...
-		0x16 => new Container("call", 1, [Number], Subroutine.call.bind(_))
+		0x16 => new Container("call", 1, [Number], Subroutine.call.bind(_)),
+		// ...
+		0x66 => new Container("print.v", 1, [Variable], null) // TODO: Implement me!
 	]; // TODO: Fill out the rest of the Actions
 }
