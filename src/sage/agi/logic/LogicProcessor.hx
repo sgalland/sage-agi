@@ -3,6 +3,7 @@ package sage.agi.logic;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.resources.AGILogic;
 import haxe.ds.GenericStack;
+import haxe.ds.Vector;
 
 /**
 	Executes logic files.
@@ -17,6 +18,11 @@ class LogicProcessor {
 		The current logic file being executed.
 	**/
 	static var currentLogic:AGILogic;
+
+	/**
+		Script allocated by interpreter commands. See Initialization.script_size.
+	**/
+	public static var script:Vector<UInt>;
 
 	/**
 		Execute a logic resource.
@@ -75,6 +81,7 @@ class LogicProcessor {
 					orCondition = true;
 				case 0xFF:
 					{
+						// Skip the body of the function if the result is false
 						var functionSize = currentLogic.nextSingle;
 						if (!logicOperator)
 							currentLogic.logicIndex += functionSize;

@@ -8,6 +8,7 @@ import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import sage.agi.EAGIFileName;
 import sage.agi.logic.LogicProcessor;
+import sage.agi.menu.Menu;
 
 /**
 	Represents the internals of the AGI Interpreter.
@@ -54,6 +55,11 @@ class AGIInterpreter {
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View
 	**/
 	public var VIEWS:IntMap<AGIView> = new IntMap<AGIView>();
+
+	/**
+		AGI Interpreter menu layout.
+	**/
+	public var MENU:Menu;
 
 	/**
 		Singleton instance of the AGIInterpreter class.
