@@ -6,7 +6,9 @@ class Menu {
 		this.modifiable = true;
 	}
 
-	public var modifiable:Boolean public var name:String;
+	public var modifiable:Bool; 
+	
+	public var name:String;
 
 	public var next:Menu;
 

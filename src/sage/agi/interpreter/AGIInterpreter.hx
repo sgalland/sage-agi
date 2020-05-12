@@ -57,9 +57,11 @@ class AGIInterpreter {
 	public var VIEWS:IntMap<AGIView> = new IntMap<AGIView>();
 
 	/**
-		AGI Interpreter menu layout.
+		AGI Interpreter menu root node.
 	**/
-	public var MENU:Menu;
+	public var MENU_TAIL:Menu;
+
+	public var MENU_HEAD:Menu;
 
 	/**
 		Singleton instance of the AGIInterpreter class.

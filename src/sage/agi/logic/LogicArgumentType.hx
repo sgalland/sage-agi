@@ -18,4 +18,9 @@ package sage.agi.logic;
 		Represents a Flag argument.
 	**/
 	var Flag = 3;
+
+	/**
+		Represents a Logic Message number.
+	**/
+	var Message = 4;
 }

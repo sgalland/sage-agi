@@ -4,6 +4,7 @@ import haxe.ds.Map;
 import sage.agi.logic.commands.Arithmetic;
 import sage.agi.logic.commands.Flag;
 import sage.agi.logic.commands.Initialization;
+import sage.agi.logic.commands.Menu;
 import sage.agi.logic.commands.Subroutine;
 
 /**
@@ -35,7 +36,11 @@ class ActionDispatcher {
 		0x16 => new Container("call", 1, [Number], Subroutine.call.bind(_)),
 		// ...
 		0x66 => new Container("print.v", 1, [Variable], null), // TODO: Implement me!
-		// ..
-		0x8E => new Container("script.size", 1, [Number], Initialization.script_size.bind(_))
+		// ...
+		0x8E => new Container("script.size", 1, [Number], Initialization.script_size.bind(_)),
+		// ...
+		0x9C => new Container("set.menu", 1, [Message], Menu.set_menu.bind(_)),
+		// ...
+		0x9E => new Container("submit.menu", 0, [], Menu.submit_menu)
 	]; // TODO: Fill out the rest of the Actions
 }

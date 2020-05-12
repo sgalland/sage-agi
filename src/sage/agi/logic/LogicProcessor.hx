@@ -17,12 +17,11 @@ class LogicProcessor {
 	/**
 		The current logic file being executed.
 	**/
-	static var currentLogic:AGILogic;
+	public static var currentLogic(default, set):AGILogic;
 
-	/**
-		Script allocated by interpreter commands. See Initialization.script_size.
-	**/
-	public static var script:Vector<UInt>;
+	private static function set_currentLogic(logic:AGILogic) {
+		return currentLogic = logic;
+	}
 
 	/**
 		Execute a logic resource.

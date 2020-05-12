@@ -8,6 +8,6 @@ class Initialization {
 		@param n Size of the script table to allocate.
 	**/
 	public static function script_size(n:UInt) {
-		LogicProcessor.script = new Vector<UInt>(n);
+		ScriptTable.instance.setSize(n);
 	}
 }
