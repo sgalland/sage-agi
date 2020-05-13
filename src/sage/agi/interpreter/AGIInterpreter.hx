@@ -59,7 +59,7 @@ class AGIInterpreter {
 	/**
 		AGI Interpreter menu root node.
 	**/
-	public var MENU_TAIL:Menu;
+	public var MENU_TAIL:Menu; // TODO: Reimplement @see https://code.haxe.org/category/beginner/lists.html and https://www.softwaretestinghelp.com/linked-list/
 
 	public var MENU_HEAD:Menu;
 
