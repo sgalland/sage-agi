@@ -1,5 +1,6 @@
 package sage.agi;
 
+using haxe.EnumTools;
 import sage.agi.EAGIFileName;
 /**
  Class of static functions used for working with the EAGIFileName enumeration.
@@ -16,7 +17,7 @@ class AGIFileNameTools {
             case EAGIFileName.VIEW: returnValue = "VIEWDIR";
             case EAGIFileName.SOUND: returnValue = "SNDDIR";
             case EAGIFileName.LOGIC: returnValue = "LOGDIR";
-            default: returnValue = fileType.getName();
+            default: returnValue = Std.string(fileType);
         }
 
         return returnValue;

@@ -2,6 +2,8 @@ package sage.agi.resources;
 
 import sage.agi.helpers.AGIStringHelper;
 
+// TODO: AGILogic needs to be cleaned up and documented
+
 class AGILogic extends Resource {
 	@:isVar public var logicData(default, set):Array<Int> = new Array<Int>();
 
@@ -23,6 +25,7 @@ class AGILogic extends Resource {
 			if (codeSize > 1) {
 				file.data.slice(2, codeSize + 2).map(function(v) {
 					logicData.push(v);
+					return v;
 				});
 			}
 		}
@@ -43,14 +46,39 @@ class AGILogic extends Resource {
 		var message = 0;
 		while (message < msgCount) {
 			var msgIndex = file.data[msgSectionStart + message * 2] + (file.data[msgSectionStart + message * 2 + 1] << 8) - 2;
-			if (msgIndex > 0) {
-				messages[message] = AGIStringHelper.getString(file.data, msgSectionStart + msgIndex);
-			}
+			messages[message] = AGIStringHelper.getString(file.data, msgSectionStart + msgIndex);
+
 			message++;
 		}
 	}
 
+	public var logicIndex(default, default):Int;
+
+	// private function get_logicIndex():Int {
+	// 	return logicIndex;
+	// }
+
 	public function getMessage(index:Int):String {
 		return messages[index];
+	}
+
+	public var nextByte(get, null):Int;
+
+	private function get_nextByte() {
+		return logicData[logicIndex++];
+	}
+
+	public var nextSingle(get, null):Int;
+
+	private function get_nextSingle() {
+		var b1 = logicData[logicIndex++];
+		var b2 = logicData[logicIndex++];
+		return (b2 << 8) | (b1 & 0xff);
+	}
+
+	public var tell(get, null):Int;
+
+	private function get_tell():Int {
+		return logicData[logicIndex];
 	}
 }
