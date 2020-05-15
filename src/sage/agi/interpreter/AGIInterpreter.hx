@@ -1,6 +1,7 @@
 package sage.agi.interpreter;
 
 import haxe.ds.IntMap;
+import haxe.ds.List;
 import haxe.ds.Vector;
 import sage.agi.resources.AGILogic;
 import sage.agi.resources.AGIFileReader;
@@ -59,9 +60,7 @@ class AGIInterpreter {
 	/**
 		AGI Interpreter menu root node.
 	**/
-	public var MENU_TAIL:Menu; // TODO: Reimplement @see https://code.haxe.org/category/beginner/lists.html and https://www.softwaretestinghelp.com/linked-list/
-
-	public var MENU_HEAD:Menu;
+	public var menu:List<Menu> = new List<Menu>();
 
 	/**
 		Singleton instance of the AGIInterpreter class.
