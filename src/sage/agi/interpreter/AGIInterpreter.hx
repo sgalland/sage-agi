@@ -46,8 +46,7 @@ class AGIInterpreter {
 
 	/**
 		A map of <Int,AGILogic> that represents all the Logic files keyed by resource id.
-		@see https://wiki.scummvm.org/index.php?title=AGI/Specificat
-		private static var views:Array<AGIView>;ions/Resources#Logic_resources
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Resources#Logic_resources
 	**/
 	public var LOGICS:IntMap<AGILogic> = new IntMap<AGILogic>();
 
