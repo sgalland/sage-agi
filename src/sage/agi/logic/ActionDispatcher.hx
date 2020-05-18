@@ -40,7 +40,10 @@ class ActionDispatcher {
 		0x8E => new Container("script.size", 1, [Number], Initialization.script_size.bind(_)),
 		// ...
 		0x9C => new Container("set.menu", 1, [Message], Menu.set_menu.bind(_)),
-		// ...
-		0x9E => new Container("submit.menu", 0, [], Menu.submit_menu)
+		0x9D => new Container("set.menu", 2, [Message, Control], Menu.set_menu_item.bind(_, _)),
+		0x9E => new Container("submit.menu", 0, [], Menu.submit_menu),
+		0x9F => new Container("enable.item", 1, [Control], Menu.enable_item),
+		0xA0 => new Container("disable.item", 1, [Control], Menu.disable_item),
+		0xA1 => new Container("menu.input", 0, [], Menu.menu_input)
 	]; // TODO: Fill out the rest of the Actions
 }

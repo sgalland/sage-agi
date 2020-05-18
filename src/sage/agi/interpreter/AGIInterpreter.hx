@@ -57,9 +57,14 @@ class AGIInterpreter {
 	public var VIEWS:IntMap<AGIView> = new IntMap<AGIView>();
 
 	/**
-		AGI Interpreter menu root node.
+		AGI Interpreter menu linked list.
 	**/
-	public var menu:List<Menu> = new List<Menu>();
+	public var MENU:List<Menu> = new List<Menu>();
+
+	/**
+		Indicates if the menu is to be drawn on the screen. Set by sage.agi.logic.command.Menu.menu_input
+	**/
+	public var MENU_VISIBLE:Bool = false;
 
 	/**
 		Singleton instance of the AGIInterpreter class.

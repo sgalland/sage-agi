@@ -23,4 +23,9 @@ package sage.agi.logic;
 		Represents a Logic Message number.
 	**/
 	var Message = 4;
+
+	/**
+		Represents a Control number.
+	**/
+	var Control = 5;
 }

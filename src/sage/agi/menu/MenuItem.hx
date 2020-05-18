@@ -4,11 +4,12 @@ import sage.agi.types.AGIByte;
 
 class MenuItem {
 	public var name:String;
-	public var code:AGIByte;
+	public var controlCode:AGIByte;
+	public var enabled:Bool = true;
 
-	public function new(name:String, code:AGIByte) {
+	public function new(name:String, controlCode:AGIByte) {
 		this.name = name;
-		this.code = code;
+		this.controlCode = controlCode;
 	}
 }
 // TODO: Document this class
