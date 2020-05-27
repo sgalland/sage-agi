@@ -89,6 +89,10 @@ abstract AGIByte(Int) {
 	public static inline function divInt(a:AGIByte, b:Int):AGIByte
 		return new AGIByte((a.toInt() / b).int());
 
+	@:op(A << B)
+	public static inline function leftShiftInt(a:AGIByte, b:Int):AGIByte
+		return new AGIByte((a.toInt() << b).int());
+
 	/**
 		AGI variables are a unsigned byte value between 0 and 255.
 		If the value is outside of these ranges the value will wrap.

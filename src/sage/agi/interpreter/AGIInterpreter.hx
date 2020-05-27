@@ -1,12 +1,15 @@
 package sage.agi.interpreter;
 
+import sage.agi.logic.DebuggerSettings;
 import haxe.ds.IntMap;
+import haxe.ds.List;
 import haxe.ds.Vector;
 import sage.agi.resources.AGILogic;
 import sage.agi.resources.AGIFileReader;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import sage.agi.EAGIFileName;
+import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
 import sage.agi.menu.Menu;
 
@@ -45,8 +48,7 @@ class AGIInterpreter {
 
 	/**
 		A map of <Int,AGILogic> that represents all the Logic files keyed by resource id.
-		@see https://wiki.scummvm.org/index.php?title=AGI/Specificat
-		private static var views:Array<AGIView>;ions/Resources#Logic_resources
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Resources#Logic_resources
 	**/
 	public var LOGICS:IntMap<AGILogic> = new IntMap<AGILogic>();
 
@@ -57,11 +59,35 @@ class AGIInterpreter {
 	public var VIEWS:IntMap<AGIView> = new IntMap<AGIView>();
 
 	/**
-		AGI Interpreter menu root node.
+		AGI Interpreter menu linked list.
 	**/
-	public var MENU_TAIL:Menu;
+	public var MENU:List<Menu> = new List<Menu>();
 
-	public var MENU_HEAD:Menu;
+	/**
+		Indicates if the menu is to be drawn on the screen. Set by sage.agi.logic.command.Menu.menu_input
+	**/
+	public var MENU_VISIBLE:Bool = false;
+
+	/**
+		Array of all loaded events.
+	**/
+	// TODO: Are these all set_key events or other events too???
+	public var EVENT_TYPES:Array<EventType> = new Array<EventType>();
+
+	/**
+		Reference to the string used to display the cursor. The cursor is set when the Text command set.cursor.char is called.
+	**/
+	public var CURSOR:String;
+
+	/**
+		The game id that identifies the game by an abbreviated code. The game id is set when the Initialization command set.game.id is called.
+	**/
+	public var GAME_ID:String;
+
+	/**
+		Information about the debugger setup. Set when Initialization command trace.info is called.
+	**/
+	public var DEBUGGER_SETTINGS:DebuggerSettings;
 
 	/**
 		Singleton instance of the AGIInterpreter class.
