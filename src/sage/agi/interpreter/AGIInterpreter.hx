@@ -1,5 +1,6 @@
 package sage.agi.interpreter;
 
+import sage.agi.logic.DebuggerSettings;
 import haxe.ds.IntMap;
 import haxe.ds.List;
 import haxe.ds.Vector;
@@ -8,6 +9,7 @@ import sage.agi.resources.AGIFileReader;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import sage.agi.EAGIFileName;
+import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
 import sage.agi.menu.Menu;
 
@@ -65,6 +67,27 @@ class AGIInterpreter {
 		Indicates if the menu is to be drawn on the screen. Set by sage.agi.logic.command.Menu.menu_input
 	**/
 	public var MENU_VISIBLE:Bool = false;
+
+	/**
+		Array of all loaded events.
+	**/
+	// TODO: Are these all set_key events or other events too???
+	public var EVENT_TYPES:Array<EventType> = new Array<EventType>();
+
+	/**
+		Reference to the string used to display the cursor. The cursor is set when the Text command set.cursor.char is called.
+	**/
+	public var CURSOR:String;
+
+	/**
+		The game id that identifies the game by an abbreviated code. The game id is set when the Initialization command set.game.id is called.
+	**/
+	public var GAME_ID:String;
+
+	/**
+		Information about the debugger setup. Set when Initialization command trace.info is called.
+	**/
+	public var DEBUGGER_SETTINGS:DebuggerSettings;
 
 	/**
 		Singleton instance of the AGIInterpreter class.

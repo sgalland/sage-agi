@@ -28,4 +28,9 @@ package sage.agi.logic;
 		Represents a Control number.
 	**/
 	var Control = 5;
+
+	/**
+		Represents a String argument.
+	**/
+	var String = 6;
 }

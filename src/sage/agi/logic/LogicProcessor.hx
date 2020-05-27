@@ -58,6 +58,8 @@ class LogicProcessor {
 					processAction();
 			}
 		} while (currentLogic.logicIndex < currentLogic.logicData.length && running);
+
+		// TODO: Pop the callstack
 	}
 
 	static function processIf() {

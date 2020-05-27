@@ -2,7 +2,7 @@ package sage.agi.logic;
 
 import sage.agi.types.AGIByte;
 
-@:enum abstract Event(Int) {
+@:enum abstract Event(Int) from Int {
 	var NO_EVENT = 0;
 	var ASCII_KEY_EVENT = 1;
 	var SCAN_KEY_EVENT = 2;
@@ -14,9 +14,11 @@ import sage.agi.types.AGIByte;
 	by the controller() command).
 **/
 class EventType {
-	public var type:AGIByte;
-	public var eventID:AGIByte;
-	public var asciiValue:AGIByte;
-	public var scanCodeValue:AGIByte;
-	public var activated:Bool;
+	public function new(scancode:AGIByte, eventType:Event) {
+		this.scancode = scancode;
+		this.eventType = eventType;
+	}
+
+	public var scancode:AGIByte;
+	public var eventType:Event;
 }

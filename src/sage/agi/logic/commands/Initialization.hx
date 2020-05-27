@@ -1,5 +1,7 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.EventType.Event;
+import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.types.AGIByte;
 import haxe.ds.Vector;
 
@@ -14,8 +16,23 @@ class Initialization {
 		// TODO: Finish documentation and logic for this function. I am not even sure it's correct.
 		var scancode = (c << 8) + s;
 
-		// add to the EventType table...
+		var event = new EventType(scancode, sc);
+		AGIInterpreter.instance.EVENT_TYPES.push(event);
+	}
 
+	public static function set_game_id(n:UInt) {
+		var message = LogicProcessor.currentLogic.getMessage(n - 1);
+		AGIInterpreter.instance.GAME_ID = message;
+	}
+
+	/**
+		Sets the visual parameters of the built in debugger. This must be called prior to trace.on being called.
+		@param n Logic Resource ID.
+		@param m Top line number
+		@param l Height of the debugger window
+	**/
+	public static function trace_info(n:UInt, m:UInt, l:UInt) {
+		AGIInterpreter.instance.DEBUGGER_SETTINGS = new DebuggerSettings(n, m, l);
 	}
 
 	/**
