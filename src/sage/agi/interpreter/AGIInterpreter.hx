@@ -1,5 +1,6 @@
 package sage.agi.interpreter;
 
+import sage.agi.text.TextAttribute;
 import sage.agi.logic.DebuggerSettings;
 import haxe.ds.IntMap;
 import haxe.ds.List;
@@ -88,6 +89,11 @@ class AGIInterpreter {
 		Information about the debugger setup. Set when Initialization command trace.info is called.
 	**/
 	public var DEBUGGER_SETTINGS:DebuggerSettings;
+
+	/**
+		Indicate what the current text attribute settings are.
+	**/
+	public var TEXT_ATTRIBUTE:TextAttribute;
 
 	/**
 		Singleton instance of the AGIInterpreter class.
