@@ -1,5 +1,7 @@
 package sage.agi.logic.commands;
 
+import sage.agi.helpers.AGIColor;
+import sage.agi.text.TextAttribute;
 import sage.agi.interpreter.AGIInterpreter;
 
 /**
@@ -14,6 +16,15 @@ class Text {
 	public static function set_cursor_char(n:UInt) {
 		var message = LogicProcessor.currentLogic.getMessage(n - 1);
 		AGIInterpreter.instance.CURSOR = message;
+	}
+
+	/**
+		Sets the visual appearance of text on the screen.
+		@param fg Foreground color (as a DOS color)
+		@param bg Background color (as a DOS color)
+	**/
+	public static function set_text_attribute(fg:UInt, bg:UInt) {
+		AGIInterpreter.instance.TEXT_ATTRIBUTE = new TextAttribute(AGIColor.getColorByDosColor(fg), AGIColor.getColorByDosColor(bg));
 	}
 
 	// TODO: Implement text commands
