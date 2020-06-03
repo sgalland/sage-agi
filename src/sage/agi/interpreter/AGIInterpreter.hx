@@ -1,5 +1,6 @@
 package sage.agi.interpreter;
 
+import sage.agi.screen.ScreenSettings;
 import sage.agi.text.TextAttribute;
 import sage.agi.logic.DebuggerSettings;
 import haxe.ds.IntMap;
@@ -13,6 +14,7 @@ import sage.agi.EAGIFileName;
 import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
 import sage.agi.menu.Menu;
+import sage.agi.resources.AGIView.ViewObject;
 
 /**
 	Represents the internals of the AGI Interpreter.
@@ -96,13 +98,35 @@ class AGIInterpreter {
 	public var TEXT_ATTRIBUTE:TextAttribute;
 
 	/**
+		Settings that indicate the location of screen items (status bar, play area, input line).
+	**/
+	public var SCREEN:ScreenSettings;
+
+	/**
+		Indicates if a player is able to type input via the keyboard.
+	**/
+	public var ALLOW_INPUT:Bool = true;
+
+	/**
+		View objects that can be animated.
+	**/
+	public var OBJECTS:IntMap<ViewObject> = new IntMap<ViewObject>();
+
+	/**
 		Singleton instance of the AGIInterpreter class.
 	**/
 	public static var instance:AGIInterpreter = new AGIInterpreter();
 
-	private function new() {
+	function new() {
+		initializeObjects();
 		loadResources(LOGIC);
 		loadResources(VIEW);
+	}
+
+	function initializeObjects() {
+		for (i in 0...AGIInterpreter.MAX_RESOURCES) {
+			OBJECTS.set(i, new ViewObject());
+		}
 	}
 
 	function loadResources(fileName:EAGIFileName) {

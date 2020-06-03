@@ -33,4 +33,9 @@ package sage.agi.logic;
 		Represents a String argument.
 	**/
 	var String = 6;
+
+	/**
+		Represents a game object.
+	**/
+	var Object = 7;
 }
