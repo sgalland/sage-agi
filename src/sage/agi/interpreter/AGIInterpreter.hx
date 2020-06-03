@@ -21,8 +21,8 @@ import sage.agi.resources.AGIView.ViewObject;
 	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals
 **/
 class AGIInterpreter {
-	private static var MAX_RESOURCES = 255;
-	private static var MAX_STRINGS = 24;
+	public static inline final MAX_RESOURCES:Int = 255;
+	public static inline final MAX_STRINGS = 24;
 
 	/**
 		Defines an array of 256 8bit unsigned integer variables for use in the interpreter.

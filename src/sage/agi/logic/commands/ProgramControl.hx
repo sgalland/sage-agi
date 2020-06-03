@@ -16,6 +16,15 @@ class ProgramControl {
 
 		// 1. Commands stop.update and unanimate are issued to all objects;
 		// 2. All resources except Logic(0) are discarded;
+		for (i in 0...AGIInterpreter.MAX_RESOURCES) {
+			if (i != 0 && AGIInterpreter.instance.LOGICS.exists(i)) // Keep logic 0
+				AGIInterpreter.instance.LOGICS.set(i, null);
+
+			// Clear other resource types
+
+			if (AGIInterpreter.instance.VIEWS.exists(i))
+				AGIInterpreter.instance.VIEWS.set(i, null);
+		}
 		// 3. Command player.control is issued;
 		// 4. unblock command is issued;
 		// 5. set.horizon(36) command is issued;
