@@ -10,16 +10,14 @@ class AGIFileNameTools {
      * Converts a EAGIFileName enum value into the filename.
      * @param fileType 
      */
-    public static function getFileName(fileType:EAGIFileName) {
-        var returnValue:String;
-        switch(fileType) {
-            case EAGIFileName.AGIDATA: returnValue = "AGIDATA.OVL";
-            case EAGIFileName.VIEW: returnValue = "VIEWDIR";
-            case EAGIFileName.SOUND: returnValue = "SNDDIR";
-            case EAGIFileName.LOGIC: returnValue = "LOGDIR";
-            default: returnValue = Std.string(fileType);
+    public static function getFileName(fileType:EAGIFileName):String {
+        return switch(fileType) {
+            case EAGIFileName.AGIDATA: "AGIDATA.OVL";
+            case EAGIFileName.VIEW: "VIEWDIR";
+            case EAGIFileName.SOUND: "SNDDIR";
+            case EAGIFileName.LOGIC: "LOGDIR";
+            case EAGIFileName.PICTURE: "PICDIR";
+            default: Std.string(fileType);
         }
-
-        return returnValue;
     }
 }
