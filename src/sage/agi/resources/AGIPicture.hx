@@ -148,7 +148,7 @@ class AGIPicture {
 	var rpos:Int = 4000;
 	var buf:Vector<Int> = new Vector<Int>(4001);
 
-	function qstore(q:Int) {
+	function qstore(q:Int):Void {
 		if (spos + 1 == rpos || (spos + 1 == QMAX && rpos == 0)) {
 			return;
 		}
@@ -158,7 +158,7 @@ class AGIPicture {
 			spos = 0; /* loop back */
 	}
 
-	function qretrieve() {
+	function qretrieve():Int {
 		if (rpos == QMAX)
 			rpos = 0; /* loop back */
 		if (rpos == spos) {
@@ -236,7 +236,7 @@ class AGIPicture {
 		}
 	}
 
-	private function fill(x:Int, y:Int) {
+	function fill(x:Int, y:Int) {
 		var x1:cpp.UInt8; // Use UInt8 to ensure correct variable overflow
 		var y1:cpp.UInt8; // Use UInt8 to ensure correct variable overflow
 		rpos = spos = 0;
@@ -247,27 +247,29 @@ class AGIPicture {
 		while (true) {
 			x1 = qretrieve();
 			y1 = qretrieve();
-			
+
 			if (x1 == EMPTY || y1 == EMPTY)
 				break;
-			if (canFill(x1, y1)) {
-				setPixel(x1, y1);
+			else {
+				if (canFill(x1, y1)) {
+					setPixel(x1, y1);
 
-				if (canFill(x1, y1 - 1) && y1 != 0) {
-					qstore(x1);
-					qstore(y1 - 1);
-				}
-				if (canFill(x1 - 1, y1) && x1 != 0) {
-					qstore(x1 - 1);
-					qstore(y1);
-				}
-				if (canFill(x1 + 1, y1) && x1 != 159) {
-					qstore(x1 + 1);
-					qstore(y1);
-				}
-				if (canFill(x1, y1 + 1) && y1 != 167) {
-					qstore(x1);
-					qstore(y1 + 1);
+					if (canFill(x1, y1 - 1) && y1 != 0) {
+						qstore(x1);
+						qstore(y1 - 1);
+					}
+					if (canFill(x1 - 1, y1) && x1 != 0) {
+						qstore(x1 - 1);
+						qstore(y1);
+					}
+					if (canFill(x1 + 1, y1) && x1 != 159) {
+						qstore(x1 + 1);
+						qstore(y1);
+					}
+					if (canFill(x1, y1 + 1) && y1 != 167) {
+						qstore(x1);
+						qstore(y1 + 1);
+					}
 				}
 			}
 		}
@@ -429,7 +431,7 @@ class AGIPicture {
 		// if (patNum >= splatterMap.Length - 1) patNum = 0;
 		var circlePos = 0;
 		/*penX1, peny1, */
-		var penSize;
+		var penSize:Int;
 		bitPos = SPLATTER_START_POSITIONS[patNum];
 
 		penSize = (patCode & 7);
@@ -447,9 +449,9 @@ class AGIPicture {
 			var px = x - Math.ceil(penSize / 2);
 			var pxx = x + Math.floor(penSize / 2);
 			for (penX1 in (px...pxx)) {
-				if ((patCode & 0x10) != 0) { /* Square */
+				if ((patCode & 0x10) != 0) {/* Square */
 					plotPatternPoint();
-				} else { /* Circle */
+				} else {/* Circle */
 					if (((CIRCLE_MAP[patCode & 7][circlePos >> 3] >> (7 - (circlePos & 7))) & 1) != 0) {
 						plotPatternPoint();
 					}
