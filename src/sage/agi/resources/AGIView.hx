@@ -94,7 +94,7 @@ class AGIView {
 						}
 					}
 				}
-				
+
 				viewLoop.loopCells.push(new ViewCell(AGIColor.getColorByDosColor(transparentColor), width, height, isMirrored, pixelData, mirroredLoopId));
 			}
 
@@ -140,4 +140,21 @@ class ViewCell {
 		this.data = data;
 		this.mirroredLoopId = mirroredLoopId;
 	}
+}
+
+/**
+	An instance of a view object that can be animated, placed in a room, etc.
+**/
+class ViewObject {
+	/**
+		Position on the X axis.
+	**/
+	public var x:Int;
+
+	/**
+		Position on the X axis.
+	**/
+	public var y:Int;
+
+	public function new() {}
 }

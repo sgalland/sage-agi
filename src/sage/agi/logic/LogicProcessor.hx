@@ -50,16 +50,17 @@ class LogicProcessor {
 			#end
 
 			switch (currentByte) {
-				case 0x00:
-					running = false;
+				case 0x00: // Indicates a return() statement
+					callStack.pop();
+					if (callStack.head != null)
+						currentLogic = callStack.head.elt;
+				// running = false;
 				case 0xFF:
 					processIf();
 				default:
 					processAction();
 			}
-		} while (currentLogic.logicIndex < currentLogic.logicData.length && running);
-
-		// TODO: Pop the callstack
+		} while (currentLogic.logicIndex < currentLogic.logicData.length /*&& running*/);
 	}
 
 	static function processIf() {
@@ -152,6 +153,8 @@ class LogicProcessor {
 
 			#if debug
 			switch (container.argCount) {
+				case 0:
+					trace("-->	" + container.agiFunctionName + "()");
 				case 1:
 					trace("-->	" + container.agiFunctionName + "(" + args[0] + ")");
 				case 2:

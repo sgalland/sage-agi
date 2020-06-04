@@ -1,11 +1,16 @@
 package sage.agi.logic;
 
+import sage.agi.logic.commands.Resource;
+import sage.agi.logic.commands.ObjectMotionControl;
+import sage.agi.logic.commands.ProgramControl;
+import sage.agi.logic.commands.ObjectControl;
 import sage.agi.logic.commands.Text;
 import haxe.ds.Map;
 import sage.agi.logic.commands.Arithmetic;
 import sage.agi.logic.commands.Flag;
 import sage.agi.logic.commands.Initialization;
 import sage.agi.logic.commands.Menu;
+import sage.agi.logic.commands.Other;
 import sage.agi.logic.commands.Subroutine;
 
 /**
@@ -34,16 +39,31 @@ class ActionDispatcher {
 		0x0E => new Container("toggle", 1, [Flag], Flag.toggle.bind(_)),
 		0x0F => new Container("set.v", 1, [Variable], Flag.setv.bind(_)),
 		// ...
+		0x12 => new Container("new.room", 1, [Number], ProgramControl.new_room),
+		// ...
 		0x16 => new Container("call", 1, [Number], Subroutine.call.bind(_)),
+		// ...
+		0x26 => new Container("position.v", 3, [Object, Variable, Variable], ObjectControl.position_v),
+		// ...
+		0x61 => new Container("load.sound", 1, [Number], Resource.load_sound),
 		// ...
 		0x66 => new Container("print.v", 1, [Variable], null), // TODO: Implement me!
 		// ...
 		0x6C => new Container("set.cursor.char", 1, [Message], Text.set_cursor_char),
 		0x6D => new Container("set.text.attribute", 2, [Number, Number], Text.set_text_attribute.bind(_, _)),
 		// ...
+		0x6F => new Container("configure.screen", 3, [Number, Number, Number], Other.configure_screen),
+		// ...
+		0x70 => new Container("status.line.on", 0, [], Text.status_line_on),
+		0x71 => new Container("status.line.off", 0, [], Text.status_line_off),
+		// ...
 		0x72 => new Container("set.string", 2, [LogicArgumentType.String, Message], sage.agi.logic.commands.String.set_string.bind(_, _)),
 		// ...
+		0x77 => new Container("prevent.input", 0, [], Text.prevent_input),
+		// ...
 		0x79 => new Container("set.key", 3, [Number, Number, Control], Initialization.set_key.bind(_, _, _)), // TODO: the control is the event identifier...
+		// ...
+		0x84 => new Container("player.control", 0, [], ObjectMotionControl.player_control),
 		// ...
 		0x8E => new Container("script.size", 1, [Number], Initialization.script_size.bind(_)),
 		0x8F => new Container("set.game.id", 1, [Message], Initialization.set_game_id.bind(_)),
@@ -51,7 +71,7 @@ class ActionDispatcher {
 		0x96 => new Container("trace.info", 3, [Number, Number, Number], Initialization.trace_info.bind(_, _, _)),
 		// ...
 		0x9C => new Container("set.menu", 1, [Message], Menu.set_menu.bind(_)),
-		0x9D => new Container("set.menu", 2, [Message, Control], Menu.set_menu_item.bind(_, _)),
+		0x9D => new Container("set.menu.item", 2, [Message, Control], Menu.set_menu_item.bind(_, _)),
 		0x9E => new Container("submit.menu", 0, [], Menu.submit_menu),
 		0x9F => new Container("enable.item", 1, [Control], Menu.enable_item),
 		0xA0 => new Container("disable.item", 1, [Control], Menu.disable_item),
