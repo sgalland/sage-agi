@@ -25,10 +25,18 @@ class Test {
 	}
 
 	public static function greatern(n:UInt, m:UInt):Bool {
-		return AGIInterpreter.instance.VARIABLES[n] < m;
+		#if debug
+		var result = AGIInterpreter.instance.VARIABLES[n] > m;
+		trace("greatern(v" + n + " value:" + AGIInterpreter.instance.VARIABLES[n] + ", " + m + ") == " + result);
+		#end
+		return AGIInterpreter.instance.VARIABLES[n] > m;
 	}
 
 	public static function greaterv(n:UInt, m:UInt):Bool {
+		#if debug
+		var result = AGIInterpreter.instance.VARIABLES[n] > AGIInterpreter.instance.VARIABLES[m];
+		trace("greaterv(v" + n + " value:" + AGIInterpreter.instance.VARIABLES[n] + ", " + AGIInterpreter.instance.VARIABLES[m] + ") == " + result);
+		#end
 		return AGIInterpreter.instance.VARIABLES[n] > AGIInterpreter.instance.VARIABLES[m];
 	}
 

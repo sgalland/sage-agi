@@ -10,6 +10,7 @@ import sage.agi.resources.AGILogic;
 import sage.agi.resources.AGIFileReader;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
+import sage.agi.resources.AGIPicture;
 import sage.agi.EAGIFileName;
 import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
@@ -60,6 +61,12 @@ class AGIInterpreter {
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View
 	**/
 	public var VIEWS:IntMap<AGIView> = new IntMap<AGIView>();
+
+	/**
+		A map of <Int, AGIPicture> that represents all the loaded Picture files keyed by resource id.
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Pic
+	**/
+	public var PICTURES:IntMap<AGIPicture> = new IntMap<AGIPicture>();
 
 	/**
 		AGI Interpreter menu linked list.
@@ -124,6 +131,7 @@ class AGIInterpreter {
 
 	function new() {
 		initializeObjects();
+		// I am starting to think this is not helpful preloading resources
 		loadResources(LOGIC);
 		loadResources(VIEW);
 	}

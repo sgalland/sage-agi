@@ -31,9 +31,13 @@ class ProgramControl {
 		// 5. set.horizon(36) command is issued;
 		ObjectMotionControl.set_horizon(36);
 		// 6. v1 is assigned the value of v0; v0 is assigned n (or the value of vn when the command is new.room.v); v4 is assigned 0; v5 is assigned 0; v16 is assigned the ID number of the VIEW resource that was associated with Ego (the player character).
-		AGIInterpreter.instance.VARIABLES[0] = AGIInterpreter.instance.VARIABLES[1];
+		AGIInterpreter.instance.VARIABLES[1] = AGIInterpreter.instance.VARIABLES[0]; // Assign current room to previous room
+		AGIInterpreter.instance.VARIABLES[0] = n; // Assign the new room to v0
+		AGIInterpreter.instance.VARIABLES[4] = 0; // Reset the object id of the object that touched the border
+		AGIInterpreter.instance.VARIABLES[5] = 0; // Code of the border that was touched by object v4
+		// TODO: v16 us assigned the value of the view resource associated with ego
 		// 7. Logic(i) resource is loaded where i is the value of v0 !
-		LogicProcessor.execute(AGIInterpreter.instance.VARIABLES[0]);
+		Resource.load_logic(AGIInterpreter.instance.VARIABLES[0]);
 		// 8. Set Ego coordinates according to v2:
 		//    if Ego touched the bottom edge, put it on the horizon;
 		//    if Ego touched the top edge, put it on the bottom edge of the screen;
@@ -45,6 +49,11 @@ class ProgramControl {
 		AGIInterpreter.instance.FLAGS[5] = true;
 		// 3. Clear keyboard input buffer and return to the main AGI loop.
 		// TODO: Clear keyboard buffer
+
+		// TODO: Jump to logic 0 at the beginning.
+		// Should we do this, would it really work??? Should LogicProcessor.execute() be updated to not be stack based??
+		LogicProcessor.currentLogic = AGIInterpreter.instance.LOGICS.get(0);
+		LogicProcessor.currentLogic.logicIndex = 0;
 	}
 
 	// TODO: Implement Program Control commands

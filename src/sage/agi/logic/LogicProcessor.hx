@@ -1,5 +1,6 @@
 package sage.agi.logic;
 
+import sage.agi.logic.commands.Resource;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.resources.AGILogic;
 import haxe.ds.GenericStack;
@@ -28,6 +29,7 @@ class LogicProcessor {
 		@param resourceID ID of the resource to be executd.
 	**/
 	public static function execute(resourceID:UInt) {
+		Resource.load_logic(resourceID);
 		currentLogic = AGIInterpreter.instance.LOGICS.get(resourceID);
 		currentLogic.loaded = true;
 		callStack.add(currentLogic);
@@ -133,15 +135,17 @@ class LogicProcessor {
 							else
 								logicOperator = logicOperator && condition.callback(arg1, arg2, arg3, arg4, arg5);
 
-							if (notCondition)
+							if (notCondition) {
 								logicOperator = !logicOperator;
+								notCondition = false;
+							}
 						}
 					}
 			}
 		} while (currentByte != 0xFF);
 
 		#if debug
-		output += ")";
+		output += ") == " + logicOperator;
 		trace(output);
 		#end
 	}
