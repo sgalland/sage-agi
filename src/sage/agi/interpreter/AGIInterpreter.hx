@@ -113,6 +113,11 @@ class AGIInterpreter {
 	public var OBJECTS:IntMap<ViewObject> = new IntMap<ViewObject>();
 
 	/**
+		Indicates if the player is allowed to control the Ego.
+	**/
+	public var ALLOW_PLAYER_CONTROL:Bool;
+
+	/**
 		Singleton instance of the AGIInterpreter class.
 	**/
 	public static var instance:AGIInterpreter = new AGIInterpreter();

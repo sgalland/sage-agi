@@ -15,5 +15,9 @@ class ObjectMotionControl {
 		AGIInterpreter.instance.SCREEN.horizon = n;
 	}
 
+	public static function player_control() {
+		AGIInterpreter.instance.ALLOW_PLAYER_CONTROL = true;
+	}
+
 	// TODO: Implement Object Motion Control commands
 }
