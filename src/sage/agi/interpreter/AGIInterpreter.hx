@@ -132,16 +132,20 @@ class AGIInterpreter {
 	function new() {
 		initializeObjects();
 		// I am starting to think this is not helpful preloading resources
-		loadResources(LOGIC);
-		loadResources(VIEW);
+		// loadResources(LOGIC);
+		// loadResources(VIEW);
 	}
 
+	// TODO: Evaluate this for deprecation
+	@:deprecated
 	function initializeObjects() {
 		for (i in 0...AGIInterpreter.MAX_RESOURCES) {
-			OBJECTS.set(i, new ViewObject());
+			OBJECTS.set(i, {});
 		}
 	}
 
+	// TODO: Evaluate this for deprecation
+	@:deprecated
 	function loadResources(fileName:EAGIFileName) {
 		var resources = new AGIFileReader();
 		resources.loadDirectoryEntries(fileName);
