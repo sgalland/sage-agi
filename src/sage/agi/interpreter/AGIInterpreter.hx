@@ -125,6 +125,11 @@ class AGIInterpreter {
 	public var ALLOW_PLAYER_CONTROL:Bool;
 
 	/**
+		Current Picture to render.
+	**/
+	public var CURRENT_PIC:AGIPicture;
+
+	/**
 		Singleton instance of the AGIInterpreter class.
 	**/
 	public static var instance:AGIInterpreter = new AGIInterpreter();
@@ -137,6 +142,7 @@ class AGIInterpreter {
 	}
 
 	// TODO: Evaluate this for deprecation
+
 	@:deprecated
 	function initializeObjects() {
 		for (i in 0...AGIInterpreter.MAX_RESOURCES) {
@@ -145,6 +151,7 @@ class AGIInterpreter {
 	}
 
 	// TODO: Evaluate this for deprecation
+
 	@:deprecated
 	function loadResources(fileName:EAGIFileName) {
 		var resources = new AGIFileReader();
