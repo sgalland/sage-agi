@@ -107,7 +107,7 @@ class AGIInterpreter {
 	/**
 		Settings that indicate the location of screen items (status bar, play area, input line).
 	**/
-	public var SCREEN:ScreenSettings;
+	public var SCREEN:ScreenSettings = new ScreenSettings(0, 0, 0);
 
 	/**
 		Indicates if a player is able to type input via the keyboard.

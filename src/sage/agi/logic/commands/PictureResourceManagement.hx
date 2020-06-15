@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.resources.AGIPicture;
 import sage.agi.interpreter.AGIInterpreter;
 
 /**

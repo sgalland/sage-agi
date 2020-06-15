@@ -35,7 +35,14 @@ class Test {
 	public static function greaterv(n:UInt, m:UInt):Bool {
 		#if debug
 		var result = AGIInterpreter.instance.VARIABLES[n] > AGIInterpreter.instance.VARIABLES[m];
-		trace("greaterv(v" + n + " value:" + AGIInterpreter.instance.VARIABLES[n] + ", " + AGIInterpreter.instance.VARIABLES[m] + ") == " + result);
+		trace("greaterv(v"
+			+ n
+			+ " value:"
+			+ AGIInterpreter.instance.VARIABLES[n]
+			+ ", "
+			+ AGIInterpreter.instance.VARIABLES[m]
+			+ ") == "
+			+ result);
 		#end
 		return AGIInterpreter.instance.VARIABLES[n] > AGIInterpreter.instance.VARIABLES[m];
 	}
@@ -47,6 +54,10 @@ class Test {
 	public static function issetv(n:UInt):Bool {
 		var flag = AGIInterpreter.instance.VARIABLES[n];
 		return AGIInterpreter.instance.FLAGS[flag];
+	}
+
+	public static function controller(n:UInt):Bool {
+		return AGIInterpreter.instance.EVENT_TYPES[n] != null;
 	}
 
 	// TODO: Implement Test and document

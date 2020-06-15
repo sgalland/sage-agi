@@ -237,8 +237,8 @@ class AGIPicture {
 	}
 
 	function fill(x:Int, y:Int) {
-		var x1:cpp.UInt8; // Use UInt8 to ensure correct variable overflow
-		var y1:cpp.UInt8; // Use UInt8 to ensure correct variable overflow
+		var x1:UInt; // Use UInt8 to ensure correct variable overflow
+		var y1:UInt; // Use UInt8 to ensure correct variable overflow
 		rpos = spos = 0;
 
 		qstore(x);
@@ -275,7 +275,7 @@ class AGIPicture {
 		}
 	}
 
-	private function canFill(x:cpp.UInt8, y:cpp.UInt8) {
+	private function canFill(x:UInt, y:UInt) {
 		if (!isPicDrawingEnabled && !isPriorityDrawingEnabled)
 			return false;
 		if (picColor == 15)

@@ -38,6 +38,7 @@ class Resource {
 		var resourceID = AGIInterpreter.instance.VARIABLES[n];
 		// what happens when we load invalid id's??
 		var file = load_resource(EAGIFileName.PICTURE, resourceID);
+		trace(file.resourceID);
 		var pic = new AGIPicture(file);
 		AGIInterpreter.instance.PICTURES.set(resourceID, pic);
 	}
