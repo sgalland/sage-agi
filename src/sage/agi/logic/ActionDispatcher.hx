@@ -1,5 +1,6 @@
 package sage.agi.logic;
 
+import sage.agi.logic.commands.PictureResourceManagement;
 import sage.agi.logic.commands.Resource;
 import sage.agi.logic.commands.ObjectMotionControl;
 import sage.agi.logic.commands.ObjectControl;
@@ -39,19 +40,42 @@ class ActionDispatcher {
 		0x0D => new Container("reset", 1, [Flag],Flag.reset),
 		0x0E => new Container("toggle", 1, [Flag], Flag.toggle),
 		0x0F => new Container("set.v", 1, [Variable], Flag.setv),
-		// ...
+		0x10 => new Container("reset.v", 1, [Variable], null),
+		0x11 => new Container("toggle.v", 1, [Variable], null),
 		0x12 => new Container("new.room", 1, [Number], ProgramControl.new_room),
-		// ...
+		0x13 => new Container("new.room.v", 1, [Variable], /*ProgramControl.new_room_v*/ null),
 		0x14 => new Container("load.logic", 1, [Number], Resource.load_logic),
 		0x15 => new Container("load.logic.v", 1, [Variable], Resource.load_logic_v),
-		// ...
 		0x16 => new Container("call", 1, [Number], Subroutine.call),
-		// ...
-		0x18 => new Container("load.picture", 1, [Variable], Resource.load_pic),
-		// ...
+		0x17 => new Container("call.v", 1, [Variable], null),
+		0x18 => new Container("load.pic", 1, [Variable], Resource.load_pic),
+		0x19 => new Container("draw.pic", 1, [Variable], PictureResourceManagement.draw_pic),
+		0x1A => new Container("show.pic", 0, [], null),
+		0x1B => new Container("discard.pic", 1, [Variable], null),
+		0x1C => new Container("overlay.pic", 1, [Variable], null),
+		0x1D => new Container("show.pri.screen", 0, [], null),
+		0x1E => new Container("load.view", 1, [Number], null),
+		0x1F => new Container("load.view.v", 1, [Variable], null),
+		0x20 => new Container("discard.view", 1, [Number], null),
 		0x21 => new Container("animate.obj", 1, [Object], ObjectControl.animate_obj),
-		// ...		
+		0x22 => new Container("unanimate.all", 0, [], null),
+		0x23 => new Container("draw", 1, [Object], null),
+		0x24 => new Container("erase", 1, [Object], null),
+		0x25 => new Container("position", 3, [Object, Number, Number], null),
 		0x26 => new Container("position.v", 3, [Object, Variable, Variable], ObjectControl.position_v),
+		0x27 => new Container("get.posn", 3, [Object, Variable, Variable], null),
+		0x28 => new Container("reposition", 3, [Object, Variable, Variable], null),
+		0x29 => new Container("set.view", 2, [Object, Number], null),
+		0x2A => new Container("set.view.v", 2, [Object, Variable], null),
+		0x2B => new Container("set.loop", 2, [Object, Number], null),
+		0x2C => new Container("set.loop.v", 2, [Object, Variable], null),
+		0x2D => new Container("fix.loop", 1, [Object], null),
+		0x2E => new Container("release.loop", 1, [Object], null),
+		0x2F => new Container("set.cel", 2, [Object, Number], null),
+		0x30 => new Container("set.cel.v", 2, [Object, Variable], null),
+		0x31 => new Container("last.cel", 2, [Object, Variable], null),
+		0x32 => new Container("current.cel", 2, [Object, Variable], null),
+		0x33 => new Container("current.loop", 2, [Object, Variable], null),
 		// ...
 		0x61 => new Container("load.sound", 1, [Number], Resource.load_sound),
 		// ...

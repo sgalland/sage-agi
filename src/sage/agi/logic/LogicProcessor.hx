@@ -24,6 +24,9 @@ class LogicProcessor {
 		return currentLogic = logic;
 	}
 
+	/**
+		Current result of the if statement. This is reset everytime an if statement is processed.
+	**/
 	static var logicOperator:Bool;
 
 	/**
@@ -134,6 +137,12 @@ class LogicProcessor {
 							var arg4:Int = condition.argCount >= 4 ? args[3] : 0;
 							var arg5:Int = condition.argCount >= 5 ? args[4] : 0;
 
+							if (condition.callback == null) {
+								trace('${condition.agiFunctionName} is not defined. Defaulting to false.');
+								logicOperator = false;
+								return;
+							}
+
 							if (orCondition)
 								logicOperator = logicOperator || condition.callback(arg1, arg2, arg3, arg4, arg5);
 							else
@@ -200,6 +209,10 @@ class LogicProcessor {
 			var arg6:Int = container.argCount >= 6 ? args[5] : 0;
 			var arg7:Int = container.argCount == 7 ? args[6] : 0;
 
+			if (container.callback == null) {
+				trace('${container.agiFunctionName} is not defined.');
+				return;
+			}
 			container.callback(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 		}
 	}
