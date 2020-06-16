@@ -48,5 +48,15 @@ class Text {
 		AGIInterpreter.instance.SCREEN.displayStatusLine = false;
 	}
 
+	/**
+		Clears lines n to m with color c.
+		@param n Start line
+		@param m End line
+		@param c Color to use to clear the line.
+	**/
+	public static function clear_lines(n:UInt, m:UInt, c:UInt) {
+		// TODO: Implement!!!!
+	}
+
 	// TODO: Implement text commands
 }
