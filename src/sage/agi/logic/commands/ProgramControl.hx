@@ -52,8 +52,8 @@ class ProgramControl {
 
 		// TODO: Jump to logic 0 at the beginning.
 		// Should we do this, would it really work??? Should LogicProcessor.execute() be updated to not be stack based??
-		LogicProcessor.currentLogic = AGIInterpreter.instance.LOGICS.get(0);
-		LogicProcessor.currentLogic.logicIndex = 0;
+		//LogicProcessor.currentLogic = AGIInterpreter.instance.LOGICS.get(0);
+		//LogicProcessor.currentLogic.logicIndex = 0;
 	}
 
 	// TODO: Implement Program Control commands

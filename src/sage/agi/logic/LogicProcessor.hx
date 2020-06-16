@@ -24,6 +24,8 @@ class LogicProcessor {
 		return currentLogic = logic;
 	}
 
+	static var logicOperator:Bool;
+
 	/**
 		Execute a logic resource.
 		@param resourceID ID of the resource to be executd.
@@ -59,6 +61,8 @@ class LogicProcessor {
 				// running = false;
 				case 0xFF:
 					processIf();
+				case 0xFE:
+					processElse();
 				default:
 					processAction();
 			}
@@ -69,7 +73,7 @@ class LogicProcessor {
 		var currentByte:UInt = currentLogic.nextByte;
 		var notCondition:Bool = false;
 		var orCondition:Bool = false;
-		var logicOperator:Bool = true;
+		logicOperator = true;
 
 		#if debug
 		var output:String = "if ( ";
@@ -148,6 +152,14 @@ class LogicProcessor {
 		output += ") == " + logicOperator;
 		trace(output);
 		#end
+	}
+
+	static function processElse() {
+		currentLogic.nextByte; // throw away the 0xFE
+		if (logicOperator) { // If we processed the if statement, skip the else statement
+			var functionSize = currentLogic.nextSingle;
+			currentLogic.logicIndex += functionSize;
+		}
 	}
 
 	static function processAction() {

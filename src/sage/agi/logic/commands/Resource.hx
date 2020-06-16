@@ -35,6 +35,7 @@ class Resource {
 		@param n Variable ID
 	**/
 	public static function load_pic(n:UInt) {
+		trace("=> "+AGIInterpreter.instance.VARIABLES[n]);
 		var resourceID = AGIInterpreter.instance.VARIABLES[n];
 		// what happens when we load invalid id's??
 		var file = load_resource(EAGIFileName.PICTURE, resourceID);
