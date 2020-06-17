@@ -1,7 +1,7 @@
 package sage.agi.resources;
 
 import sys.FileSystem;
-import sage.agi.EAGIFileName;
+import sage.agi.AGIResourceType;
 import haxe.io.Path;
 import sys.io.File;
 import sys.io.FileSeek;
@@ -17,7 +17,7 @@ class AGIFileReader {
 
 	public function new() {}
 
-	public function loadDirectoryEntries(fileType:EAGIFileName) {
+	public function loadDirectoryEntries(fileType:AGIResourceType) {
 		var agiFileType:String = AGIFileNameTools.getFileName(fileType);
 
 		var path = new Path(Path.join([Sys.getCwd(), agiFileType]));

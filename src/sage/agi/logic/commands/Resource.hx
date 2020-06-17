@@ -16,9 +16,8 @@ class Resource {
 		@param n Number of the Resource ID
 	**/
 	public static function load_logic(n:UInt) {
-		var file = load_resource(EAGIFileName.LOGIC, n);
-		var logic = new AGILogic(file, n);
-		AGIInterpreter.instance.LOGICS.set(n, logic);
+		var file = load_resource(AGIResourceType.LOGIC, n);
+		AGIInterpreter.instance.LOGICS.set(n, new AGILogic(file));
 	}
 
 	/**
@@ -35,13 +34,9 @@ class Resource {
 		@param n Variable ID
 	**/
 	public static function load_pic(n:UInt) {
-		trace("=> "+AGIInterpreter.instance.VARIABLES[n]);
 		var resourceID = AGIInterpreter.instance.VARIABLES[n];
-		// what happens when we load invalid id's??
-		var file = load_resource(EAGIFileName.PICTURE, resourceID);
-		trace(file.resourceID);
-		var pic = new AGIPicture(file);
-		AGIInterpreter.instance.PICTURES.set(resourceID, pic);
+		var file = load_resource(AGIResourceType.PICTURE, resourceID);
+		AGIInterpreter.instance.PICTURES.set(resourceID, new AGIPicture(file));
 	}
 
 	/**
@@ -52,7 +47,7 @@ class Resource {
 		// TODO: Implement sound
 	}
 
-	static function load_resource(fileType:EAGIFileName, resourceID:UInt):AGIFile {
+	static function load_resource(fileType:AGIResourceType, resourceID:UInt):AGIFile {
 		var loader:AGIFileReader = new AGIFileReader();
 		loader.loadDirectoryEntries(fileType);
 		return loader.getFile(resourceID);

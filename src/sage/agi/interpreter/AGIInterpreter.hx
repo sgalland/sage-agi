@@ -11,7 +11,7 @@ import sage.agi.resources.AGIFileReader;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import sage.agi.resources.AGIPicture;
-import sage.agi.EAGIFileName;
+import sage.agi.AGIResourceType;
 import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
 import sage.agi.menu.Menu;

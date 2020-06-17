@@ -1,22 +1,22 @@
 package sage.agi;
 
 using haxe.EnumTools;
-import sage.agi.EAGIFileName;
+import sage.agi.AGIResourceType;
 /**
- Class of static functions used for working with the EAGIFileName enumeration.
+ Class of static functions used for working with the AGIResourceType enumeration.
  **/
 class AGIFileNameTools {
     /**
-     * Converts a EAGIFileName enum value into the filename.
+     * Converts a AGIResourceType enum value into the filename.
      * @param fileType 
      */
-    public static function getFileName(fileType:EAGIFileName):String {
+    public static function getFileName(fileType:AGIResourceType):String {
         return switch(fileType) {
-            case EAGIFileName.AGIDATA: "AGIDATA.OVL";
-            case EAGIFileName.VIEW: "VIEWDIR";
-            case EAGIFileName.SOUND: "SNDDIR";
-            case EAGIFileName.LOGIC: "LOGDIR";
-            case EAGIFileName.PICTURE: "PICDIR";
+            case AGIResourceType.AGIDATA: "AGIDATA.OVL";
+            case AGIResourceType.VIEW: "VIEWDIR";
+            case AGIResourceType.SOUND: "SNDDIR";
+            case AGIResourceType.LOGIC: "LOGDIR";
+            case AGIResourceType.PICTURE: "PICDIR";
             default: Std.string(fileType);
         }
     }

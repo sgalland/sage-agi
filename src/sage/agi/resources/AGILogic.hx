@@ -3,18 +3,19 @@ package sage.agi.resources;
 import sage.agi.helpers.AGIStringHelper;
 
 // TODO: AGILogic needs to be cleaned up and documented
-
-class AGILogic extends Resource {
+class AGILogic {
 	@:isVar public var logicData(default, set):Array<Int> = new Array<Int>();
 
 	private function set_logicData(value) {
 		return logicData = value;
 	}
 
+	var file:AGIFile;
+
 	private var messages:Array<String> = new Array<String>();
 
-	public function new(file:AGIFile, resourceID:Int) {
-		super(file, resourceID);
+	public function new(file:AGIFile) {
+		this.file = file;
 		extractLogicCode();
 		loadMessages();
 	}
