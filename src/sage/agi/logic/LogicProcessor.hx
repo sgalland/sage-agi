@@ -34,10 +34,10 @@ class LogicProcessor {
 		@param resourceID ID of the resource to be executd.
 	**/
 	public static function execute(resourceID:UInt) {
-		Resource.load_logic(resourceID);
+		// Resource.load_logic(resourceID);
 		currentLogic = AGIInterpreter.instance.LOGICS.get(resourceID);
-		currentLogic.loaded = true;
-		callStack.add(currentLogic);
+		// currentLogic.loaded = true;
+		// callStack.add(currentLogic);
 		var running:Bool = true;
 		var currentByte:Int = 0;
 
@@ -58,10 +58,10 @@ class LogicProcessor {
 
 			switch (currentByte) {
 				case 0x00: // Indicates a return() statement
-					callStack.pop();
-					if (callStack.head != null)
-						currentLogic = callStack.head.elt;
-				// running = false;
+					// callStack.pop();
+					// if (callStack.head != null)
+					// 	currentLogic = callStack.head.elt;
+					running = false;
 				case 0xFF:
 					processIf();
 				case 0xFE:
@@ -69,7 +69,7 @@ class LogicProcessor {
 				default:
 					processAction();
 			}
-		} while (currentLogic.logicIndex < currentLogic.logicData.length /*&& running*/);
+		} while (currentLogic.logicIndex < currentLogic.logicData.length && running);
 	}
 
 	static function processIf() {
@@ -165,8 +165,8 @@ class LogicProcessor {
 
 	static function processElse() {
 		currentLogic.nextByte; // throw away the 0xFE
+		var functionSize = currentLogic.nextSingle;
 		if (logicOperator) { // If we processed the if statement, skip the else statement
-			var functionSize = currentLogic.nextSingle;
 			currentLogic.logicIndex += functionSize;
 		}
 	}

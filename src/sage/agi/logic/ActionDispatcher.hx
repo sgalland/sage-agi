@@ -47,7 +47,7 @@ class ActionDispatcher {
 		0x14 => new Container("load.logic", 1, [Number], Resource.load_logic),
 		0x15 => new Container("load.logic.v", 1, [Variable], Resource.load_logic_v),
 		0x16 => new Container("call", 1, [Number], Subroutine.call),
-		0x17 => new Container("call.v", 1, [Variable], null),
+		0x17 => new Container("call.v", 1, [Variable], Subroutine.call_v),
 		0x18 => new Container("load.pic", 1, [Variable], Resource.load_pic),
 		0x19 => new Container("draw.pic", 1, [Variable], PictureResourceManagement.draw_pic),
 		0x1A => new Container("show.pic", 0, [], null),
@@ -76,6 +76,8 @@ class ActionDispatcher {
 		0x31 => new Container("last.cel", 2, [Object, Variable], null),
 		0x32 => new Container("current.cel", 2, [Object, Variable], null),
 		0x33 => new Container("current.loop", 2, [Object, Variable], null),
+		// ...
+		0x44 => new Container("observe.objs", 1, [Object], null),
 		// ...
 		0x61 => new Container("load.sound", 1, [Number], Resource.load_sound),
 		// ...

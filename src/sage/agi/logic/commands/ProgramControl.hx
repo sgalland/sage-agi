@@ -14,6 +14,8 @@ class ProgramControl {
 	public static function new_room(n:UInt) {
 		// TODO: Not actually implemented!!!
 
+		AGIInterpreter.instance.NEW_ROOM = true;
+
 		// 1. Commands stop.update and unanimate are issued to all objects;
 		// 2. All resources except Logic(0) are discarded;
 		for (i in 0...AGIInterpreter.MAX_RESOURCES) {
@@ -21,6 +23,9 @@ class ProgramControl {
 				AGIInterpreter.instance.LOGICS.set(i, null);
 
 			// Clear other resource types
+
+			if (AGIInterpreter.instance.PICTURES.exists(i))
+				AGIInterpreter.instance.PICTURES.set(i, null);
 
 			if (AGIInterpreter.instance.VIEWS.exists(i))
 				AGIInterpreter.instance.VIEWS.set(i, null);
@@ -35,7 +40,7 @@ class ProgramControl {
 		AGIInterpreter.instance.VARIABLES[0] = n; // Assign the new room to v0
 		AGIInterpreter.instance.VARIABLES[4] = 0; // Reset the object id of the object that touched the border
 		AGIInterpreter.instance.VARIABLES[5] = 0; // Code of the border that was touched by object v4
-		// TODO: v16 us assigned the value of the view resource associated with ego
+		// TODO: v16 is assigned the value of the view resource associated with ego
 		// 7. Logic(i) resource is loaded where i is the value of v0 !
 		Resource.load_logic(AGIInterpreter.instance.VARIABLES[0]);
 		// 8. Set Ego coordinates according to v2:
@@ -48,12 +53,7 @@ class ProgramControl {
 		// 2. f5 is set to 1 (meaning in the first interpreter cycle after the new_room command all initialization parts of all logics loaded and called from the initialization part of the new room's logic will be called. In the subsequent cycle f5 is reset to 0 (see section Interpreter work cycle and the source of the "Thunderstorm" program. This is very important!).
 		AGIInterpreter.instance.FLAGS[5] = true;
 		// 3. Clear keyboard input buffer and return to the main AGI loop.
-		// TODO: Clear keyboard buffer
-
-		// TODO: Jump to logic 0 at the beginning.
-		// Should we do this, would it really work??? Should LogicProcessor.execute() be updated to not be stack based??
-		//LogicProcessor.currentLogic = AGIInterpreter.instance.LOGICS.get(0);
-		//LogicProcessor.currentLogic.logicIndex = 0;
+		AGIInterpreter.instance.KEYBOARD_BUFFER = [];
 	}
 
 	// TODO: Implement Program Control commands
