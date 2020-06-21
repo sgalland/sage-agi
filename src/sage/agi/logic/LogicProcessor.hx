@@ -1,5 +1,6 @@
 package sage.agi.logic;
 
+import sage.agi.types.AGIByte;
 import sage.agi.logic.commands.Resource;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.resources.AGILogic;
@@ -11,40 +12,25 @@ import haxe.ds.Vector;
 **/
 class LogicProcessor {
 	/**
-		Represents the call stack of AGI Logic scripts in the order they are loaded.
-	**/
-	static var callStack:GenericStack<AGILogic> = new GenericStack<AGILogic>();
-
-	/**
-		The current logic file being executed.
-	**/
-	public static var currentLogic(default, set):AGILogic;
-
-	private static function set_currentLogic(logic:AGILogic) {
-		return currentLogic = logic;
-	}
-
-	/**
 		Current result of the if statement. This is reset everytime an if statement is processed.
 	**/
-	static var logicOperator:Bool;
+	var logicOperator:Bool;
+
+	var currentLogic:AGILogic;
 
 	/**
 		Execute a logic resource.
 		@param resourceID ID of the resource to be executd.
 	**/
-	public static function execute(resourceID:UInt) {
-		// Resource.load_logic(resourceID);
+	public function execute(resourceID:UInt) {
 		currentLogic = AGIInterpreter.instance.LOGICS.get(resourceID);
-		// currentLogic.loaded = true;
-		// callStack.add(currentLogic);
 		var running:Bool = true;
 		var currentByte:Int = 0;
 
 		do {
 			trace(currentLogic.logicData.slice(currentLogic.logicIndex, currentLogic.logicIndex + 20));
 
-			currentByte = currentLogic.tell; // Change this to a tellByte so we can check without incrementing the index
+			currentByte = currentLogic.tell; // Check what byte is there but don't increment it.
 
 			#if debug
 			var output:String = "";
@@ -58,10 +44,7 @@ class LogicProcessor {
 
 			switch (currentByte) {
 				case 0x00: // Indicates a return() statement
-					// callStack.pop();
-					// if (callStack.head != null)
-					// 	currentLogic = callStack.head.elt;
-					running = false;
+					running = false; // perhaps replace with break?
 				case 0xFF:
 					processIf();
 				case 0xFE:
@@ -72,7 +55,7 @@ class LogicProcessor {
 		} while (currentLogic.logicIndex < currentLogic.logicData.length && running);
 	}
 
-	static function processIf() {
+	function processIf() {
 		var currentByte:UInt = currentLogic.nextByte;
 		var notCondition:Bool = false;
 		var orCondition:Bool = false;
@@ -163,7 +146,7 @@ class LogicProcessor {
 		#end
 	}
 
-	static function processElse() {
+	function processElse() {
 		currentLogic.nextByte; // throw away the 0xFE
 		var functionSize = currentLogic.nextSingle;
 		if (logicOperator) { // If we processed the if statement, skip the else statement
@@ -171,7 +154,7 @@ class LogicProcessor {
 		}
 	}
 
-	static function processAction() {
+	function processAction() {
 		var container:Container = ActionDispatcher.ACTIONS.get(currentLogic.nextByte);
 		if (container != null) {
 			var args = getArguments(container.argCount);
@@ -209,15 +192,28 @@ class LogicProcessor {
 			var arg6:Int = container.argCount >= 6 ? args[5] : 0;
 			var arg7:Int = container.argCount == 7 ? args[6] : 0;
 
+			// TODO: Remove this once it appears everything is implemented.
 			if (container.callback == null) {
 				trace('${container.agiFunctionName} is not defined.');
 				return;
 			}
-			container.callback(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+
+			// TODO: Bring the arg assignment down here
+			var args:Args = new Args();
+			args.arg1 = arg1;
+			args.arg2 = arg2;
+			args.arg3 = arg3;
+			args.arg4 = arg4;
+			args.arg5 = arg5;
+			args.arg6 = arg6;
+			args.arg7 = arg7;
+			args.logic = currentLogic;
+			
+			container.callback(args);
 		}
 	}
 
-	static function getArguments(argCount:Int) {
+	function getArguments(argCount:Int):Array<UInt> {
 		var arguments:Array<UInt> = new Array<UInt>();
 
 		for (i in 0...argCount) {
@@ -227,4 +223,35 @@ class LogicProcessor {
 		currentLogic.logicIndex += argCount;
 		return arguments;
 	}
+
+	public function new() {}
 }
+
+class Args {
+	public var arg1:AGIByte;
+	public var arg2:AGIByte;
+	public var arg3:AGIByte;
+	public var arg4:AGIByte;
+	public var arg5:AGIByte;
+	public var arg6:AGIByte;
+	public var arg7:AGIByte;
+	public var logic:AGILogic;
+
+	public function new() {}
+}
+
+// class ArgsExtensions {
+// 	public static function composeArgs(arg1:Null<AGIByte>, arg2:Null<AGIByte>, arg3:Null<AGIByte>, arg4:Null<AGIByte>, arg5:Null<AGIByte>, arg6:Null<AGIByte>,
+// 			arg7:Null<AGIByte>, logic:AGILogic):Args {
+// 		return {
+// 			arg1: arg1,
+// 			arg2: arg2,
+// 			arg3: arg3,
+// 			arg4: arg4,
+// 			arg5: arg5,
+// 			arg6: arg6,
+// 			arg7: arg7,
+// 			logic: logic
+// 		};
+// 	}
+// }

@@ -26,6 +26,7 @@ class Test {
 
 	public static function greatern(n:UInt, m:UInt):Bool {
 		#if debug
+		trace('v${n} = ${AGIInterpreter.instance.VARIABLES[n]}');
 		var result = AGIInterpreter.instance.VARIABLES[n] > m;
 		trace("greatern(v" + n + " value:" + AGIInterpreter.instance.VARIABLES[n] + ", " + m + ") == " + result);
 		#end

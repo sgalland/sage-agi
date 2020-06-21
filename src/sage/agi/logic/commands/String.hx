@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.resources.AGILogic;
 import sage.agi.interpreter.AGIInterpreter;
 
 /**
@@ -12,8 +13,8 @@ class String {
 		@param n ID of the string variable.
 		@param m Index of the message to load.
 	**/
-	public static function set_string(n:UInt, m:UInt) {
-		var message = LogicProcessor.currentLogic.getMessage(m - 1);
+	public static function set_string(n:UInt, m:UInt, l:AGILogic) {
+		var message = l.getMessage(m - 1);
 		AGIInterpreter.instance.STRINGS[n] = message;
 	}
 

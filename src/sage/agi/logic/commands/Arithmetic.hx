@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.core.MathExtender;
 
@@ -64,11 +65,11 @@ class Arithmetic {
 
 	/**
 		Subtract from variable n the value of variable m.
-		@param n Variable to assign the subtracted value.
-		@param m Value to subtract from the variable.
+		@param args.Arg1 Variable to assign the subtracted value.
+		@param args.Arg2 Value to subtract from the variable.
 	**/
-	public static function subn(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] = AGIInterpreter.instance.VARIABLES[n] + m;
+	public static function subn(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] -= args.arg2;
 	}
 
 	/**

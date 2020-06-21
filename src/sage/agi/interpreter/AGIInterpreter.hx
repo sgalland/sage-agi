@@ -1,5 +1,6 @@
 package sage.agi.interpreter;
 
+import sage.agi.logic.commands.Resource;
 import sage.agi.screen.ScreenSettings;
 import sage.agi.text.TextAttribute;
 import sage.agi.logic.DebuggerSettings;
@@ -149,6 +150,8 @@ class AGIInterpreter {
 	**/
 	public static var instance:AGIInterpreter = new AGIInterpreter();
 
+	public static var processor:LogicProcessor = new LogicProcessor();
+
 	function new() {}
 
 	/**
@@ -156,6 +159,8 @@ class AGIInterpreter {
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals#Interpreter_work_cycle
 	**/
 	public function run() {
+		if (!LOGICS.exists(0))
+			Resource.load_logic(0);
 		// Interpreter loop steps
 		// 1. Time delay - this is a function of the host graphics API.
 		// 2. Clear keyboard buffer - this is a function of the host graphics API since it usually handles events that we will need to trigger.
@@ -164,7 +169,8 @@ class AGIInterpreter {
 		FLAGS.set(4, false); // Reset the said command
 		// 4. Poll the keyboard and the joystick - this is a function of the host API's event system. We might need to hook into it.
 
-		LogicProcessor.execute(0);
+		NEW_ROOM = false; // TODO: Not sure if we should do this or not, but it seems appropriate.
+		processor.execute(0);
 		// 6. Reset dir of ego
 		// if score v3 or flag 9 have changed their values reset variables
 		if (/*VARIABLES.get(3) || FLAGS.get(9)*/ UPDATE_STATUS) {

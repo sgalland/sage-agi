@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.resources.AGILogic;
 import sage.agi.helpers.AGIColor;
 import sage.agi.text.TextAttribute;
 import sage.agi.interpreter.AGIInterpreter;
@@ -13,8 +14,8 @@ class Text {
 		Set the cursor for the user input text prompt.
 		@param n ID of the message to use as the cursor.
 	**/
-	public static function set_cursor_char(n:UInt) {
-		var message = LogicProcessor.currentLogic.getMessage(n - 1);
+	public static function set_cursor_char(n:UInt, l:AGILogic) {
+		var message = l.getMessage(n - 1);
 		AGIInterpreter.instance.CURSOR = message;
 	}
 

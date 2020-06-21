@@ -3,7 +3,7 @@ package sage.agi;
 using haxe.EnumTools;
 
 /**
-	Enumeration detailing all the normal resource types for an AGI game files.
+	Enumeration detailing all the normal resource types and files for an AGI game files.
 	Note that VOL files are numbered and are not standardized since they differ per game.
 **/
 @:enum abstract AGIResourceType(Int) {
