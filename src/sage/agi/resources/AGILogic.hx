@@ -74,7 +74,8 @@ class AGILogic {
 	private function get_nextSingle() {
 		var b1 = logicData[logicIndex++];
 		var b2 = logicData[logicIndex++];
-		return (b2 << 8) | (b1 & 0xff);
+		// return (b2 << 8) | (b1 /*& 0xff*/);
+		return 256*b1+b2;
 	}
 
 	public var tell(get, null):Int;

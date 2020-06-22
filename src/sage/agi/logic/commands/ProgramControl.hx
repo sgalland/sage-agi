@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
 
 /**
@@ -9,9 +10,9 @@ import sage.agi.interpreter.AGIInterpreter;
 class ProgramControl {
 	/**
 		Stops rendering the current room and all animations and loads a new room.
-		@param n
+		@param arg1 Room number
 	**/
-	public static function new_room(n:UInt) {
+	public static function new_room(args:Args) {
 		// TODO: Not actually implemented!!!
 
 		AGIInterpreter.instance.NEW_ROOM = true;
@@ -37,7 +38,7 @@ class ProgramControl {
 		ObjectMotionControl.set_horizon(36);
 		// 6. v1 is assigned the value of v0; v0 is assigned n (or the value of vn when the command is new.room.v); v4 is assigned 0; v5 is assigned 0; v16 is assigned the ID number of the VIEW resource that was associated with Ego (the player character).
 		AGIInterpreter.instance.VARIABLES[1] = AGIInterpreter.instance.VARIABLES[0]; // Assign current room to previous room
-		AGIInterpreter.instance.VARIABLES[0] = n; // Assign the new room to v0
+		AGIInterpreter.instance.VARIABLES[0] = args.arg1; // Assign the new room to v0
 		AGIInterpreter.instance.VARIABLES[4] = 0; // Reset the object id of the object that touched the border
 		AGIInterpreter.instance.VARIABLES[5] = 0; // Code of the border that was touched by object v4
 		// TODO: v16 is assigned the value of the view resource associated with ego
