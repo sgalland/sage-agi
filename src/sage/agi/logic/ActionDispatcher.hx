@@ -40,10 +40,10 @@ class ActionDispatcher {
 		0x0D => new Container("reset", 1, [Flag],Flag.reset),
 		0x0E => new Container("toggle", 1, [Flag], Flag.toggle),
 		0x0F => new Container("set.v", 1, [Variable], Flag.setv),
-		0x10 => new Container("reset.v", 1, [Variable], null),
-		0x11 => new Container("toggle.v", 1, [Variable], null),
+		0x10 => new Container("reset.v", 1, [Variable], Flag.resetv),
+		0x11 => new Container("toggle.v", 1, [Variable], Flag.togglev),
 		0x12 => new Container("new.room", 1, [Number], ProgramControl.new_room),
-		0x13 => new Container("new.room.v", 1, [Variable], /*ProgramControl.new_room_v*/ null),
+		0x13 => new Container("new.room.v", 1, [Variable], ProgramControl.new_room_v),
 		0x14 => new Container("load.logic", 1, [Number], Resource.load_logic),
 		0x15 => new Container("load.logic.v", 1, [Variable], Resource.load_logic_v),
 		0x16 => new Container("call", 1, [Number], Subroutine.call),
@@ -76,12 +76,27 @@ class ActionDispatcher {
 		0x31 => new Container("last.cel", 2, [Object, Variable], null),
 		0x32 => new Container("current.cel", 2, [Object, Variable], null),
 		0x33 => new Container("current.loop", 2, [Object, Variable], null),
-		// ...
+		0x34 => new Container("current.view	", 2, [Object,Variable], null),
+		0x35 => new Container("number.of.loops", 2, [Object, Variable], null),
+		0x36 => new Container("set.priority", 2, [Object, Number], null),
+		0x37 => new Container("set.priority.v", 2, [Object, Variable], null),
+		0x38 => new Container("release.priority", 1, [Object], null),
+		0x39 => new Container("get.priority", 2, [Object, Variable], null),
+		0x3A => new Container("stop.update", 1, [Object], null),
+		0x3B => new Container("start.update", 1, [Object], null),
+		0x3C => new Container("force.update", 1, [Object], null),
+		0x3D => new Container("ignore.horizon", 1, [Object], null),
+		0x3E => new Container("observe.horizon", 1, [Object], null),
+		0x3F => new Container("set.horizon", 1, [Number], ObjectMotionControl.set_horizon),
+		0x40 => new Container("object.on.water", 1, [Object], null),
+		0x41 => new Container("object.on.land", 1, [Object], null),
+		0x42 => new Container("object.on.anything", 1, [Object], null),
+		0x43 => new Container("ignore.objs", 1, [Object], null),
 		0x44 => new Container("observe.objs", 1, [Object], null),
 		// ...
 		0x61 => new Container("load.sound", 1, [Number], Resource.load_sound),
 		// ...
-		0x66 => new Container("print.v", 1, [Variable], null), // TODO: Implement me!
+		0x66 => new Container("print.v", 1, [Variable], null),
 		// ...
 		0x69 => new Container("clear.lines", 3, [Number, Number, Message], Text.clear_lines),
 		// ...

@@ -57,5 +57,15 @@ class ProgramControl {
 		AGIInterpreter.instance.KEYBOARD_BUFFER = [];
 	}
 
+	/**
+		Loads a new room in vn.
+		@param args Variable number to retrieve the room number.
+	**/
+	public static function new_room_v(args:Args) {
+		var room:UInt = AGIInterpreter.instance.VARIABLES[args.arg1];
+		args.arg1 = room;
+		new_room(args);
+	}
+
 	// TODO: Implement Program Control commands
 }
