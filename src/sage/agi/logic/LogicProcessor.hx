@@ -1,11 +1,8 @@
 package sage.agi.logic;
 
 import sage.agi.types.AGIByte;
-import sage.agi.logic.commands.Resource;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.resources.AGILogic;
-import haxe.ds.GenericStack;
-import haxe.ds.Vector;
 
 /**
 	Executes logic files.
@@ -235,13 +232,47 @@ class LogicProcessor {
 	}
 }
 
+/**
+	Structure containing Arguments for AGI functions.
+**/
 typedef Args = {
+	/**
+		Argument 1
+	**/
 	@:optional var arg1:AGIByte;
+
+	/**
+		Argument 2
+	**/
 	@:optional var arg2:AGIByte;
+
+	/**
+		Argument 3
+	**/
 	@:optional var arg3:AGIByte;
+
+	/**
+		Argument 4
+	**/
 	@:optional var arg4:AGIByte;
+
+	/**
+		Argument 5
+	**/
 	@:optional var arg5:AGIByte;
+
+	/**
+		Argument 6
+	**/
 	@:optional var arg6:AGIByte;
+
+	/**
+		Argument 7
+	**/
 	@:optional var arg7:AGIByte;
+
+	/**
+		Reference to the current logic.
+	**/
 	@:optional var logic:AGILogic;
 }

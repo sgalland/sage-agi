@@ -119,6 +119,9 @@ class ActionDispatcher {
 		0x8E => new Container("script.size", 1, [Number], Initialization.script_size),
 		0x8F => new Container("set.game.id", 1, [Message], Initialization.set_game_id),
 		// ...
+		0x90 => new Container("log", 1, [Message], Initialization.log),
+		// ...
+		0x95 => new Container("trace.on", 0, [], Initialization.trace_on),
 		0x96 => new Container("trace.info", 3, [Number, Number, Number], Initialization.trace_info),
 		// ...
 		0x9C => new Container("set.menu", 1, [Message], Menu.set_menu),

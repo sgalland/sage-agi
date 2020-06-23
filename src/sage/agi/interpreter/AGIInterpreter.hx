@@ -98,7 +98,7 @@ class AGIInterpreter {
 	/**
 		Information about the debugger setup. Set when Initialization command trace.info is called.
 	**/
-	public var DEBUGGER_SETTINGS:DebuggerSettings = new DebuggerSettings();
+	public var DEBUGGER_SETTINGS:DebuggerSettings = {};
 
 	/**
 		Indicate what the current text attribute settings are.
@@ -171,6 +171,7 @@ class AGIInterpreter {
 
 		NEW_ROOM = false; // TODO: Not sure if we should do this or not, but it seems appropriate.
 		processor.execute(0);
+
 		// 6. Reset dir of ego
 		// if score v3 or flag 9 have changed their values reset variables
 		if (/*VARIABLES.get(3) || FLAGS.get(9)*/ UPDATE_STATUS) {

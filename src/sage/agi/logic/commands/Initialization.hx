@@ -1,5 +1,8 @@
 package sage.agi.logic.commands;
 
+import sys.FileSystem;
+import sys.io.FileOutput;
+import sys.io.File;
 import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.resources.AGILogic;
 import sage.agi.logic.EventType.Event;
@@ -16,9 +19,9 @@ class Initialization {
 	**/
 	public static function set_key(args:Args) {
 		// TODO: Finish documentation and logic for this function. I am not even sure it's correct.
-		var scancode = (args.arg2 << 8) + args.arg1;
+		var scancode = 256 * args.arg1 + args.arg2; // this is little endian I am pretty sure
 
-		var event = new EventType(scancode, args.arg3);
+		var event = new EventType(args.arg2, args.arg3);
 		AGIInterpreter.instance.EVENT_TYPES.push(event);
 	}
 
@@ -54,5 +57,26 @@ class Initialization {
 	**/
 	public static function script_size(args:Args) {
 		ScriptTable.instance.setSize(args.arg1);
+	}
+
+	/**
+		Enables the debugger.
+	**/
+	public static function trace_on() {
+		AGIInterpreter.instance.DEBUGGER_SETTINGS.enabled = true;
+	}
+
+	/**
+		Logs a message to LOGFILE.
+		@param arg1 Message ID to load.
+	**/
+	public static function log(args:Args) {
+		var message:std.String = args.logic.getMessage(args.arg1 - 1);
+		#if sys
+		var fileName:std.String = "LOGFILE";
+		var output:FileOutput = File.append(fileName, false);
+		output.writeString('Room ${AGIInterpreter.instance.VARIABLES[0]} Input Line <input line> ${message}');
+		output.close();
+		#end
 	}
 }

@@ -1,23 +1,28 @@
 package sage.agi.logic;
 
+import sage.agi.types.AGIByte;
+
 /**
 	Manages the debugger parameters.
 **/
-class DebuggerSettings {
+typedef DebuggerSettings = {
 	/**
 		Resource ID of the logic file with trace commands.
 	**/
-	public var resourceID:UInt;
+	@:optional var resourceID:AGIByte;
 
 	/**
 		Top line to display the debugger
 	**/
-	public var topLine:UInt; // TODO: Not sure what this is exactly.
+	@:optional var topLine:AGIByte;
 
 	/**
 		Height of the debugger window.
 	**/
-	public var height:UInt;
+	@:optional var height:AGIByte;
 
-	public function new() {}
+	/**
+		Indicates the debugger is enabled.
+	**/
+	@:optional var enabled:Bool;
 }
