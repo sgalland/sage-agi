@@ -35,7 +35,7 @@ class LogicProcessor {
 		do {
 			trace(currentLogic.logicData.slice(logicIndex, logicIndex + 20));
 
-			currentByte = currentLogic.logicData[logicIndex]; // Check what byte is there but don't increment it.
+			currentByte = currentLogic.logicData[logicIndex];
 
 			#if debug
 			var output:String = "";

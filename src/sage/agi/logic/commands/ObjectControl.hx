@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.resources.AGIView;
 import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.objects.ViewFlags;
 import sage.agi.resources.AGIView.ViewObject;
@@ -22,6 +23,26 @@ class ObjectControl {
 		}
 		object.viewFlags = ViewFlags.ANIMATE;
 		// TODO: Do we need to set other flags too??
+	}
+
+	/**
+		View Object n is associated with View resource number m.
+		@param arg1 View Object ID
+		@param arg2 View Resource Number
+	**/
+	public static function set_view(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.currentView = args.arg2;
+	}
+
+	/**
+		View Object n is associated with View resource number stored in vm.
+		@param arg1 View Object ID
+		@param arg2 Variable containing the View Resource Number
+	**/
+	public static function set_view_v(args:Args) {
+		var viewID:Int = AGIInterpreter.instance.VARIABLES[args.arg2];
+		set_view({arg1: args.arg1, arg2: viewID});
 	}
 
 	/**
