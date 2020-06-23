@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
 
 /**
@@ -11,8 +12,8 @@ class ObjectMotionControl {
 		Sets the Y axis of the horizon.
 		@param n Position on the Y axis.
 	**/
-	public static function set_horizon(n) {
-		AGIInterpreter.instance.SCREEN.horizon = n;
+	public static function set_horizon(args:Args) {
+		AGIInterpreter.instance.SCREEN.horizon = args.arg1;
 	}
 
 	public static function player_control() {

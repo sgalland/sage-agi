@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.resources.AGIPicture;
 import sage.agi.interpreter.AGIInterpreter;
 
@@ -12,8 +13,8 @@ class PictureResourceManagement {
 		Sets the currently drawn Picture resource.
 		@param n Variable ID of the resource number.
 	**/
-	public static function draw_pic(n:UInt) {
-		var resourceID = AGIInterpreter.instance.VARIABLES[n];
+	public static function draw_pic(args:Args) {
+		var resourceID = AGIInterpreter.instance.VARIABLES[args.arg1];
 		var pic:AGIPicture = AGIInterpreter.instance.PICTURES.get(resourceID);
 		AGIInterpreter.instance.CURRENT_PIC = pic;
 	}

@@ -98,7 +98,7 @@ class AGIInterpreter {
 	/**
 		Information about the debugger setup. Set when Initialization command trace.info is called.
 	**/
-	public var DEBUGGER_SETTINGS:DebuggerSettings;
+	public var DEBUGGER_SETTINGS:DebuggerSettings = new DebuggerSettings();
 
 	/**
 		Indicate what the current text attribute settings are.
@@ -160,7 +160,7 @@ class AGIInterpreter {
 	**/
 	public function run() {
 		if (!LOGICS.exists(0))
-			Resource.load_logic(0);
+			Resource.load_logic({arg1: 0});
 		// Interpreter loop steps
 		// 1. Time delay - this is a function of the host graphics API.
 		// 2. Clear keyboard buffer - this is a function of the host graphics API since it usually handles events that we will need to trigger.

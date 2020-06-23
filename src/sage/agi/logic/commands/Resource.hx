@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.resources.AGIPicture;
 import sage.agi.resources.AGIFile;
 import sage.agi.resources.AGILogic;
@@ -15,26 +16,26 @@ class Resource {
 		Load a logic resource by number n
 		@param n Number of the Resource ID
 	**/
-	public static function load_logic(n:UInt) {
-		var file = load_resource(AGIResourceType.LOGIC, n);
-		AGIInterpreter.instance.LOGICS.set(n, new AGILogic(file));
+	public static function load_logic(args:Args) {
+		var file = load_resource(AGIResourceType.LOGIC, args.arg1);
+		AGIInterpreter.instance.LOGICS.set(args.arg1, new AGILogic(file));
 	}
 
 	/**
 		Load a logic resource by variable n.
 		@param n Variable ID
 	**/
-	public static function load_logic_v(n:UInt) {
-		var resourceID = AGIInterpreter.instance.VARIABLES[n];
-		load_logic(resourceID);
+	public static function load_logic_v(args:Args) {
+		var resourceID = AGIInterpreter.instance.VARIABLES[args.arg1];
+		load_logic({arg1: resourceID});
 	}
 
 	/**
 		Load a picture resource by variable n. Note that there is not a load.pic.v function in AGI for unknown reasons.
 		@param n Variable ID
 	**/
-	public static function load_pic(n:UInt) {
-		var resourceID = AGIInterpreter.instance.VARIABLES[n];
+	public static function load_pic(args:Args) {
+		var resourceID = AGIInterpreter.instance.VARIABLES[args.arg1];
 		var file = load_resource(AGIResourceType.PICTURE, resourceID);
 		AGIInterpreter.instance.PICTURES.set(resourceID, new AGIPicture(file));
 	}
@@ -43,7 +44,7 @@ class Resource {
 		Load sound resource by variable n.
 		@param n Variable ID
 	**/
-	public static function load_sound(n) {
+	public static function load_sound(args:Args) {
 		// TODO: Implement sound
 	}
 

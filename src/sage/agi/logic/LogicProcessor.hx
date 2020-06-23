@@ -16,7 +16,14 @@ class LogicProcessor {
 	**/
 	var logicOperator:Bool;
 
+	/**
+		The logic data being executed.
+	**/
 	var currentLogic:AGILogic;
+
+	/**
+		Index that indicates the current byte being operated on.
+	**/
 	var logicIndex:Int;
 
 	/**
@@ -187,15 +194,16 @@ class LogicProcessor {
 
 			// Actions can take up to 7 parameters. Load the arguments and pass them to the bind call.
 			// It will send only the ones it needs.
-			var args:Args = new Args();
-			args.arg1 = container.argCount >= 1 ? functionArgs[0] : 0;
-			args.arg2 = container.argCount >= 2 ? functionArgs[1] : 0;
-			args.arg3 = container.argCount >= 3 ? functionArgs[2] : 0;
-			args.arg4 = container.argCount >= 4 ? functionArgs[3] : 0;
-			args.arg5 = container.argCount >= 5 ? functionArgs[4] : 0;
-			args.arg6 = container.argCount >= 6 ? functionArgs[5] : 0;
-			args.arg7 = container.argCount == 7 ? functionArgs[6] : 0;
-			args.logic = currentLogic;
+			var args:Args = {
+				arg1: container.argCount >= 1 ? functionArgs[0] : 0,
+				arg2: container.argCount >= 2 ? functionArgs[1] : 0,
+				arg3: container.argCount >= 3 ? functionArgs[2] : 0,
+				arg4: container.argCount >= 4 ? functionArgs[3] : 0,
+				arg5: container.argCount >= 5 ? functionArgs[4] : 0,
+				arg6: container.argCount >= 6 ? functionArgs[5] : 0,
+				arg7: container.argCount == 7 ? functionArgs[6] : 0,
+				logic: currentLogic
+			};
 
 			// TODO: Remove this once it appears everything is implemented.
 			if (container.callback == null) {
@@ -223,20 +231,17 @@ class LogicProcessor {
 	function nextSingle():Int {
 		var b1:Int = currentLogic.logicData[logicIndex++];
 		var b2:Int = currentLogic.logicData[logicIndex++];
-		var bb = 256 * b2 + b1;
-		return bb;
+		return 256 * b2 + b1;
 	}
 }
 
-class Args {
-	public var arg1:AGIByte;
-	public var arg2:AGIByte;
-	public var arg3:AGIByte;
-	public var arg4:AGIByte;
-	public var arg5:AGIByte;
-	public var arg6:AGIByte;
-	public var arg7:AGIByte;
-	public var logic:AGILogic;
-
-	public function new() {}
+typedef Args = {
+	@:optional var arg1:AGIByte;
+	@:optional var arg2:AGIByte;
+	@:optional var arg3:AGIByte;
+	@:optional var arg4:AGIByte;
+	@:optional var arg5:AGIByte;
+	@:optional var arg6:AGIByte;
+	@:optional var arg7:AGIByte;
+	@:optional var logic:AGILogic;
 }

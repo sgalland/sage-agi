@@ -19,9 +19,5 @@ class DebuggerSettings {
 	**/
 	public var height:UInt;
 
-	public function new(resourceID:UInt, topLine:UInt, height:UInt) {
-		this.resourceID = resourceID;
-		this.topLine = topLine;
-		this.height = height;
-	}
+	public function new() {}
 }

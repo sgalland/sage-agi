@@ -35,7 +35,7 @@ class ProgramControl {
 		ObjectMotionControl.player_control();
 		// 4. unblock command is issued;
 		// 5. set.horizon(36) command is issued;
-		ObjectMotionControl.set_horizon(36);
+		ObjectMotionControl.set_horizon({arg1: 36});
 		// 6. v1 is assigned the value of v0; v0 is assigned n (or the value of vn when the command is new.room.v); v4 is assigned 0; v5 is assigned 0; v16 is assigned the ID number of the VIEW resource that was associated with Ego (the player character).
 		AGIInterpreter.instance.VARIABLES[1] = AGIInterpreter.instance.VARIABLES[0]; // Assign current room to previous room
 		AGIInterpreter.instance.VARIABLES[0] = args.arg1; // Assign the new room to v0
@@ -43,7 +43,7 @@ class ProgramControl {
 		AGIInterpreter.instance.VARIABLES[5] = 0; // Code of the border that was touched by object v4
 		// TODO: v16 is assigned the value of the view resource associated with ego
 		// 7. Logic(i) resource is loaded where i is the value of v0 !
-		Resource.load_logic(AGIInterpreter.instance.VARIABLES[0]);
+		Resource.load_logic({arg1: AGIInterpreter.instance.VARIABLES[0]});
 		// 8. Set Ego coordinates according to v2:
 		//    if Ego touched the bottom edge, put it on the horizon;
 		//    if Ego touched the top edge, put it on the bottom edge of the screen;
