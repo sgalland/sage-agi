@@ -4,11 +4,7 @@ import sage.agi.helpers.AGIStringHelper;
 
 // TODO: AGILogic needs to be cleaned up and documented
 class AGILogic {
-	@:isVar public var logicData(default, set):Array<Int> = new Array<Int>();
-
-	private function set_logicData(value) {
-		return logicData = value;
-	}
+	public var logicData:Array<Int> = new Array<Int>();
 
 	private var messages:Array<String> = new Array<String>();
 
@@ -50,30 +46,24 @@ class AGILogic {
 		}
 	}
 
-	public var logicIndex(default, default):Int;
-
 	public function getMessage(index:Int):String {
 		return messages[index];
 	}
 
-	public var nextByte(get, null):Int;
-
-	private function get_nextByte() {
-		return logicData[logicIndex++];
-	}
-
-	public var nextSingle(get, null):Int;
-
-	private function get_nextSingle() {
-		var b1 = logicData[logicIndex++];
-		var b2 = logicData[logicIndex++];
-		// return (b2 << 8) | (b1 /*& 0xff*/);
-		return 256 * b1 + b2;
-	}
-
-	public var tell(get, null):Int;
-
-	private function get_tell():Int {
-		return logicData[logicIndex];
-	}
+	// public var logicIndex:Int;
+	// public var nextByte(get, null):Int;
+	// private function get_nextByte() {
+	// 	return logicData[logicIndex++];
+	// }
+	// public var nextSingle(get, null):Int;
+	// private function get_nextSingle() {
+	// 	var b1 = logicData[logicIndex++];
+	// 	var b2 = logicData[logicIndex++];
+	// 	// return (b2 << 8) | (b1 /*& 0xff*/);
+	// 	return 256 * b1 + b2;
+	// }
+	// public var tell(get, null):Int;
+	// private function get_tell():Int {
+	// 	return logicData[logicIndex];
+	// }
 }
