@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.resources.AGILogic;
 import sage.agi.helpers.AGIColor;
 import sage.agi.text.TextAttribute;
 import sage.agi.interpreter.AGIInterpreter;
@@ -13,8 +14,8 @@ class Text {
 		Set the cursor for the user input text prompt.
 		@param n ID of the message to use as the cursor.
 	**/
-	public static function set_cursor_char(n:UInt) {
-		var message = LogicProcessor.currentLogic.getMessage(n - 1);
+	public static function set_cursor_char(n:UInt, l:AGILogic) {
+		var message = l.getMessage(n - 1);
 		AGIInterpreter.instance.CURSOR = message;
 	}
 
@@ -46,6 +47,16 @@ class Text {
 	**/
 	public static function status_line_off() {
 		AGIInterpreter.instance.SCREEN.displayStatusLine = false;
+	}
+
+	/**
+		Clears lines n to m with color c.
+		@param n Start line
+		@param m End line
+		@param c Color to use to clear the line.
+	**/
+	public static function clear_lines(n:UInt, m:UInt, c:UInt) {
+		// TODO: Implement!!!!
 	}
 
 	// TODO: Implement text commands

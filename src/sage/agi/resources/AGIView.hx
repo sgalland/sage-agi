@@ -1,10 +1,14 @@
 package sage.agi.resources;
 
+import sage.agi.objects.ViewFlags.Cycle;
 import haxe.ds.Vector;
 import sage.agi.resources.AGIFile;
 import sage.core.BitConverter;
 import sage.core.BitSet;
 import sage.agi.helpers.AGIColor;
+import sage.agi.objects.ViewFlags.ViewFlags;
+import sage.agi.objects.ViewFlags.Direction;
+import sage.agi.objects.ViewFlags.Motion;
 
 class AGIView {
 	private static inline var MAX_CEL:Int = 255;
@@ -145,16 +149,67 @@ class ViewCell {
 /**
 	An instance of a view object that can be animated, placed in a room, etc.
 **/
-class ViewObject {
-	/**
-		Position on the X axis.
-	**/
-	public var x:Int;
+typedef ViewObject = {
+	// TODO: Validate
+	@:optional var stepTime:Int;
 
 	/**
 		Position on the X axis.
 	**/
-	public var y:Int;
+	@:optional var x:Int;
 
-	public function new() {}
+	/**
+		Position on the X axis.
+	**/
+	@:optional public var y:Int;
+
+	/**
+		Reference to a view. Not sure if we need this.
+	**/
+	@:optional var view:AGIView;
+
+	// TODO: I don't think this is needed, validate
+	@:optional var pointerToViewData:Int;
+	@:optional var currentLoop:Int;
+	@:optional var numberOfLoops:Int;
+	// TODO: I don't think this is needed, validate
+	@:optional var pointerToStartOfLoopData:Int;
+	@:optional var currentCel:Int;
+	@:optional var numberOfCels:Int;
+	// TODO: I don't think this is needed, validate
+	@:optional var pointerToStartOfCelData:Int;
+	// TODO: I don't think this is needed, validate
+	@:optional var pointerToStartOfCelData2:Int;
+
+	/**
+		Copy of X position (why????)
+	**/
+	@:optional var x2:Int;
+
+	/**
+		Copy of Y position (why????)
+	**/
+	@:optional var y2:Int;
+
+	@:optional var xSize:Int;
+	@:optional var ySize:Int;
+	@:optional var stepSize:Int;
+	// Stored twice???
+	@:optional var cycleTime:Int;
+	@:optional var direction:Direction;
+	@:optional var motion:Motion;
+	@:optional var cycle:Cycle;
+	@:optional var priority:Int;
+
+	/**
+		Flags that indicate the state of the view.
+	**/
+	@:optional var viewFlags:ViewFlags;
+
+	/**
+		Reference to view cell - not sure if we need this.
+	**/
+	@:optional var currentCell:ViewCell;
 }
+
+// TODO: Add documentation

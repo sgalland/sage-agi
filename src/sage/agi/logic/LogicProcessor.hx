@@ -1,5 +1,7 @@
 package sage.agi.logic;
 
+import sage.agi.types.AGIByte;
+import sage.agi.logic.commands.Resource;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.resources.AGILogic;
 import haxe.ds.GenericStack;
@@ -10,34 +12,26 @@ import haxe.ds.Vector;
 **/
 class LogicProcessor {
 	/**
-		Represents the call stack of AGI Logic scripts in the order they are loaded.
+		Current result of the if statement. This is reset everytime an if statement is processed.
 	**/
-	static var callStack:GenericStack<AGILogic> = new GenericStack<AGILogic>();
+	var logicOperator:Bool;
 
-	/**
-		The current logic file being executed.
-	**/
-	public static var currentLogic(default, set):AGILogic;
-
-	private static function set_currentLogic(logic:AGILogic) {
-		return currentLogic = logic;
-	}
+	var currentLogic:AGILogic;
+	var logicIndex:Int;
 
 	/**
 		Execute a logic resource.
 		@param resourceID ID of the resource to be executd.
 	**/
-	public static function execute(resourceID:UInt) {
+	public function execute(resourceID:UInt) {
 		currentLogic = AGIInterpreter.instance.LOGICS.get(resourceID);
-		currentLogic.loaded = true;
-		callStack.add(currentLogic);
 		var running:Bool = true;
 		var currentByte:Int = 0;
 
 		do {
-			trace(currentLogic.logicData.slice(currentLogic.logicIndex, currentLogic.logicIndex + 20));
+			trace(currentLogic.logicData.slice(logicIndex, logicIndex + 20));
 
-			currentByte = currentLogic.tell; // Change this to a tellByte so we can check without incrementing the index
+			currentByte = currentLogic.logicData[logicIndex]; // Check what byte is there but don't increment it.
 
 			#if debug
 			var output:String = "";
@@ -51,30 +45,29 @@ class LogicProcessor {
 
 			switch (currentByte) {
 				case 0x00: // Indicates a return() statement
-					callStack.pop();
-					if (callStack.head != null)
-						currentLogic = callStack.head.elt;
-				// running = false;
+					running = false; // perhaps replace with break?
 				case 0xFF:
 					processIf();
+				case 0xFE:
+					processElse();
 				default:
 					processAction();
 			}
-		} while (currentLogic.logicIndex < currentLogic.logicData.length /*&& running*/);
+		} while (logicIndex < currentLogic.logicData.length && running);
 	}
 
-	static function processIf() {
-		var currentByte:UInt = currentLogic.nextByte;
+	function processIf() {
+		var currentByte:UInt = currentLogic.logicData[logicIndex++];
 		var notCondition:Bool = false;
 		var orCondition:Bool = false;
-		var logicOperator:Bool = true;
+		logicOperator = true;
 
 		#if debug
 		var output:String = "if ( ";
 		#end
 
 		do {
-			currentByte = currentLogic.nextByte;
+			currentByte = currentLogic.logicData[logicIndex++];
 
 			switch (currentByte) {
 				case 0xFD:
@@ -84,9 +77,9 @@ class LogicProcessor {
 				case 0xFF:
 					{
 						// Skip the body of the function if the result is false
-						var functionSize = currentLogic.nextSingle;
+						var functionSize:Int = nextSingle();
 						if (!logicOperator)
-							currentLogic.logicIndex += functionSize;
+							logicIndex += functionSize;
 						break;
 					}
 				default:
@@ -128,74 +121,122 @@ class LogicProcessor {
 							var arg4:Int = condition.argCount >= 4 ? args[3] : 0;
 							var arg5:Int = condition.argCount >= 5 ? args[4] : 0;
 
+							if (condition.callback == null) {
+								trace('${condition.agiFunctionName} is not defined. Defaulting to false.');
+								logicOperator = false;
+								return;
+							}
+
 							if (orCondition)
 								logicOperator = logicOperator || condition.callback(arg1, arg2, arg3, arg4, arg5);
 							else
 								logicOperator = logicOperator && condition.callback(arg1, arg2, arg3, arg4, arg5);
 
-							if (notCondition)
+							if (notCondition) {
 								logicOperator = !logicOperator;
+								notCondition = false;
+							}
 						}
 					}
 			}
 		} while (currentByte != 0xFF);
 
 		#if debug
-		output += ")";
+		output += ") == " + logicOperator;
 		trace(output);
 		#end
 	}
 
-	static function processAction() {
-		var container:Container = ActionDispatcher.ACTIONS.get(currentLogic.nextByte);
+	function processElse() {
+		logicIndex++; // move past 0xFE
+		var functionSize:Int = nextSingle();
+		if (logicOperator) { // If we processed the if statement, skip the else statement
+			logicIndex += functionSize;
+		}
+	}
+
+	function processAction() {
+		var container:Container = ActionDispatcher.ACTIONS.get(currentLogic.logicData[logicIndex++]);
 		if (container != null) {
-			var args = getArguments(container.argCount);
+			var functionArgs = getArguments(container.argCount);
 
 			#if debug
 			switch (container.argCount) {
 				case 0:
 					trace("-->	" + container.agiFunctionName + "()");
 				case 1:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + ")");
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + ")");
 				case 2:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + ")");
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + "," + functionArgs[1] + ")");
 				case 3:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + ")");
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + "," + functionArgs[1] + "," + functionArgs[2] + ")");
 				case 4:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + ")");
-				case 5:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4] + ")");
-				case 6:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4] + "," + args[5]
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + "," + functionArgs[1] + "," + functionArgs[2] + "," + functionArgs[3]
 						+ ")");
+				case 5:
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + "," + functionArgs[1] + "," + functionArgs[2] + "," + functionArgs[3]
+						+ "," + functionArgs[4] + ")");
+				case 6:
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + "," + functionArgs[1] + "," + functionArgs[2] + "," + functionArgs[3]
+						+ "," + functionArgs[4] + "," + functionArgs[5] + ")");
 				case 7:
-					trace("-->	" + container.agiFunctionName + "(" + args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4] + "," + args[5]
-						+ "," + args[6] + ")");
+					trace("-->	" + container.agiFunctionName + "(" + functionArgs[0] + "," + functionArgs[1] + "," + functionArgs[2] + "," + functionArgs[3]
+						+ "," + functionArgs[4] + "," + functionArgs[5] + "," + functionArgs[6] + ")");
 			}
 			#end
 
 			// Actions can take up to 7 parameters. Load the arguments and pass them to the bind call.
 			// It will send only the ones it needs.
-			var arg1:Int = container.argCount >= 1 ? args[0] : 0;
-			var arg2:Int = container.argCount >= 2 ? args[1] : 0;
-			var arg3:Int = container.argCount >= 3 ? args[2] : 0;
-			var arg4:Int = container.argCount >= 4 ? args[3] : 0;
-			var arg5:Int = container.argCount >= 5 ? args[4] : 0;
-			var arg6:Int = container.argCount >= 6 ? args[5] : 0;
-			var arg7:Int = container.argCount == 7 ? args[6] : 0;
+			var args:Args = new Args();
+			args.arg1 = container.argCount >= 1 ? functionArgs[0] : 0;
+			args.arg2 = container.argCount >= 2 ? functionArgs[1] : 0;
+			args.arg3 = container.argCount >= 3 ? functionArgs[2] : 0;
+			args.arg4 = container.argCount >= 4 ? functionArgs[3] : 0;
+			args.arg5 = container.argCount >= 5 ? functionArgs[4] : 0;
+			args.arg6 = container.argCount >= 6 ? functionArgs[5] : 0;
+			args.arg7 = container.argCount == 7 ? functionArgs[6] : 0;
+			args.logic = currentLogic;
 
-			container.callback(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+			// TODO: Remove this once it appears everything is implemented.
+			if (container.callback == null) {
+				trace('${container.agiFunctionName} is not defined.');
+				return;
+			}
+
+			container.callback(args);
 		}
 	}
 
-	static function getArguments(argCount:Int) {
+	function getArguments(argCount:Int):Array<UInt> {
 		var arguments:Array<UInt> = new Array<UInt>();
 
 		for (i in 0...argCount) {
-			arguments[i] = currentLogic.logicData[currentLogic.logicIndex + i];
+			arguments[i] = currentLogic.logicData[logicIndex + i];
 		}
 
-		currentLogic.logicIndex += argCount;
+		logicIndex += argCount;
 		return arguments;
 	}
+
+	public function new() {}
+
+	function nextSingle():Int {
+		var b1:Int = currentLogic.logicData[logicIndex++];
+		var b2:Int = currentLogic.logicData[logicIndex++];
+		var bb = 256 * b2 + b1;
+		return bb;
+	}
+}
+
+class Args {
+	public var arg1:AGIByte;
+	public var arg2:AGIByte;
+	public var arg3:AGIByte;
+	public var arg4:AGIByte;
+	public var arg5:AGIByte;
+	public var arg6:AGIByte;
+	public var arg7:AGIByte;
+	public var logic:AGILogic;
+
+	public function new() {}
 }

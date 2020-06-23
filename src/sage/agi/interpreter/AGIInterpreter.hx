@@ -1,5 +1,6 @@
 package sage.agi.interpreter;
 
+import sage.agi.logic.commands.Resource;
 import sage.agi.screen.ScreenSettings;
 import sage.agi.text.TextAttribute;
 import sage.agi.logic.DebuggerSettings;
@@ -10,7 +11,8 @@ import sage.agi.resources.AGILogic;
 import sage.agi.resources.AGIFileReader;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
-import sage.agi.EAGIFileName;
+import sage.agi.resources.AGIPicture;
+import sage.agi.AGIResourceType;
 import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
 import sage.agi.menu.Menu;
@@ -62,6 +64,12 @@ class AGIInterpreter {
 	public var VIEWS:IntMap<AGIView> = new IntMap<AGIView>();
 
 	/**
+		A map of <Int, AGIPicture> that represents all the loaded Picture files keyed by resource id.
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Pic
+	**/
+	public var PICTURES:IntMap<AGIPicture> = new IntMap<AGIPicture>();
+
+	/**
 		AGI Interpreter menu linked list.
 	**/
 	public var MENU:List<Menu> = new List<Menu>();
@@ -100,7 +108,7 @@ class AGIInterpreter {
 	/**
 		Settings that indicate the location of screen items (status bar, play area, input line).
 	**/
-	public var SCREEN:ScreenSettings;
+	public var SCREEN:ScreenSettings = new ScreenSettings(0, 0, 0);
 
 	/**
 		Indicates if a player is able to type input via the keyboard.
@@ -118,53 +126,77 @@ class AGIInterpreter {
 	public var ALLOW_PLAYER_CONTROL:Bool;
 
 	/**
+		Current Picture to render.
+	**/
+	public var CURRENT_PIC:AGIPicture;
+
+	/**
+		Indicates if the UI should be updated due to a score or menu change.
+	**/
+	public var UPDATE_STATUS:Bool = false;
+
+	/**
+		Indicates if the new room command was issued.
+	**/
+	public var NEW_ROOM:Bool = false;
+
+	/**
+		Represent the keyboard buffer. Should this be a haxe stringbuf?
+	**/
+	public var KEYBOARD_BUFFER:Array<String> = new Array<String>();
+
+	/**
 		Singleton instance of the AGIInterpreter class.
 	**/
 	public static var instance:AGIInterpreter = new AGIInterpreter();
 
-	function new() {
-		initializeObjects();
-		loadResources(LOGIC);
-		loadResources(VIEW);
-	}
+	public static var processor:LogicProcessor = new LogicProcessor();
 
-	function initializeObjects() {
-		for (i in 0...AGIInterpreter.MAX_RESOURCES) {
-			OBJECTS.set(i, new ViewObject());
-		}
-	}
+	function new() {}
 
-	function loadResources(fileName:EAGIFileName) {
-		var resources = new AGIFileReader();
-		resources.loadDirectoryEntries(fileName);
-		for (entry in resources.directoryEntries) {
-			var file = resources.getFile(entry.resourceID);
-			if (file != null) {
-				switch (fileName) {
-					case LOGIC:
-						LOGICS.set(entry.resourceID, new AGILogic(file, entry.resourceID));
-					case VIEW:
-						VIEWS.set(entry.resourceID, new AGIView(file));
-					default:
-						throw "An invalid AGI FileType was added.";
-				}
-			}
-		}
-	}
-
+	/**
+		Executes the interpreters main logic loop.
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals#Interpreter_work_cycle
+	**/
 	public function run() {
-		// time delay;
-		// clear the keyboard buffer;
-		// poll the keyboard and the joystick;
-		// analyses some of the reserved variables and flags (see block diagram);
-		FLAGS.set(2, false);
-		FLAGS.set(4, false);
-		// for all controllable objects for which animate.obj, start.update and draw commands were issued, directions of motion are recalculated;
-		// LOGIC resource 0 is executed, as well as any logics it calls -- which, in turn, can call other logics.
-		// -- Depending on the state of variables and flags analyzed at step 4 the number of commands interpreted
-		// -- at stage 4 commands varies from one iteration of the cycle to another depending,
-		// -- for example, on a number of LOGIC resources to be called in the current situation;
-		LogicProcessor.execute(0);
-		// test if the new.room command has been issued;
+		if (!LOGICS.exists(0))
+			Resource.load_logic(0);
+		// Interpreter loop steps
+		// 1. Time delay - this is a function of the host graphics API.
+		// 2. Clear keyboard buffer - this is a function of the host graphics API since it usually handles events that we will need to trigger.
+		// 3. Reset variables
+		FLAGS.set(2, false); // Reset player entered a command
+		FLAGS.set(4, false); // Reset the said command
+		// 4. Poll the keyboard and the joystick - this is a function of the host API's event system. We might need to hook into it.
+
+		NEW_ROOM = false; // TODO: Not sure if we should do this or not, but it seems appropriate.
+		processor.execute(0);
+		// 6. Reset dir of ego
+		// if score v3 or flag 9 have changed their values reset variables
+		if (/*VARIABLES.get(3) || FLAGS.get(9)*/ UPDATE_STATUS) {
+			// TODO: What updates v3 and f9????? We need to set UPDATE_STATUS there
+			// Update the status and score
+			// VAR(3) -- to what??
+			// What this means is update the status and the score on the UI
+		}
+
+		VARIABLES.set(5, 0); // Code of the border touched by v4
+		VARIABLES.set(4, 0); // Object that touched the border
+		FLAGS.set(5, false); // Reset room script ran for first time.
+		FLAGS.set(6, false); // Reset restart game has executed.
+		FLAGS.set(12, false); // Reset restore game has executed
+
+		// Updated objects
+		if (NEW_ROOM) { // test if the new.room command has been issued;
+			// is this the same crap as the new room command??????
+			// If so then we might not need this code block.
+			// stop.update
+			// unanimate.all
+			// release all logics except 0
+			// player.control
+			// unblock
+			// set.horizon(36) -- the default horizon value
+			// var(1) = var(0)
+		}
 	}
 }

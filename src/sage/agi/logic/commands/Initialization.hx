@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.resources.AGILogic;
 import sage.agi.logic.EventType.Event;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.types.AGIByte;
@@ -25,9 +26,10 @@ class Initialization {
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals#Game_IDs_and_loaders
 
 		@param n Message ID in the Logic to set as the game id.
+		@param l Logic passed to the interpreter.
 	**/
-	public static function set_game_id(n:UInt) {
-		var message = LogicProcessor.currentLogic.getMessage(n - 1);
+	public static function set_game_id(n:UInt, l:AGILogic) {
+		var message = l.getMessage(n - 1);
 		AGIInterpreter.instance.GAME_ID = message;
 	}
 

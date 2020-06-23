@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
 
 /**
@@ -9,10 +10,12 @@ import sage.agi.interpreter.AGIInterpreter;
 class ProgramControl {
 	/**
 		Stops rendering the current room and all animations and loads a new room.
-		@param n
+		@param arg1 Room number
 	**/
-	public static function new_room(n:UInt) {
+	public static function new_room(args:Args) {
 		// TODO: Not actually implemented!!!
+
+		AGIInterpreter.instance.NEW_ROOM = true;
 
 		// 1. Commands stop.update and unanimate are issued to all objects;
 		// 2. All resources except Logic(0) are discarded;
@@ -21,6 +24,9 @@ class ProgramControl {
 				AGIInterpreter.instance.LOGICS.set(i, null);
 
 			// Clear other resource types
+
+			if (AGIInterpreter.instance.PICTURES.exists(i))
+				AGIInterpreter.instance.PICTURES.set(i, null);
 
 			if (AGIInterpreter.instance.VIEWS.exists(i))
 				AGIInterpreter.instance.VIEWS.set(i, null);
@@ -31,9 +37,13 @@ class ProgramControl {
 		// 5. set.horizon(36) command is issued;
 		ObjectMotionControl.set_horizon(36);
 		// 6. v1 is assigned the value of v0; v0 is assigned n (or the value of vn when the command is new.room.v); v4 is assigned 0; v5 is assigned 0; v16 is assigned the ID number of the VIEW resource that was associated with Ego (the player character).
-		AGIInterpreter.instance.VARIABLES[0] = AGIInterpreter.instance.VARIABLES[1];
+		AGIInterpreter.instance.VARIABLES[1] = AGIInterpreter.instance.VARIABLES[0]; // Assign current room to previous room
+		AGIInterpreter.instance.VARIABLES[0] = args.arg1; // Assign the new room to v0
+		AGIInterpreter.instance.VARIABLES[4] = 0; // Reset the object id of the object that touched the border
+		AGIInterpreter.instance.VARIABLES[5] = 0; // Code of the border that was touched by object v4
+		// TODO: v16 is assigned the value of the view resource associated with ego
 		// 7. Logic(i) resource is loaded where i is the value of v0 !
-		LogicProcessor.execute(AGIInterpreter.instance.VARIABLES[0]);
+		Resource.load_logic(AGIInterpreter.instance.VARIABLES[0]);
 		// 8. Set Ego coordinates according to v2:
 		//    if Ego touched the bottom edge, put it on the horizon;
 		//    if Ego touched the top edge, put it on the bottom edge of the screen;
@@ -44,7 +54,17 @@ class ProgramControl {
 		// 2. f5 is set to 1 (meaning in the first interpreter cycle after the new_room command all initialization parts of all logics loaded and called from the initialization part of the new room's logic will be called. In the subsequent cycle f5 is reset to 0 (see section Interpreter work cycle and the source of the "Thunderstorm" program. This is very important!).
 		AGIInterpreter.instance.FLAGS[5] = true;
 		// 3. Clear keyboard input buffer and return to the main AGI loop.
-		// TODO: Clear keyboard buffer
+		AGIInterpreter.instance.KEYBOARD_BUFFER = [];
+	}
+
+	/**
+		Loads a new room in vn.
+		@param args Variable number to retrieve the room number.
+	**/
+	public static function new_room_v(args:Args) {
+		var room:UInt = AGIInterpreter.instance.VARIABLES[args.arg1];
+		args.arg1 = room;
+		new_room(args);
 	}
 
 	// TODO: Implement Program Control commands

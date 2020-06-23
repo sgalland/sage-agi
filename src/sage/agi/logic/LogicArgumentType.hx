@@ -38,4 +38,6 @@ package sage.agi.logic;
 		Represents a game object.
 	**/
 	var Object = 7;
+
+	var Item = 8;
 }
