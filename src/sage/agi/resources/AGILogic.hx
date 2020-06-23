@@ -10,17 +10,14 @@ class AGILogic {
 		return logicData = value;
 	}
 
-	var file:AGIFile;
-
 	private var messages:Array<String> = new Array<String>();
 
 	public function new(file:AGIFile) {
-		this.file = file;
-		extractLogicCode();
-		loadMessages();
+		extractLogicCode(file);
+		loadMessages(file);
 	}
 
-	private function extractLogicCode() {
+	private function extractLogicCode(file:AGIFile) {
 		if (file.data.length > 0) {
 			var codeSize = file.data[0] + (file.data[1] << 8);
 			if (codeSize > 1) {
@@ -32,7 +29,7 @@ class AGILogic {
 		}
 	}
 
-	private function loadMessages() {
+	private function loadMessages(file:AGIFile) {
 		var msgSectionStart = file.data[0] + (file.data[1] << 8) + 2;
 		var msgSectionEnd = file.data[msgSectionStart + 1] + (file.data[msgSectionStart + 2] << 8);
 		var msgCount = file.data[msgSectionStart];
@@ -55,10 +52,6 @@ class AGILogic {
 
 	public var logicIndex(default, default):Int;
 
-	// private function get_logicIndex():Int {
-	// 	return logicIndex;
-	// }
-
 	public function getMessage(index:Int):String {
 		return messages[index];
 	}
@@ -75,7 +68,7 @@ class AGILogic {
 		var b1 = logicData[logicIndex++];
 		var b2 = logicData[logicIndex++];
 		// return (b2 << 8) | (b1 /*& 0xff*/);
-		return 256*b1+b2;
+		return 256 * b1 + b2;
 	}
 
 	public var tell(get, null):Int;
