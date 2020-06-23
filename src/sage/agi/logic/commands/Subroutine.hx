@@ -17,7 +17,7 @@ class Subroutine {
 	public static function call(args:Args) {
 		var logic:AGILogic = AGIInterpreter.instance.LOGICS.get(args.arg1);
 		if (logic == null)
-			Resource.load_logic(args.arg1);
+			Resource.load_logic(args);
 
 		var processor = new LogicProcessor();
 		processor.execute(args.arg1);

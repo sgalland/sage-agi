@@ -1,11 +1,8 @@
 package sage.agi.logic;
 
 import sage.agi.types.AGIByte;
-import sage.agi.logic.commands.Resource;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.resources.AGILogic;
-import haxe.ds.GenericStack;
-import haxe.ds.Vector;
 
 /**
 	Executes logic files.
@@ -16,7 +13,14 @@ class LogicProcessor {
 	**/
 	var logicOperator:Bool;
 
+	/**
+		The logic data being executed.
+	**/
 	var currentLogic:AGILogic;
+
+	/**
+		Index that indicates the current byte being operated on.
+	**/
 	var logicIndex:Int;
 
 	/**
@@ -31,7 +35,7 @@ class LogicProcessor {
 		do {
 			trace(currentLogic.logicData.slice(logicIndex, logicIndex + 20));
 
-			currentByte = currentLogic.logicData[logicIndex]; // Check what byte is there but don't increment it.
+			currentByte = currentLogic.logicData[logicIndex];
 
 			#if debug
 			var output:String = "";
@@ -187,15 +191,16 @@ class LogicProcessor {
 
 			// Actions can take up to 7 parameters. Load the arguments and pass them to the bind call.
 			// It will send only the ones it needs.
-			var args:Args = new Args();
-			args.arg1 = container.argCount >= 1 ? functionArgs[0] : 0;
-			args.arg2 = container.argCount >= 2 ? functionArgs[1] : 0;
-			args.arg3 = container.argCount >= 3 ? functionArgs[2] : 0;
-			args.arg4 = container.argCount >= 4 ? functionArgs[3] : 0;
-			args.arg5 = container.argCount >= 5 ? functionArgs[4] : 0;
-			args.arg6 = container.argCount >= 6 ? functionArgs[5] : 0;
-			args.arg7 = container.argCount == 7 ? functionArgs[6] : 0;
-			args.logic = currentLogic;
+			var args:Args = {
+				arg1: container.argCount >= 1 ? functionArgs[0] : 0,
+				arg2: container.argCount >= 2 ? functionArgs[1] : 0,
+				arg3: container.argCount >= 3 ? functionArgs[2] : 0,
+				arg4: container.argCount >= 4 ? functionArgs[3] : 0,
+				arg5: container.argCount >= 5 ? functionArgs[4] : 0,
+				arg6: container.argCount >= 6 ? functionArgs[5] : 0,
+				arg7: container.argCount == 7 ? functionArgs[6] : 0,
+				logic: currentLogic
+			};
 
 			// TODO: Remove this once it appears everything is implemented.
 			if (container.callback == null) {
@@ -223,20 +228,51 @@ class LogicProcessor {
 	function nextSingle():Int {
 		var b1:Int = currentLogic.logicData[logicIndex++];
 		var b2:Int = currentLogic.logicData[logicIndex++];
-		var bb = 256 * b2 + b1;
-		return bb;
+		return 256 * b2 + b1;
 	}
 }
 
-class Args {
-	public var arg1:AGIByte;
-	public var arg2:AGIByte;
-	public var arg3:AGIByte;
-	public var arg4:AGIByte;
-	public var arg5:AGIByte;
-	public var arg6:AGIByte;
-	public var arg7:AGIByte;
-	public var logic:AGILogic;
+/**
+	Structure containing Arguments for AGI functions.
+**/
+typedef Args = {
+	/**
+		Argument 1
+	**/
+	@:optional var arg1:AGIByte;
 
-	public function new() {}
+	/**
+		Argument 2
+	**/
+	@:optional var arg2:AGIByte;
+
+	/**
+		Argument 3
+	**/
+	@:optional var arg3:AGIByte;
+
+	/**
+		Argument 4
+	**/
+	@:optional var arg4:AGIByte;
+
+	/**
+		Argument 5
+	**/
+	@:optional var arg5:AGIByte;
+
+	/**
+		Argument 6
+	**/
+	@:optional var arg6:AGIByte;
+
+	/**
+		Argument 7
+	**/
+	@:optional var arg7:AGIByte;
+
+	/**
+		Reference to the current logic.
+	**/
+	@:optional var logic:AGILogic;
 }

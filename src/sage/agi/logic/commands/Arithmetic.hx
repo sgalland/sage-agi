@@ -13,18 +13,18 @@ class Arithmetic {
 		Increments variable n by 1. If the value is 255 or greater, the value is unchanged.
 		@param n Variable to increment.
 	**/
-	public static function increment(n:UInt) {
-		if (AGIInterpreter.instance.VARIABLES[n] < 255)
-			AGIInterpreter.instance.VARIABLES[n]++;
+	public static function increment(args:Args) {
+		if (AGIInterpreter.instance.VARIABLES[args.arg1] < 255)
+			AGIInterpreter.instance.VARIABLES[args.arg1]++;
 	}
 
 	/**
 		Decrements variable n by 1.  If the value is 0 or less, the value is unchanged.
 		@param n Variable to decrement.
 	**/
-	public static function decrement(n:UInt) {
-		if (AGIInterpreter.instance.VARIABLES[n] > 0)
-			AGIInterpreter.instance.VARIABLES[n]--;
+	public static function decrement(args:Args) {
+		if (AGIInterpreter.instance.VARIABLES[args.arg1] > 0)
+			AGIInterpreter.instance.VARIABLES[args.arg1]--;
 	}
 
 	/**
@@ -32,8 +32,8 @@ class Arithmetic {
 		@param n Variable to assign a value.
 		@param value Value to assign to variable n.
 	**/
-	public static function assign(n:UInt, value:Int) {
-		AGIInterpreter.instance.VARIABLES[n] = value;
+	public static function assign(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] = args.arg2;
 	}
 
 	/**
@@ -41,8 +41,8 @@ class Arithmetic {
 		@param n Variable to assign the value.
 		@param m Variable to read the value.
 	**/
-	public static function assignv(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] = AGIInterpreter.instance.VARIABLES[m];
+	public static function assignv(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] = AGIInterpreter.instance.VARIABLES[args.arg2];
 	}
 
 	/**
@@ -50,8 +50,8 @@ class Arithmetic {
 		@param n Variable to add and set.
 		@param m Value to add to the variable.
 	**/
-	public static function addn(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] = AGIInterpreter.instance.VARIABLES[n] + m;
+	public static function addn(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] = AGIInterpreter.instance.VARIABLES[args.arg1] + args.arg2;
 	}
 
 	/**
@@ -59,8 +59,8 @@ class Arithmetic {
 		@param n Variable to add and set.
 		@param m Variable to add.
 	**/
-	public static function addv(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] = AGIInterpreter.instance.VARIABLES[n] + AGIInterpreter.instance.VARIABLES[m];
+	public static function addv(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] = AGIInterpreter.instance.VARIABLES[args.arg1] + AGIInterpreter.instance.VARIABLES[args.arg2];
 	}
 
 	/**
@@ -77,8 +77,8 @@ class Arithmetic {
 		@param n Variable to assign the value to.
 		@param m Variable to subtract.
 	**/
-	public static function subv(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] = AGIInterpreter.instance.VARIABLES[n] - AGIInterpreter.instance.VARIABLES[m];
+	public static function subv(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] = AGIInterpreter.instance.VARIABLES[args.arg1] - AGIInterpreter.instance.VARIABLES[args.arg2];
 	}
 
 	/**
@@ -86,10 +86,9 @@ class Arithmetic {
 		@param n Variable to set.
 		@param m Value to set the variable to.
 	**/
-	public static function lindirectn(n:UInt, m:UInt) {
-		// TODO: Test
-		var variable1 = AGIInterpreter.instance.VARIABLES[n];
-		AGIInterpreter.instance.VARIABLES[variable1] = m;
+	public static function lindirectn(args:Args) {
+		var variable1 = AGIInterpreter.instance.VARIABLES[args.arg1];
+		AGIInterpreter.instance.VARIABLES[variable1] = args.arg2;
 	}
 
 	/**
@@ -97,10 +96,9 @@ class Arithmetic {
 		@param n Variable to get the variable id to set.
 		@param m Variable to get the value.
 	**/
-	public static function lindirectv(n:UInt, m:UInt) {
-		// TODO: Test
-		var variable1 = AGIInterpreter.instance.VARIABLES[n];
-		var variable2 = AGIInterpreter.instance.VARIABLES[m];
+	public static function lindirectv(args:Args) {
+		var variable1 = AGIInterpreter.instance.VARIABLES[args.arg1];
+		var variable2 = AGIInterpreter.instance.VARIABLES[args.arg2];
 		AGIInterpreter.instance.VARIABLES[variable1] = variable2;
 	}
 
@@ -109,11 +107,10 @@ class Arithmetic {
 		@param n Variable to set.
 		@param m Value to set the variable to.
 	**/
-	public static function rindirect(n:UInt, m:UInt) {
-		// TODO: Test
-		var variable1 = AGIInterpreter.instance.VARIABLES[m];
+	public static function rindirect(args:Args) {
+		var variable1 = AGIInterpreter.instance.VARIABLES[args.arg2];
 		var variable2 = AGIInterpreter.instance.VARIABLES[variable1];
-		AGIInterpreter.instance.VARIABLES[n] = variable2;
+		AGIInterpreter.instance.VARIABLES[args.arg1] = variable2;
 	}
 
 	/**
@@ -121,8 +118,8 @@ class Arithmetic {
 		@param n Variable to multiply and set.
 		@param m Value to multiply by.
 	**/
-	public static function muln(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] *= m;
+	public static function muln(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] *= args.arg2;
 	}
 
 	/**
@@ -130,8 +127,8 @@ class Arithmetic {
 		 @param n Variable to multiply and set.
 		 @param m Variable to multiply by.
 	**/
-	public static function mulv(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] *= AGIInterpreter.instance.VARIABLES[m];
+	public static function mulv(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] *= AGIInterpreter.instance.VARIABLES[args.arg2];
 	}
 
 	/**
@@ -139,8 +136,8 @@ class Arithmetic {
 		@param n Variable to divide and set.
 		@param m Value to divide by.
 	**/
-	public static function divn(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] /= m;
+	public static function divn(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] /= args.arg2;
 	}
 
 	/**
@@ -148,8 +145,8 @@ class Arithmetic {
 		@param n Variable to divide and set.
 		@param m Variable to divide by.
 	**/
-	public static function divv(n:UInt, m:UInt) {
-		AGIInterpreter.instance.VARIABLES[n] /= AGIInterpreter.instance.VARIABLES[m];
+	public static function divv(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg1] /= AGIInterpreter.instance.VARIABLES[args.arg2];
 	}
 
 	/**
@@ -158,7 +155,7 @@ class Arithmetic {
 		@param m Maximum random range.
 		@param k Variable to store the random number in.
 	**/
-	public static function random(n:UInt, m:UInt, k:UInt) {
-		AGIInterpreter.instance.VARIABLES[k] = MathExtender.random(n, m);
+	public static function random(args:Args) {
+		AGIInterpreter.instance.VARIABLES[args.arg3] = MathExtender.random(args.arg1, args.arg2);
 	}
 }

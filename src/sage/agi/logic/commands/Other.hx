@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
 import sage.agi.screen.ScreenSettings;
 
@@ -14,9 +15,9 @@ class Other {
 		@param b Top of the player input line. Normally set to 22.
 		@param c Line where the status bar resides. Normally set to 0.
 	**/
-	public static function configure_screen(a:UInt, b:UInt, c:UInt) {
-		AGIInterpreter.instance.SCREEN = new ScreenSettings(a, b, c);
+	public static function configure_screen(args:Args) {
+		AGIInterpreter.instance.SCREEN = new ScreenSettings(args.arg1, args.arg2, args.arg3);
 	}
 
-	// TODO: Implement other commands
+	// TODO: Implement other commands};
 }

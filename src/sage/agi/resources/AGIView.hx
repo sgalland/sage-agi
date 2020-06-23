@@ -164,9 +164,9 @@ typedef ViewObject = {
 	@:optional public var y:Int;
 
 	/**
-		Reference to a view. Not sure if we need this.
+		The view associated with this view object.
 	**/
-	@:optional var view:AGIView;
+	@:optional public var currentView:Int;
 
 	// TODO: I don't think this is needed, validate
 	@:optional var pointerToViewData:Int;

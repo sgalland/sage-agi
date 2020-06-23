@@ -54,8 +54,8 @@ class ActionDispatcher {
 		0x1B => new Container("discard.pic", 1, [Variable], null),
 		0x1C => new Container("overlay.pic", 1, [Variable], null),
 		0x1D => new Container("show.pri.screen", 0, [], null),
-		0x1E => new Container("load.view", 1, [Number], null),
-		0x1F => new Container("load.view.v", 1, [Variable], null),
+		0x1E => new Container("load.view", 1, [Number], Resource.load_view),
+		0x1F => new Container("load.view.v", 1, [Variable], Resource.load_view_v),
 		0x20 => new Container("discard.view", 1, [Number], null),
 		0x21 => new Container("animate.obj", 1, [Object], ObjectControl.animate_obj),
 		0x22 => new Container("unanimate.all", 0, [], null),
@@ -93,6 +93,22 @@ class ActionDispatcher {
 		0x42 => new Container("object.on.anything", 1, [Object], null),
 		0x43 => new Container("ignore.objs", 1, [Object], null),
 		0x44 => new Container("observe.objs", 1, [Object], null),
+		0x45 => new Container("distance", 3, [Object, Object, Variable], null),
+		0x46 => new Container("stop.cycling", 1, [Object], null),
+		0x47 => new Container("start.cycling", 1, [Object], null),
+		0x48 => new Container("normal.cycle", 1, [Object], null),
+		0x49 => new Container("end.of.loop", 2, [Object, Flag], null),
+		0x4A => new Container("reverse.cycle", 1, [Object], null),
+		0x4B => new Container("reverse.loop", 2, [Object, Flag], null),
+		0x4C => new Container("cycle.time", 2, [Object, Variable], null),
+		0x4D => new Container("stop.motion", 1, [Object], null),
+		0x4E => new Container("start.motion", 1, [Object], null),
+		0x4F => new Container("step.size", 1, [Object], null),
+		0x50 => new Container("step.time", 2, [Object, Variable], null),
+		0x51 => new Container("move.obj", 5, [Object, Number], null),
+		0x52 => new Container("move.obj.v", 5, [Object, Variable], null),
+		0x53 => new Container("follow.ego", 3, [Object, Number, Flag], null), // TODO: The last flag is a done flag and it might not be needed.
+		0x54 => new Container("wander", 1, [Object], null),
 		// ...
 		0x61 => new Container("load.sound", 1, [Number], Resource.load_sound),
 		// ...
@@ -119,6 +135,9 @@ class ActionDispatcher {
 		0x8E => new Container("script.size", 1, [Number], Initialization.script_size),
 		0x8F => new Container("set.game.id", 1, [Message], Initialization.set_game_id),
 		// ...
+		0x90 => new Container("log", 1, [Message], Initialization.log),
+		// ...
+		0x95 => new Container("trace.on", 0, [], Initialization.trace_on),
 		0x96 => new Container("trace.info", 3, [Number, Number, Number], Initialization.trace_info),
 		// ...
 		0x9C => new Container("set.menu", 1, [Message], Menu.set_menu),
