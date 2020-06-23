@@ -87,7 +87,6 @@ class Arithmetic {
 		@param m Value to set the variable to.
 	**/
 	public static function lindirectn(args:Args) {
-		// TODO: Test
 		var variable1 = AGIInterpreter.instance.VARIABLES[args.arg1];
 		AGIInterpreter.instance.VARIABLES[variable1] = args.arg2;
 	}
@@ -98,7 +97,6 @@ class Arithmetic {
 		@param m Variable to get the value.
 	**/
 	public static function lindirectv(args:Args) {
-		// TODO: Test
 		var variable1 = AGIInterpreter.instance.VARIABLES[args.arg1];
 		var variable2 = AGIInterpreter.instance.VARIABLES[args.arg2];
 		AGIInterpreter.instance.VARIABLES[variable1] = variable2;
@@ -110,7 +108,6 @@ class Arithmetic {
 		@param m Value to set the variable to.
 	**/
 	public static function rindirect(args:Args) {
-		// TODO: Test
 		var variable1 = AGIInterpreter.instance.VARIABLES[args.arg2];
 		var variable2 = AGIInterpreter.instance.VARIABLES[variable1];
 		AGIInterpreter.instance.VARIABLES[args.arg1] = variable2;
