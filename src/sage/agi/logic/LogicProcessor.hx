@@ -14,7 +14,7 @@ class LogicProcessor {
 	var logicOperator:Bool;
 
 	/**
-		The logic data being executed.
+		The logic being executed.
 	**/
 	var currentLogic:AGILogic;
 
@@ -49,7 +49,7 @@ class LogicProcessor {
 
 			switch (currentByte) {
 				case 0x00: // Indicates a return() statement
-					running = false; // perhaps replace with break?
+					running = false;
 				case 0xFF:
 					processIf();
 				case 0xFE:
@@ -190,7 +190,6 @@ class LogicProcessor {
 			#end
 
 			// Actions can take up to 7 parameters. Load the arguments and pass them to the bind call.
-			// It will send only the ones it needs.
 			var args:Args = {
 				arg1: container.argCount >= 1 ? functionArgs[0] : 0,
 				arg2: container.argCount >= 2 ? functionArgs[1] : 0,

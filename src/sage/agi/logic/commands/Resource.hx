@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.resources.AGIPicture;
@@ -64,7 +65,35 @@ class Resource {
 		@param arg1 Variable ID
 	**/
 	public static function load_sound(args:Args) {
-		// TODO: Implement sound
+		// TODO: Complete sounds
+		var file:AGIFile = load_resource(AGIResourceType.SOUND, args.arg1);
+		// AGIInterpreter.instance.SOUNDS.set(args.arg1, new AGISound(file));
+	}
+
+	/**
+		Discards a picture resource from memory.
+		@param arg1 Variable of the picture to discard.
+	**/
+	public static function discard_pic(args:Args) {
+		var resourceID:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg1];
+		AGIInterpreter.instance.PICTURES.set(resourceID, null);
+	}
+
+	/**
+		Discards a view resource from memory.
+		@param arg1 Resource id of the view to discard.
+	**/
+	public static function discard_view(args:Args) {
+		AGIInterpreter.instance.VIEWS.set(args.arg1, null);
+	}
+
+	/**
+		Discards a view resource from memory.
+		@param arg1 Variable containing the resource id of the view to discard.
+	**/
+	public static function discard_view_v(args:Args) {
+		var resourceID:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg1];
+		discard_view({arg1: resourceID});
 	}
 
 	static function load_resource(fileType:AGIResourceType, resourceID:UInt):AGIFile {

@@ -27,6 +27,13 @@ class ObjectControl {
 	}
 
 	/**
+		Removes all ViewObjects from the list of animatable objects.
+	**/
+	public static function unanimate_all() {
+		AGIInterpreter.instance.OBJECTS.clear();
+	}
+
+	/**
 		View Object n is associated with View resource number m.
 		@param arg1 View Object ID
 		@param arg2 View Resource Number
@@ -69,6 +76,18 @@ class ObjectControl {
 		var x:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg2];
 		var y:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg3];
 		position({arg1: args.arg1, arg2: x, arg3: y});
+	}
+
+	/**
+		Copies the X and Y coordinates of a View Object n into specified variables.
+		@param arg1 View Object ID of the object to get the coordinates from.
+		@param arg2 Variable to store the X coordinate in.
+		@param arg3 Variable to store the Y coordinate in.
+	**/
+	public static function get_posn(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = object.x;
+		AGIInterpreter.instance.VARIABLES[args.arg3] = object.y;
 	}
 
 	// TODO: Implement Object Control commands

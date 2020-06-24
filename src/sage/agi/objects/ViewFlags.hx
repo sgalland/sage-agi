@@ -10,7 +10,12 @@ package sage.agi.objects;
 		Animate is not a real view flag and might be ok to remove.
 		Indicates that the object is ready to be animated.
 	**/
-	var ANIMATE = 1;
+	var ANIMATE = 0;
+
+	/**
+		Indicates that the view object is updatable every interpreter cycle. If this flag is not set, the object will remain on the screen and do nothing.
+	**/
+	var UPDATE = 4;
 
 	/**
 		Set when observed.objs() is called. ignore.objs() removes this flag.
