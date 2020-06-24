@@ -161,12 +161,14 @@ typedef ViewObject = {
 	/**
 		Position on the X axis.
 	**/
-	@:optional public var y:Int;
+	@:optional var y:Int;
 
 	/**
 		The view associated with this view object.
 	**/
-	@:optional public var currentView:Int;
+	@:optional var currentView:Int;
+
+	@:optional var view:AGIView;
 
 	// TODO: I don't think this is needed, validate
 	@:optional var pointerToViewData:Int;

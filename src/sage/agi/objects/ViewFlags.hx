@@ -1,13 +1,25 @@
 package sage.agi.objects;
 
 /**
+	Flags that indicate various animation properties of a View Object.
 	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View#View_table_entry
+	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View#View_flags
 **/
 @:enum abstract ViewFlags(Int) from Int to Int {
+	/**
+		Animate is not a real view flag and might be ok to remove.
+		Indicates that the object is ready to be animated.
+	**/
 	var ANIMATE = 1;
+
+	/**
+		Set when observed.objs() is called. ignore.objs() removes this flag.
+	**/
+	var OBSERVE_OBJECTS = 9;
 }
 
 /**
+	Represents the direction that the View Object is facing.
 	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View#View_table_entry
 **/
 @:enum abstract Direction(Int) from Int to Int {

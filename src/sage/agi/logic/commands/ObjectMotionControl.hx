@@ -1,5 +1,7 @@
 package sage.agi.logic.commands;
 
+import sage.agi.objects.ViewFlags;
+import sage.agi.resources.AGIView.ViewObject;
 import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
 
@@ -14,6 +16,26 @@ class ObjectMotionControl {
 	**/
 	public static function set_horizon(args:Args) {
 		AGIInterpreter.instance.SCREEN.horizon = args.arg1;
+	}
+
+	/**
+		Indicates that the view object treats other view objects as obstacles.
+		@param arg1 View Object ID
+	**/
+	public static function observe_objs(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		trace(object.viewFlags);
+		object.viewFlags |= ViewFlags.OBSERVE_OBJECTS;
+		trace(object.viewFlags);
+	}
+
+	/**
+		Removes the flag so that the view object no longer treats other view objects as obstacles.
+		@param arg1 View Object ID
+	**/
+	public static function ignore_objs(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags &= ~ViewFlags.OBSERVE_OBJECTS;
 	}
 
 	public static function player_control() {

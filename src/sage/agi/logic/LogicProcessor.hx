@@ -128,7 +128,7 @@ class LogicProcessor {
 							if (condition.callback == null) {
 								trace('${condition.agiFunctionName} is not defined. Defaulting to false.');
 								logicOperator = false;
-								return;
+								continue;
 							}
 
 							if (orCondition)
