@@ -40,8 +40,7 @@ class ObjectControl {
 	**/
 	public static function set_view(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		var view:AGIView = AGIInterpreter.instance.VIEWS.get(args.arg2);
-		object.view = view;
+		object.view = args.arg2;
 	}
 
 	/**
@@ -88,6 +87,117 @@ class ObjectControl {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
 		AGIInterpreter.instance.VARIABLES[args.arg2] = object.x;
 		AGIInterpreter.instance.VARIABLES[args.arg3] = object.y;
+	}
+
+	/**
+		Sets the current View Loop to render.
+		@param arg1 ID of the View Objec to set.
+		@param arg2 Number of the loop to select
+	**/
+	public static function set_loop(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.loop = args.arg2.toInt();
+	}
+
+	/**
+		Sets the current View Loop to render.
+		@param arg1 ID of the View Objec to set.
+		@param arg2 ID of the variable containing the number of the loop to select
+	**/
+	public static function set_loop_v(args:Args) {
+		var loop:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg2];
+		set_loop({arg1: args.arg1, arg2: args.arg2});
+	}
+
+	/**
+		Turns off automatic loop selection on a View Object.
+		@param arg1 View Object ID
+	**/
+	public static function fix_loop(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags |= LOOP_FIXED;
+	}
+
+	/**
+		Enables automatic loop selection on a View Object according to a direction table.
+		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Logic
+		@param arg1
+	 */
+	public static function release_loop(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags &= ~LOOP_FIXED;
+	}
+
+	/**
+		Set the current cel to render from the current loop.
+		@param arg1 View Object
+		@param arg2 ID of the cel to select
+	**/
+	public static function set_cel(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.currentCell = args.arg2.toInt();
+	}
+
+	/**
+		Set the current cel to render from the current loop.
+		@param arg1 View Object
+		@param arg2 Variable containing the ID of the cel to select
+	**/
+	public static function set_cel_v(args:Args) {
+		var celID:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg1];
+		set_cel({arg1: args.arg1, arg2: celID});
+	}
+
+	/**
+		Stores the ID of the last cel of the current loop into a variable.
+		@param arg1 ID of the View Object to get the last cel from.
+		@param arg2 Variable to store the last cel ID in.
+	**/
+	public static function last_cel(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		var view:AGIView = AGIInterpreter.instance.VIEWS.get(object.view);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = view.getViewLoops()[object.loop].loopCells.length - 1;
+	}
+
+	/**
+		Sets the ID of the current cel to a variable.
+		@param arg1 View Object to get the current cel from
+		@param arg2 Variable to set the current cel to.
+	**/
+	public static function current_cel(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = object.currentCell;
+	}
+
+	/**
+		Sets the ID of the current loop to a variable.
+		@param arg1 ID of the View Object to get the current loop ID
+		@param arg2 Variable ID  to set the current loop ID
+	**/
+	public static function current_loop(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = object.loop;
+	}
+
+	/**
+		Sets the ID of the current view used by the view object to a variable.
+		@param arg1 View Object ID
+		@param arg2 Variable to set the current view resource number to
+	**/
+	public static function current_view(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = object.view;
+	}
+
+	/**
+		Sets the number of loops of the current loop of a view object to a variable.
+		@param arg1 ID of the View Object
+		@param arg2 Variable to set the number of loops to
+	**/
+	public static function number_of_loops(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		var view:AGIView = AGIInterpreter.instance.VIEWS.get(object.view);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = view.getViewLoops().length;
 	}
 
 	// TODO: Implement Object Control commands

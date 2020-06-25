@@ -21,6 +21,11 @@ package sage.agi.objects;
 		Set when observed.objs() is called. ignore.objs() removes this flag.
 	**/
 	var OBSERVE_OBJECTS = 9;
+
+	/**
+		Indicates that the loop on the View Object is fixed and cannot be changed automatically.
+	**/
+	var LOOP_FIXED = 13;
 }
 
 /**
