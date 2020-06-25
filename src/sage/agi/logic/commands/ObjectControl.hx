@@ -30,7 +30,8 @@ class ObjectControl {
 		Removes all ViewObjects from the list of animatable objects.
 	**/
 	public static function unanimate_all() {
-		AGIInterpreter.instance.OBJECTS.clear();
+		for (key => object in AGIInterpreter.instance.OBJECTS.keyValueIterator())
+			object.viewFlags &= ~ANIMATE;
 	}
 
 	/**

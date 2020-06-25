@@ -98,7 +98,7 @@ class AGIVersion {
 		var version:String = "";
 		var versionBuffer:String = new String("00000000");
 		var isVersionFound:Bool = false;
-		var agiDataFileName:String = AGIFileNameTools.getFileName(EAGIFileName.AGIDATA);
+		var agiDataFileName:String = AGIFileNameTools.getFileName(AGIResourceType.AGIDATA);
 
 		var path = new Path(Path.join([Sys.getCwd(), agiDataFileName]));
 		if (!sys.FileSystem.exists(path.toString()))
