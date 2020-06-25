@@ -140,12 +140,21 @@ class ObjectMotionControl {
 	}
 
 	/**
-	    Indicates that the View Object is on land.
+	    Indicates that the View Object is on land and cannot touch water (priority 3).
 	    @param arg1 View Object ID
 	**/
 	public static function object_on_land(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~VIEW_ON_WATER;
+		object.viewFlags |= VIEW_ON_LAND;
+	}
+
+	/**
+	    Removes movement restrictions on the View Object set by object.on.land and object.on.water
+	    @param arg1 View Object ID
+	**/
+	public static function object_on_anything(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags &= ~VIEW_ON_WATER | ~VIEW_ON_LAND; // TODO: Verify both flags are removed.
 	}
 
 	/**

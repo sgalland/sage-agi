@@ -90,7 +90,7 @@ class ActionDispatcher {
 		0x3F => new Container("set.horizon", 1, [Number], ObjectMotionControl.set_horizon),
 		0x40 => new Container("object.on.water", 1, [Object], ObjectMotionControl.object_on_water),
 		0x41 => new Container("object.on.land", 1, [Object], ObjectMotionControl.object_on_land),
-		0x42 => new Container("object.on.anything", 1, [Object], null),
+		0x42 => new Container("object.on.anything", 1, [Object], ObjectMotionControl.object_on_anything),
 		0x43 => new Container("ignore.objs", 1, [Object], ObjectMotionControl.ignore_objs),
 		0x44 => new Container("observe.objs", 1, [Object], ObjectMotionControl.observe_objs),
 		0x45 => new Container("distance", 3, [Object, Object, Variable], null),

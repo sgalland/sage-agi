@@ -32,14 +32,19 @@ package sage.agi.objects;
 	var CYCLING = 5;
 
 	/**
-		Indicates that the View Object is on water. Absence of this flag indicates land.
+		Indicates that the View Object is on water.
 	**/
 	var VIEW_ON_WATER = 8;
 
 	/**
+		Indicates that the View Object is on land.
+	**/
+	var VIEW_ON_LAND = 9;
+
+	/**
 		Set when observed.objs() is called. ignore.objs() removes this flag.
 	**/
-	var OBSERVE_OBJECTS = 9;
+	var OBSERVE_OBJECTS = 10;
 
 	/**
 		Indicates that the loop on the View Object is fixed and cannot be changed automatically.
