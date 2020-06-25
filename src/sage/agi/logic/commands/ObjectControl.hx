@@ -18,10 +18,6 @@ class ObjectControl {
 	**/
 	public static function animate_obj(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		if (object == null) {
-			object = {};
-			AGIInterpreter.instance.OBJECTS.set(args.arg1, object);
-		}
 		object.viewFlags |= ViewFlags.ANIMATE;
 		// TODO: Do we need to set other flags too??
 	}
@@ -199,6 +195,47 @@ class ObjectControl {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
 		var view:AGIView = AGIInterpreter.instance.VIEWS.get(object.view);
 		AGIInterpreter.instance.VARIABLES[args.arg2] = view.getViewLoops().length;
+	}
+
+	/**
+		Sets the priority band of the View Object. The View Object flag is set to FIXED_PRIORITY.
+		@param arg1 View Object ID
+		@param arg2 Priority number
+	**/
+	public static function set_priority(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags |= FIXED_PRIORITY;
+		object.priority = args.arg2;
+	}
+
+	/**
+		Sets the priority band of the View Object. The View Object flag is set to FIXED_PRIORITY.
+		@param arg1 View Object ID
+		@param arg2 Variable where the priority number is stored
+	**/
+	public static function set_priority_v(args:Args) {
+		var priority:AGIByte = AGIInterpreter.instance.VARIABLES[args.arg2];
+		set_priority({arg1: args.arg1, arg2: priority});
+	}
+
+	/**
+		Releases priority on the View Object so that the priority is no longer fixed. This will allow the View Object to scale the closer it gets to the viewer.
+		@param arg1 View Object to release the priority on
+	**/
+	public static function release_priority(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags &= ~FIXED_PRIORITY;
+		object.priority = null; // TODO: Should this be set to 0 rather??
+	}
+
+	/**
+	    Gets the priority from the View Object and stores it in a variable.
+		@param arg1 View Object to get the priority from
+		@param arg2 Variable to store the priority
+	**/
+	public static function get_priority(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = object.priority;
 	}
 
 	// TODO: Implement Object Control commands

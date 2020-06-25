@@ -13,9 +13,28 @@ package sage.agi.objects;
 	var ANIMATE = 0;
 
 	/**
+		Flags the View Object to not pass through blocks. See observe.blocks(), ignore.blocks(), block(), unblock() in ObjectMotionControl.
+	**/
+	var OBSERVE_BLOCKS = 1;
+
+	/**
+		Determine what this does
+	**/
+	var FIXED_PRIORITY = 2; // TODO: Determine what this flag does
+
+	var OBSERVE_HORIZON = 3;
+
+	/**
 		Indicates that the view object is updatable every interpreter cycle. If this flag is not set, the object will remain on the screen and do nothing.
 	**/
 	var UPDATE = 4;
+
+	var CYCLING = 5;
+
+	/**
+		Indicates that the View Object is on water. Absence of this flag indicates land.
+	**/
+	var VIEW_ON_WATER = 8;
 
 	/**
 		Set when observed.objs() is called. ignore.objs() removes this flag.

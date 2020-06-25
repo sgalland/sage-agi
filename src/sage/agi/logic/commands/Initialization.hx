@@ -29,8 +29,7 @@ class Initialization {
 		Sets an abbreviated identifier called the game id. Typically this was a two character code but it wasn't always.
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals#Game_IDs_and_loaders
 
-		@param n Message ID in the Logic to set as the game id.
-		@param l Logic passed to the interpreter.
+		@param arg1 Message ID in the Logic to set as the game id.
 	**/
 	public static function set_game_id(args:Args) {
 		var message = args.logic.getMessage(args.arg1 - 1);
@@ -41,9 +40,9 @@ class Initialization {
 		Sets the visual parameters of the built in debugger. This must be called prior to trace.on being called.
 		@see http://www.sierrahelp.com/AGI/AGIStudioHelp/Logic/DebuggingCommands/trace.info.html
 
-		@param n Logic Resource ID.
-		@param m Top line number
-		@param l Height of the debugger window
+		@param arg1 Logic Resource ID.
+		@param arg2 Top line number
+		@param arg3 Height of the debugger window
 	**/
 	public static function trace_info(args:Args) {
 		AGIInterpreter.instance.DEBUGGER_SETTINGS.resourceID = args.arg1;
