@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import haxe.crypto.Hmac;
 import sage.agi.types.AGIByte;
 import sage.agi.resources.AGIView;
 import sage.agi.logic.LogicProcessor.Args;
@@ -18,7 +19,7 @@ class ObjectControl {
 	**/
 	public static function animate_obj(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= ViewFlags.ANIMATE;
+		object.viewFlags.set(ANIMATE);
 		// TODO: Do we need to set other flags too??
 	}
 
@@ -27,7 +28,7 @@ class ObjectControl {
 	**/
 	public static function unanimate_all() {
 		for (key => object in AGIInterpreter.instance.OBJECTS.keyValueIterator())
-			object.viewFlags &= ~ANIMATE;
+			object.viewFlags.unset(ANIMATE);
 	}
 
 	/**
@@ -112,7 +113,7 @@ class ObjectControl {
 	**/
 	public static function fix_loop(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= LOOP_FIXED;
+		object.viewFlags.set(LOOP_FIXED);
 	}
 
 	/**
@@ -122,7 +123,7 @@ class ObjectControl {
 	 */
 	public static function release_loop(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~LOOP_FIXED;
+		object.viewFlags.unset(LOOP_FIXED);
 	}
 
 	/**
@@ -204,7 +205,7 @@ class ObjectControl {
 	**/
 	public static function set_priority(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= FIXED_PRIORITY;
+		object.viewFlags.set(FIXED_PRIORITY);
 		object.priority = args.arg2;
 	}
 
@@ -224,12 +225,12 @@ class ObjectControl {
 	**/
 	public static function release_priority(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~FIXED_PRIORITY;
+		object.viewFlags.unset(FIXED_PRIORITY);
 		object.priority = null; // TODO: Should this be set to 0 rather??
 	}
 
 	/**
-	    Gets the priority from the View Object and stores it in a variable.
+		Gets the priority from the View Object and stores it in a variable.
 		@param arg1 View Object to get the priority from
 		@param arg2 Variable to store the priority
 	**/
@@ -238,5 +239,75 @@ class ObjectControl {
 		AGIInterpreter.instance.VARIABLES[args.arg2] = object.priority;
 	}
 
-	// TODO: Implement Object Control commands
+	/**
+		Disables cel animation in a specified loop on the View Object.
+		@param arg1 View Object ID
+	**/
+	public static function stop_cycling(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags.unset(CYCLING);
+	}
+
+	/**
+		Enables cel animation in a specified loop on the View Object.
+		@param arg1 View Object ID
+	**/
+	public static function start_cycling(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags.set(CYCLING);
+	}
+
+	/**
+		Sets the view object view flag to cycling and sets the cycle flag to normal.
+		@param arg1 View Object ID
+	**/
+	public static function normal_cycle(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags.set(CYCLING);
+		object.cycle = NORMAL;
+	}
+
+	/**
+		Plays the current loop from the current cel to the last. Sets a flag to true.
+		@param arg1 View Object ID
+		@param arg2 Flag ID to indicate end.of.loop has executed.
+	**/
+	public static function end_of_loop(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags.set(CYCLING);
+		object.cycle = END_OF_LOOP;
+		AGIInterpreter.instance.FLAGS.set(args.arg2, true);
+	}
+
+	/**
+		Executes the cels of a loop in the reverse order.
+		@param arg1 View Object ID
+	**/
+	public static function reverse_cycle(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags.set(CYCLING);
+		object.cycle = REVERSE_CYCLE;
+	}
+
+	/**
+		Plays the loop in reverse order. Once finished sets a flag to true/
+		@param arg1 View Object ID
+		@param arg2 Flag ID to set true
+	**/
+	public static function reverse_loop(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.viewFlags.set(CYCLING);
+		object.cycle = REVERSE_LOOP;
+		AGIInterpreter.instance.FLAGS.set(args.arg2, true);
+	}
+
+	/**
+		Sets the time in cycles between cel changes for the specified View Object. If the variable is set, cels are changed every cycle.
+		@param arg1 View Object ID
+		@param arg2 Variable ID to set
+	**/
+	public static function cycle_time(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+	object.cycleCount=	object.cycleTime = AGIInterpreter.instance.VARIABLES[args.arg2];
+	}
 }

@@ -1,5 +1,6 @@
 package sage.agi.resources;
 
+import haxe.EnumFlags;
 import sage.agi.objects.ViewFlags.Cycle;
 import haxe.ds.Vector;
 import sage.agi.resources.AGIFile;
@@ -169,9 +170,10 @@ typedef ViewObject = {
 	@:optional var currentView:Int;
 
 	/**
-	    ID of the view to reference
+		ID of the view to reference
 	**/
 	@:optional var view:Int;
+
 	// TODO: I don't think this is needed, validate
 	@:optional var pointerToViewData:Int;
 	@:optional var loop:Int;
@@ -217,7 +219,12 @@ typedef ViewObject = {
 	/**
 		Flags that indicate the state of the view.
 	**/
-	@:optional var viewFlags:ViewFlags;
+	@:optional var viewFlags:EnumFlags<ViewFlags>;
+
+	/**
+		Time left until next cycle.
+	**/
+	@:optional var cycleCount:Int;
 }
 
 // TODO: Add documentation

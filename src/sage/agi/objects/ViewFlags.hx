@@ -5,51 +5,53 @@ package sage.agi.objects;
 	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View#View_table_entry
 	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/View#View_flags
 **/
-@:enum abstract ViewFlags(Int) from Int to Int {
+enum ViewFlags {
 	/**
-		Animate is not a real view flag and might be ok to remove.
 		Indicates that the object is ready to be animated.
 	**/
-	var ANIMATE = 0;
+	ANIMATE;
 
 	/**
 		Flags the View Object to not pass through blocks. See observe.blocks(), ignore.blocks(), block(), unblock() in ObjectMotionControl.
 	**/
-	var OBSERVE_BLOCKS = 1;
+	OBSERVE_BLOCKS;
 
 	/**
 		Determine what this does
 	**/
-	var FIXED_PRIORITY = 2; // TODO: Determine what this flag does
+	FIXED_PRIORITY; // TODO: Determine what this flag does
 
-	var OBSERVE_HORIZON = 3;
+	/**
+		Indicates that the View Object will not cross into the horizon.
+	**/
+	OBSERVE_HORIZON;
 
 	/**
 		Indicates that the view object is updatable every interpreter cycle. If this flag is not set, the object will remain on the screen and do nothing.
 	**/
-	var UPDATE = 4;
+	UPDATE;
 
-	var CYCLING = 5;
+	CYCLING;
 
 	/**
 		Indicates that the View Object is on water.
 	**/
-	var VIEW_ON_WATER = 8;
+	VIEW_ON_WATER;
 
 	/**
 		Indicates that the View Object is on land.
 	**/
-	var VIEW_ON_LAND = 9;
+	VIEW_ON_LAND;
 
 	/**
 		Set when observed.objs() is called. ignore.objs() removes this flag.
 	**/
-	var OBSERVE_OBJECTS = 10;
+	OBSERVE_OBJECTS;
 
 	/**
 		Indicates that the loop on the View Object is fixed and cannot be changed automatically.
 	**/
-	var LOOP_FIXED = 13;
+	LOOP_FIXED;
 }
 
 /**

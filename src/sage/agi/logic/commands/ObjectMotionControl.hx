@@ -1,5 +1,7 @@
 package sage.agi.logic.commands;
 
+import haxe.EnumFlags;
+import cpp.abi.Abi;
 import sage.agi.objects.ViewFlags;
 import sage.agi.resources.AGIView.ViewObject;
 import sage.agi.logic.LogicProcessor.Args;
@@ -24,7 +26,7 @@ class ObjectMotionControl {
 	**/
 	public static function observe_objs(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= ViewFlags.OBSERVE_OBJECTS;
+		object.viewFlags.set(ViewFlags.OBSERVE_OBJECTS);
 	}
 
 	/**
@@ -33,7 +35,7 @@ class ObjectMotionControl {
 	**/
 	public static function ignore_objs(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~ViewFlags.OBSERVE_OBJECTS;
+		object.viewFlags.unset(ViewFlags.OBSERVE_OBJECTS);
 	}
 
 	/**
@@ -49,7 +51,7 @@ class ObjectMotionControl {
 	**/
 	public static function stop_update(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~UPDATE;
+		object.viewFlags.unset(UPDATE);
 	}
 
 	/**
@@ -58,7 +60,7 @@ class ObjectMotionControl {
 	**/
 	public static function start_update(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= UPDATE;
+		object.viewFlags.set(UPDATE);
 	}
 
 	/**
@@ -100,7 +102,7 @@ class ObjectMotionControl {
 	**/
 	public static function observe_blocks(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= OBSERVE_BLOCKS;
+		object.viewFlags.set(OBSERVE_BLOCKS);
 	}
 
 	/**
@@ -109,7 +111,7 @@ class ObjectMotionControl {
 	**/
 	public static function ignore_blocks(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~OBSERVE_BLOCKS;
+		object.viewFlags.unset(OBSERVE_BLOCKS);
 	}
 
 	/**
@@ -118,7 +120,7 @@ class ObjectMotionControl {
 	**/
 	public static function ignore_horizon(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~OBSERVE_HORIZON;
+		object.viewFlags.unset(OBSERVE_HORIZON);
 	}
 
 	/**
@@ -127,7 +129,7 @@ class ObjectMotionControl {
 	**/
 	public static function observe_horizon(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= OBSERVE_HORIZON;
+		object.viewFlags.set(OBSERVE_HORIZON);
 	}
 
 	/**
@@ -136,25 +138,44 @@ class ObjectMotionControl {
 	**/
 	public static function object_on_water(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= VIEW_ON_WATER;
+		object.viewFlags.set(VIEW_ON_WATER);
 	}
 
 	/**
-	    Indicates that the View Object is on land and cannot touch water (priority 3).
-	    @param arg1 View Object ID
+		Indicates that the View Object is on land and cannot touch water (priority 3).
+		@param arg1 View Object ID
 	**/
 	public static function object_on_land(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags |= VIEW_ON_LAND;
+		object.viewFlags.set(VIEW_ON_LAND);
 	}
 
 	/**
-	    Removes movement restrictions on the View Object set by object.on.land and object.on.water
-	    @param arg1 View Object ID
+		Removes movement restrictions on the View Object set by object.on.land and object.on.water
+		@param arg1 View Object ID
 	**/
 	public static function object_on_anything(args:Args) {
 		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
-		object.viewFlags &= ~VIEW_ON_WATER | ~VIEW_ON_LAND; // TODO: Verify both flags are removed.
+		object.viewFlags.unset(VIEW_ON_WATER); // TODO: Verify both flags are removed.
+		object.viewFlags.unset(VIEW_ON_LAND);
+	}
+
+	/**
+		Determines the distance between to View Objects on the screen. If they are not on the screen return 255.
+		@param arg1 View Obiect 1 ID
+		@param arg2 View Obiect 2 ID
+		@param arg3 Variable to set the distance
+	**/
+	public static function distance(args:Args) {
+		var object1:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		var object2:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg2);
+		var distance:Int = 255;
+
+		if (object1.viewFlags.has(ANIMATE) && object2.viewFlags.has(ANIMATE)) { // TODO: Need a way to determine if the objects are on the screen, otherwise if they are not return 255;
+			distance = Std.int(Math.abs((object1.x - object2.x) + (object1.y - object2.y)));
+		}
+
+		AGIInterpreter.instance.VARIABLES[args.arg3] = distance;
 	}
 
 	/**
