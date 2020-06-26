@@ -50,7 +50,7 @@ class ActionDispatcher {
 		0x17 => new Container("call.v", 1, [Variable], Subroutine.call_v),
 		0x18 => new Container("load.pic", 1, [Variable], Resource.load_pic),
 		0x19 => new Container("draw.pic", 1, [Variable], PictureResourceManagement.draw_pic),
-		0x1A => new Container("show.pic", 0, [], null),
+		0x1A => new Container("show.pic", 0, [], PictureResourceManagement.show_pic),
 		0x1B => new Container("discard.pic", 1, [Variable], Resource.discard_pic),
 		0x1C => new Container("overlay.pic", 1, [Variable], null),
 		0x1D => new Container("show.pri.screen", 0, [], null),

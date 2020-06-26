@@ -1,7 +1,6 @@
 package sage.agi.logic.commands;
 
 import haxe.EnumFlags;
-import cpp.abi.Abi;
 import sage.agi.objects.ViewFlags;
 import sage.agi.resources.AGIView.ViewObject;
 import sage.agi.logic.LogicProcessor.Args;
