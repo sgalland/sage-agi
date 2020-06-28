@@ -1,5 +1,6 @@
 package sage.agi.logic;
 
+import haxe.ds.ObjectMap;
 import sage.agi.logic.commands.PictureResourceManagement;
 import sage.agi.logic.commands.Resource;
 import sage.agi.logic.commands.ObjectMotionControl;
@@ -101,17 +102,17 @@ class ActionDispatcher {
 		0x4A => new Container("reverse.cycle", 1, [Object], ObjectControl.reverse_cycle),
 		0x4B => new Container("reverse.loop", 2, [Object, Flag], ObjectControl.reverse_loop),
 		0x4C => new Container("cycle.time", 2, [Object, Variable], ObjectControl.cycle_time),
-		0x4D => new Container("stop.motion", 1, [Object], null),
-		0x4E => new Container("start.motion", 1, [Object], null),
-		0x4F => new Container("step.size", 1, [Object], null),
-		0x50 => new Container("step.time", 2, [Object, Variable], null),
-		0x51 => new Container("move.obj", 5, [Object, Number], null),
-		0x52 => new Container("move.obj.v", 5, [Object, Variable], null),
-		0x53 => new Container("follow.ego", 3, [Object, Number, Flag], null), // TODO: The last flag is a done flag and it might not be needed.
-		0x54 => new Container("wander", 1, [Object], null),
-		0x55 => new Container("normal.motion", 1, [Object], null),
-		0x56 => new Container("set.dir", 2, [Object, Variable], null),
-		0x57 => new Container("get.dir", 2, [Object, Variable], null),
+		0x4D => new Container("stop.motion", 1, [Object], ObjectMotionControl.stop_motion),
+		0x4E => new Container("start.motion", 1, [Object], ObjectMotionControl.start_motion),
+		0x4F => new Container("step.size", 1, [Object], ObjectMotionControl.step_size),
+		0x50 => new Container("step.time", 2, [Object, Variable], ObjectMotionControl.step_time),
+		0x51 => new Container("move.obj", 5, [Object, Number], ObjectMotionControl.move_obj),
+		0x52 => new Container("move.obj.v", 5, [Object, Variable], ObjectMotionControl.move_obj_v),
+		0x53 => new Container("follow.ego", 3, [Object, Number, Flag], ObjectMotionControl.follow_ego), // TODO: The last flag is a done flag and it might not be needed.
+		0x54 => new Container("wander", 1, [Object], ObjectMotionControl.wander),
+		0x55 => new Container("normal.motion", 1, [Object], ObjectMotionControl.normal_motion),
+		0x56 => new Container("set.dir", 2, [Object, Variable], ObjectMotionControl.set_dir),
+		0x57 => new Container("get.dir", 2, [Object, Variable], ObjectMotionControl.get_dir),
 		0x58 => new Container("ignore.blocks", 1, [Object], ObjectMotionControl.ignore_blocks),
 		0x59 => new Container("observe.blocks", 1, [Object], ObjectMotionControl.observe_blocks),
 		0x5A => new Container("block", 4, [Number, Number, Number, Number], ObjectMotionControl.block),

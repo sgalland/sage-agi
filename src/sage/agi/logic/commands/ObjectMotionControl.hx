@@ -178,6 +178,125 @@ class ObjectMotionControl {
 	}
 
 	/**
+		Stops the View Object from moving.
+		@param args1 View Object ID
+	**/
+	public static function stop_motion(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.motion = null;
+
+		if (args.arg1 == 0)
+			AGIInterpreter.instance.ALLOW_PLAYER_CONTROL = false;
+	}
+
+	/**
+		Allows the View Object to move.
+		@param args1 View Object ID
+	**/
+	public static function start_motion(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.motion = NORMAL;
+
+		if (args.arg1 == 0)
+			AGIInterpreter.instance.ALLOW_PLAYER_CONTROL = false;
+	}
+
+	/**
+		Set the distance the View Object can move from a variable.
+		@param arg1 View Object ID
+		@param arg2 Variable ID where the step size is stored.
+	**/
+	public static function step_size(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.stepSize = AGIInterpreter.instance.VARIABLES[args.arg2];
+	}
+
+	/**
+		Sets how many steps until the animation updates.
+		@param arg1 View Object ID
+		@param arg2 Variable ID where the step time is stored.
+	**/
+	public static function step_time(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.stepTime = AGIInterpreter.instance.VARIABLES[args.arg2];
+	}
+
+	/**
+		Moves the View Object a certain amount of pixels to a certain point on the screen. Sets a flag to indicate that the
+		@param arg1 View Object ID
+		@param arg2 X point to move to
+		@param arg3 Y point to move to
+		@param arg4 Pixel distance to move
+		@param arg5 Flag to set once movement is finished.
+	**/
+	public static function move_obj(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.x2 = args.arg2;
+		object.y2 = args.arg3;
+		object.motion = MOVE_OBJECT;
+		AGIInterpreter.instance.FLAGS[args.arg4] = true;
+
+		if (args.arg1 == 0)
+			AGIInterpreter.instance.ALLOW_PLAYER_CONTROL = false;
+	}
+
+	/**
+		Moves the View Object a certain amount of pixels to a certain point on the screen. Sets a flag to indicate that the
+		@param arg1 View Object ID
+		@param arg2 Variable containing the X point to move to
+		@param arg3 Variable containing the Y point to move to
+		@param arg4 Pixel distance to move
+		@param arg5 Flag to set once movement is finished.
+	**/
+	public static function move_obj_v(args:Args) {
+		var x = AGIInterpreter.instance.VARIABLES[args.arg2];
+		var y = AGIInterpreter.instance.VARIABLES[args.arg3];
+		move_obj({
+			arg1: args.arg1, // View Object ID
+			arg2: x,
+			arg3: y,
+			arg4: args.arg4 // Flag to set once completed.
+		});
+	}
+
+	/**
+		Object n is told to chase object 0 (Ego) by s pixels every step. When Ego and object coordinates become equal, fm is set to 1.
+		@param arg1 View Object ID
+		@param arg2 Pixel distance to move
+		@param arg3 Flag to set once this command runs
+	**/
+	public static function follow_ego(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.motion = FOLLOW;
+		object.stepSize = args.arg2;
+		// AGIInterpreter.instance.FLAGS[args.arg3] = true;
+		// TODO: The flag is supposed to set after the fact, not here. Will need to add variables to deal with this.
+	}
+
+	public static function wander(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.motion = WANDER;
+
+		if (args.arg1 == 0)
+			AGIInterpreter.instance.ALLOW_PLAYER_CONTROL = false;
+	}
+
+	public static function normal_motion(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.motion = NORMAL;
+	}
+
+	public static function set_dir(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		object.direction = AGIInterpreter.instance.VARIABLES[args.arg2];
+	}
+
+	public static function get_dir(args:Args) {
+		var object:ViewObject = AGIInterpreter.instance.OBJECTS.get(args.arg1);
+		AGIInterpreter.instance.VARIABLES[args.arg2] = object.direction;
+	}
+
+	/**
 		Update all view objects animation cycles.
 	**/
 	private static function update_animations() {

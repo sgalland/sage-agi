@@ -1,7 +1,11 @@
 package sage.agi.logic.commands;
 
+import sage.agi.screen.ScreenSettings;
+import sage.agi.screen.ScreenBoundaries;
+import sage.agi.resources.AGIView.ViewObject;
 import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.interpreter.AGIInterpreter;
+import sage.agi.screen.ScreenBoundaries;
 
 /**
 	Implementation of Program Control comands
@@ -26,12 +30,9 @@ class ProgramControl {
 			if (i != 0 && AGIInterpreter.instance.LOGICS.exists(i)) // Keep logic 0
 				AGIInterpreter.instance.LOGICS.set(i, null);
 
-			// Clear other resource types
+			AGIInterpreter.instance.PICTURES.clear();
 
-			if (AGIInterpreter.instance.PICTURES.exists(i))
-				AGIInterpreter.instance.PICTURES.set(i, null);
-
-			if (AGIInterpreter.instance.VIEWS.exists(i))
+			if (i != 0 && AGIInterpreter.instance.VIEWS.exists(i)) // Don't remove Ego
 				AGIInterpreter.instance.VIEWS.set(i, null);
 
 			// TODO: Clear sounds
@@ -39,9 +40,9 @@ class ProgramControl {
 		// 3. Command player.control is issued;
 		ObjectMotionControl.player_control();
 		// 4. unblock command is issued;
-		// ObjectMotionControl.unblock();
+		ObjectMotionControl.unblock();
 		// 5. set.horizon(36) command is issued;
-		ObjectMotionControl.set_horizon({arg1: 36});
+		ObjectMotionControl.set_horizon({arg1: ScreenBoundaries.DEFAULT_HORIZON});
 		// 6. v1 is assigned the value of v0; v0 is assigned n (or the value of vn when the command is new.room.v); v4 is assigned 0; v5 is assigned 0; v16 is assigned the ID number of the VIEW resource that was associated with Ego (the player character).
 		AGIInterpreter.instance.VARIABLES[1] = AGIInterpreter.instance.VARIABLES[0]; // Assign current room to previous room
 		AGIInterpreter.instance.VARIABLES[0] = args.arg1; // Assign the new room to v0
@@ -54,7 +55,17 @@ class ProgramControl {
 		//    if Ego touched the bottom edge, put it on the horizon;
 		//    if Ego touched the top edge, put it on the bottom edge of the screen;
 		//    if Ego touched the right edge, put it at the left and vice versa.
-		// TODO: Set Ego's coordinates based on edge touched
+		var ego:ViewObject = AGIInterpreter.instance.OBJECTS.get(0);
+		switch (AGIInterpreter.instance.VARIABLES[2].toInt()) {
+			case ScreenLocation.SCREEN_TOP:
+				ego.y = ScreenBoundaries.BOTTOM_EDGE;
+			case ScreenLocation.SCREEN_RIGHT:
+				ego.x = ScreenBoundaries.LEFT_EDGE;
+			case ScreenLocation.SCREEN_BOTTOM:
+				ego.y = ScreenBoundaries.DEFAULT_HORIZON;
+			case ScreenLocation.SCREEN_LEFT:
+				ego.x = ScreenBoundaries.SCREEN_RIGHT;
+		}
 		// 1. v2 is assigned 0 (meaning Ego has not touched any edges).
 		AGIInterpreter.instance.VARIABLES[2] = 0;
 		// 2. f5 is set to 1 (meaning in the first interpreter cycle after the new_room command all initialization parts of all logics loaded and called from the initialization part of the new room's logic will be called. In the subsequent cycle f5 is reset to 0 (see section Interpreter work cycle and the source of the "Thunderstorm" program. This is very important!).
