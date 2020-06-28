@@ -1,5 +1,6 @@
 package sage.agi.resources;
 
+import sage.agi.types.AGIByte;
 import haxe.ds.Vector;
 import sage.agi.helpers.AGIColor;
 import haxe.ds.GenericStack;
@@ -146,7 +147,7 @@ class AGIPicture {
 	var spos:Int = 0;
 	var QMAX:Int = 4000;
 	var rpos:Int = 4000;
-	var buf:Vector<Int> = new Vector<Int>(4001);
+	var buf:Vector<AGIByte> = new Vector<AGIByte>(4001);
 
 	function qstore(q:Int):Void {
 		if (spos + 1 == rpos || (spos + 1 == QMAX && rpos == 0)) {
@@ -203,7 +204,7 @@ class AGIPicture {
 		if (vx > 319 || vy > 199)
 			return 15;
 
-		var currentPixelColor:Int = pictureBuffer[vx + vy * WIDTH];
+		var currentPixelColor:UInt = pictureBuffer[vx + vy * WIDTH];
 		var color:AGIColor = AGIColor.getColorByDosColor(currentPixelColor);
 		return color.dosColor;
 	}
@@ -237,8 +238,8 @@ class AGIPicture {
 	}
 
 	function fill(x:Int, y:Int) {
-		var x1:UInt; // Use UInt8 to ensure correct variable overflow
-		var y1:UInt; // Use UInt8 to ensure correct variable overflow
+		var x1:AGIByte; // Use AGIByte8 to ensure correct variable overflow
+		var y1:AGIByte; // Use AGIByte8 to ensure correct variable overflow
 		rpos = spos = 0;
 
 		qstore(x);
@@ -275,7 +276,7 @@ class AGIPicture {
 		}
 	}
 
-	private function canFill(x:UInt, y:UInt) {
+	private function canFill(x:AGIByte, y:AGIByte) {
 		if (!isPicDrawingEnabled && !isPriorityDrawingEnabled)
 			return false;
 		if (picColor == 15)
