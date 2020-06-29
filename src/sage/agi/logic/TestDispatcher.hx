@@ -29,6 +29,6 @@ class TestDispatcher {
 		0x10 => new Container("obj.in.box", 5, [Object, Number, Number, Number, Number], null),
 		0x11 => new Container("center.posn", 5, [Object, Number, Number, Number, Number], null),
 		0x12 => new Container("right.posn", 5, [Object, Number, Number, Number, Number], null)
-	]; // TODO: Fill out the rest of the Tests
+	];
 
 }

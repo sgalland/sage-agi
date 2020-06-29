@@ -38,6 +38,13 @@ class ObjectMotionControl {
 	}
 
 	/**
+		Stops Ego from being controlled by keyboard or joystick.
+	**/
+	public static function program_control() {
+		AGIInterpreter.instance.ALLOW_PLAYER_CONTROL = true;
+	}
+
+	/**
 		Allows Ego to be controlled by keyboard or joystick.
 	**/
 	public static function player_control() {
