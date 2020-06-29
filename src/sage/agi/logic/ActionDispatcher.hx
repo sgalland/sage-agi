@@ -195,14 +195,14 @@ class ActionDispatcher {
 		0xA7 => new Container("div.n", 2, [Variable, Number], Arithmetic.divn),
 		0xA8 => new Container("div.v", 2, [Variable, Variable], Arithmetic.divv),
 		0xA9 => new Container("close.window", 0, [], null),
-		0xAA => new Container("set.simple", 1, [], null), // TODO: Determine argument parameter
+		0xAA => new Container("set.simple", 1, [], null), // TODO: Determine argument parameter type
 		0xAB => new Container("push.script", 0, [], null),
 		0xAC => new Container("pop.script", 0, [], null),
 		0xAD => new Container("hold.key", 0, [], null),
 		0xAE => new Container("set.pri.base", 1, [Number], null),
 		0xAF => new Container("discard.sound", 1, [Number], null),
 		0xB0 => new Container("hide.mouse", 0, [], null), // TODO: Apparently this is 0 or 1 param
-		0xB1 => new Container("allow.menu", 1, [], null), // TODO: Determine argument types
+		0xB1 => new Container("allow.menu", 1, [], null), // TODO: Determine argument parameter types
 		0xB2 => new Container("show.mouse", 0, [], null),
 		0xB3 => new Container("fence.mouse", 4, [Number, Number, Number, Number], null),
 		0xB4 => new Container("mouse.posn", 2, [Variable, Variable], null),

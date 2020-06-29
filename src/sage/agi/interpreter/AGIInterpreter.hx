@@ -161,7 +161,7 @@ class AGIInterpreter {
 	public var KEYBOARD_BUFFER:Array<String> = new Array<String>();
 
 	/**
-	    Represents the backbuffer
+		Represents the backbuffer
 	**/
 	public var RENDERER:Renderer = new Renderer();
 
