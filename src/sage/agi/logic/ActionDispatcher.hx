@@ -104,7 +104,7 @@ class ActionDispatcher {
 		0x4C => new Container("cycle.time", 2, [Object, Variable], ObjectControl.cycle_time),
 		0x4D => new Container("stop.motion", 1, [Object], ObjectMotionControl.stop_motion),
 		0x4E => new Container("start.motion", 1, [Object], ObjectMotionControl.start_motion),
-		0x4F => new Container("step.size", 1, [Object], ObjectMotionControl.step_size),
+		0x4F => new Container("step.size", 2, [Object, Variable], ObjectMotionControl.step_size),
 		0x50 => new Container("step.time", 2, [Object, Variable], ObjectMotionControl.step_time),
 		0x51 => new Container("move.obj", 5, [Object, Number], ObjectMotionControl.move_obj),
 		0x52 => new Container("move.obj.v", 5, [Object, Variable], ObjectMotionControl.move_obj_v),
