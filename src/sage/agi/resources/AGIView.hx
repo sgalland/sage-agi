@@ -1,5 +1,6 @@
 package sage.agi.resources;
 
+import haxe.EnumFlags;
 import sage.agi.objects.ViewFlags.Cycle;
 import haxe.ds.Vector;
 import sage.agi.resources.AGIFile;
@@ -161,21 +162,35 @@ typedef ViewObject = {
 	/**
 		Position on the X axis.
 	**/
-	@:optional public var y:Int;
+	@:optional var y:Int;
 
 	/**
 		The view associated with this view object.
 	**/
-	@:optional public var currentView:Int;
+	@:optional var currentView:Int;
+
+	/**
+		ID of the view to reference
+	**/
+	@:optional var view:Int;
 
 	// TODO: I don't think this is needed, validate
 	@:optional var pointerToViewData:Int;
-	@:optional var currentLoop:Int;
+	@:optional var loop:Int;
 	@:optional var numberOfLoops:Int;
 	// TODO: I don't think this is needed, validate
 	@:optional var pointerToStartOfLoopData:Int;
-	@:optional var currentCel:Int;
+
+	/**
+		Current Cel being rendered.
+	**/
+	@:optional var currentCell:Int;
+
+	/**
+		Count of cels
+	**/
 	@:optional var numberOfCels:Int;
+
 	// TODO: I don't think this is needed, validate
 	@:optional var pointerToStartOfCelData:Int;
 	// TODO: I don't think this is needed, validate
@@ -204,12 +219,12 @@ typedef ViewObject = {
 	/**
 		Flags that indicate the state of the view.
 	**/
-	@:optional var viewFlags:ViewFlags;
+	@:optional var viewFlags:EnumFlags<ViewFlags>;
 
 	/**
-		Reference to view cell - not sure if we need this.
+		Time left until next cycle.
 	**/
-	@:optional var currentCell:ViewCell;
+	@:optional var cycleCount:Int;
 }
 
 // TODO: Add documentation

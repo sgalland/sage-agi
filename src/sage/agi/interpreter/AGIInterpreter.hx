@@ -1,5 +1,7 @@
 package sage.agi.interpreter;
 
+import haxe.display.Protocol.HaxeResponseErrorData;
+import sage.agi.screen.Renderer;
 import sage.agi.logic.commands.Resource;
 import sage.agi.screen.ScreenSettings;
 import sage.agi.text.TextAttribute;
@@ -17,13 +19,21 @@ import sage.agi.logic.EventType;
 import sage.agi.logic.LogicProcessor;
 import sage.agi.menu.Menu;
 import sage.agi.resources.AGIView.ViewObject;
+import sage.agi.objects.ObjectBlock;
 
 /**
 	Represents the internals of the AGI Interpreter.
 	@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals
 **/
 class AGIInterpreter {
+	/**
+		The maximum number of resources allowed per resource type.
+	**/
 	public static inline final MAX_RESOURCES:Int = 255;
+
+	/**
+		AGI allowed in most interpreters 12 strings, but in some 24 strings. It is unknown if 24 were ever actually used.
+	**/
 	public static inline final MAX_STRINGS = 24;
 
 	/**
@@ -121,6 +131,11 @@ class AGIInterpreter {
 	public var OBJECTS:IntMap<ViewObject> = new IntMap<ViewObject>();
 
 	/**
+		Defines a region that view objects cannot cross unless they are ignoring blocks.
+	**/
+	public var OBJECT_BLOCK:ObjectBlock = {};
+
+	/**
 		Indicates if the player is allowed to control the Ego.
 	**/
 	public var ALLOW_PLAYER_CONTROL:Bool;
@@ -146,21 +161,35 @@ class AGIInterpreter {
 	public var KEYBOARD_BUFFER:Array<String> = new Array<String>();
 
 	/**
+		Represents the backbuffer
+	**/
+	public var RENDERER:Renderer = new Renderer();
+
+	/**
 		Singleton instance of the AGIInterpreter class.
 	**/
 	public static var instance:AGIInterpreter = new AGIInterpreter();
 
-	public static var processor:LogicProcessor = new LogicProcessor();
+	public var processor:LogicProcessor = new LogicProcessor();
 
 	function new() {}
+
+	/**
+		Initializes the interpreter for first run.
+	**/
+	public function initialize() {
+		for (i in 0...MAX_RESOURCES) {
+			AGIInterpreter.instance.OBJECTS.set(i, {});
+		}
+
+		Resource.load_logic({arg1: 0});
+	}
 
 	/**
 		Executes the interpreters main logic loop.
 		@see https://wiki.scummvm.org/index.php?title=AGI/Specifications/Internals#Interpreter_work_cycle
 	**/
 	public function run() {
-		if (!LOGICS.exists(0))
-			Resource.load_logic({arg1: 0});
 		// Interpreter loop steps
 		// 1. Time delay - this is a function of the host graphics API.
 		// 2. Clear keyboard buffer - this is a function of the host graphics API since it usually handles events that we will need to trigger.

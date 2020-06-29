@@ -1,7 +1,10 @@
 package sage.agi.logic;
 
+// TODO: Document
+
 /**
 	Enum indicating the type of argument used in Logic Actions and Tests.
+	@see https://wiki.scummvm.org/index.php/AGI/Specifications/Internals#AGI_data_types
 **/
 @:enum abstract LogicArgumentType(Int) {
 	/**
@@ -40,4 +43,6 @@ package sage.agi.logic;
 	var Object = 7;
 
 	var Item = 8;
+
+	var Word = 9;
 }

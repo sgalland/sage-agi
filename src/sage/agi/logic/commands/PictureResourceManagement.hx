@@ -1,5 +1,6 @@
 package sage.agi.logic.commands;
 
+import haxe.ds.Vector;
 import sage.agi.logic.LogicProcessor.Args;
 import sage.agi.resources.AGIPicture;
 import sage.agi.interpreter.AGIInterpreter;
@@ -17,6 +18,11 @@ class PictureResourceManagement {
 		var resourceID = AGIInterpreter.instance.VARIABLES[args.arg1];
 		var pic:AGIPicture = AGIInterpreter.instance.PICTURES.get(resourceID);
 		AGIInterpreter.instance.CURRENT_PIC = pic;
+	}
+
+	public static function show_pic(){
+		AGIInterpreter.instance.RENDERER.videoBackBuffer = AGIInterpreter.instance.CURRENT_PIC.getPicturePixels();
+		AGIInterpreter.instance.RENDERER.priorityBackBuffer = AGIInterpreter.instance.CURRENT_PIC.getPriorityPixels();
 	}
 
 	// TODO: Implement PictureResourceManagement
