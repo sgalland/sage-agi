@@ -33,7 +33,7 @@ class LogicProcessor {
 		var currentByte:Int = 0;
 
 		do {
-			trace(currentLogic.logicData.slice(logicIndex, logicIndex + 20));
+			//trace(currentLogic.logicData.slice(logicIndex, logicIndex + 20));
 
 			currentByte = currentLogic.logicData[logicIndex];
 

@@ -1,5 +1,6 @@
 package sage.agi.interpreter;
 
+import sage.agi.AGIEvent.AGIKeyboardEvent;
 import haxe.display.Protocol.HaxeResponseErrorData;
 import sage.agi.screen.Renderer;
 import sage.agi.logic.commands.Resource;
@@ -158,7 +159,7 @@ class AGIInterpreter {
 	/**
 		Represent the keyboard buffer. Should this be a haxe stringbuf?
 	**/
-	public var KEYBOARD_BUFFER:Array<String> = new Array<String>();
+	public var KEYBOARD_BUFFER:Array<AGIKeyboardEvent> = new Array<AGIKeyboardEvent>();
 
 	/**
 		Represents the backbuffer
