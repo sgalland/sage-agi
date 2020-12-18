@@ -31,6 +31,7 @@ class LogicProcessor {
 		currentLogic = AGIInterpreter.instance.LOGICS.get(resourceID);
 		var running:Bool = true;
 		var currentByte:Int = 0;
+		logicIndex = 0; // is this right???
 
 		do {
 			trace(currentLogic.logicData.slice(logicIndex, logicIndex + 20));
