@@ -1,12 +1,10 @@
 package sage.agi.logic;
 
-import haxe.ds.ObjectMap;
+import sage.agi.logic.commands.ObjectControl;
 import sage.agi.logic.commands.PictureResourceManagement;
 import sage.agi.logic.commands.Resource;
 import sage.agi.logic.commands.ObjectMotionControl;
-import sage.agi.logic.commands.ObjectControl;
 import sage.agi.logic.commands.ProgramControl;
-import sage.agi.logic.commands.ObjectControl;
 import sage.agi.logic.commands.Text;
 import haxe.ds.Map;
 import sage.agi.logic.commands.Arithmetic;
@@ -25,20 +23,20 @@ class ActionDispatcher {
 		A map of all Actions that the interpreter can perform.
 	**/
 	public static var ACTIONS:Map<Int, Container> = [
-        // 0x0 Return - this is handled during logic execution
+		// 0x0 Return - this is handled during logic execution
 		0x01 => new Container("increment", 1, [Variable], Arithmetic.increment),
 		0x02 => new Container("decrement", 1, [Variable], Arithmetic.decrement),
-		0x03 => new Container("assign", 2, [Variable,Number], Arithmetic.assign),
-		0x04 => new Container("assignv", 2, [Variable,Variable], Arithmetic.assignv),
-		0x05 => new Container("addn", 2, [Variable,Number], Arithmetic.addn),
-		0x06 => new Container("addv", 2, [Variable,Variable], Arithmetic.addv),
-		0x07 => new Container("subn", 2, [Variable,Number], Arithmetic.subn),
-		0x08 => new Container("subv", 2, [Variable,Variable], Arithmetic.subv),
-		0x09 => new Container("lindirectv", 2, [Variable,Variable], Arithmetic.lindirectv),
-		0x0A => new Container("rindirect", 2, [Variable,Variable], Arithmetic.rindirect),
-		0x0B => new Container("lindirectn", 2, [Variable,Number], Arithmetic.lindirectn),
+		0x03 => new Container("assign", 2, [Variable, Number], Arithmetic.assign),
+		0x04 => new Container("assignv", 2, [Variable, Variable], Arithmetic.assignv),
+		0x05 => new Container("addn", 2, [Variable, Number], Arithmetic.addn),
+		0x06 => new Container("addv", 2, [Variable, Variable], Arithmetic.addv),
+		0x07 => new Container("subn", 2, [Variable, Number], Arithmetic.subn),
+		0x08 => new Container("subv", 2, [Variable, Variable], Arithmetic.subv),
+		0x09 => new Container("lindirectv", 2, [Variable, Variable], Arithmetic.lindirectv),
+		0x0A => new Container("rindirect", 2, [Variable, Variable], Arithmetic.rindirect),
+		0x0B => new Container("lindirectn", 2, [Variable, Number], Arithmetic.lindirectn),
 		0x0C => new Container("set", 1, [Flag], Flag.set),
-		0x0D => new Container("reset", 1, [Flag],Flag.reset),
+		0x0D => new Container("reset", 1, [Flag], Flag.reset),
 		0x0E => new Container("toggle", 1, [Flag], Flag.toggle),
 		0x0F => new Container("set.v", 1, [Variable], Flag.setv),
 		0x10 => new Container("reset.v", 1, [Variable], Flag.resetv),
@@ -77,7 +75,7 @@ class ActionDispatcher {
 		0x31 => new Container("last.cel", 2, [Object, Variable], ObjectControl.last_cel),
 		0x32 => new Container("current.cel", 2, [Object, Variable], ObjectControl.current_cel),
 		0x33 => new Container("current.loop", 2, [Object, Variable], ObjectControl.current_loop),
-		0x34 => new Container("current.view	", 2, [Object,Variable], ObjectControl.current_view),
+		0x34 => new Container("current.view	", 2, [Object, Variable], ObjectControl.current_view),
 		0x35 => new Container("number.of.loops", 2, [Object, Variable], ObjectControl.number_of_loops),
 		0x36 => new Container("set.priority", 2, [Object, Number], ObjectControl.set_priority),
 		0x37 => new Container("set.priority.v", 2, [Object, Variable], ObjectControl.set_priority_v),
@@ -108,7 +106,8 @@ class ActionDispatcher {
 		0x50 => new Container("step.time", 2, [Object, Variable], ObjectMotionControl.step_time),
 		0x51 => new Container("move.obj", 5, [Object, Number], ObjectMotionControl.move_obj),
 		0x52 => new Container("move.obj.v", 5, [Object, Variable], ObjectMotionControl.move_obj_v),
-		0x53 => new Container("follow.ego", 3, [Object, Number, Flag], ObjectMotionControl.follow_ego), // TODO: The last flag is a done flag and it might not be needed.
+		0x53 => new Container("follow.ego", 3, [Object, Number, Flag],
+			ObjectMotionControl.follow_ego), // TODO: The last flag is a done flag and it might not be needed.
 		0x54 => new Container("wander", 1, [Object], ObjectMotionControl.wander),
 		0x55 => new Container("normal.motion", 1, [Object], ObjectMotionControl.normal_motion),
 		0x56 => new Container("set.dir", 2, [Object, Variable], ObjectMotionControl.set_dir),
@@ -126,7 +125,7 @@ class ActionDispatcher {
 		0x62 => new Container("load.sound", 1, [Number], null),
 		0x63 => new Container("sound", 2, [Number, Flag], null),
 		0x64 => new Container("stop.sound", 0, [], null),
-		0x65 => new Container("print", 1, [Message], null ),
+		0x65 => new Container("print", 1, [Message], null),
 		0x66 => new Container("print.v", 1, [Variable], null),
 		0x67 => new Container("display", 3, [Number, Number, Message], null),
 		0x68 => new Container("display.v", 3, [Variable, Variable, Variable], null),

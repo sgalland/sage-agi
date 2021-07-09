@@ -40,6 +40,12 @@ class AGIFileReader {
 			if (directoryEntry.isEmpty()) {
 				directoryEntry.resourceID = resourceCount;
 				tempDirectoryEntries.push(directoryEntry);
+				trace("volume: "
+					+ directoryEntry.volNumber
+					+ " filepos:"
+					+ directoryEntry.dataOffset
+					+ " resourceid:"
+					+ directoryEntry.resourceID);
 			}
 
 			resourceCount++;

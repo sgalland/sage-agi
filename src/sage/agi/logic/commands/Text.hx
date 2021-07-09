@@ -12,6 +12,16 @@ import sage.agi.interpreter.AGIInterpreter;
 **/
 class Text {
 	/**
+		How many pixels tall a char is.
+	**/
+	static var CHAR_ROWS = 8;
+
+	/**
+		How many pixels wide a char is.
+	**/
+	static var CHAR_COLS = 8;
+
+	/**
 		Set the cursor for the user input text prompt.
 		@param n ID of the message to use as the cursor.
 	**/
@@ -57,7 +67,9 @@ class Text {
 		@param c Color to use to clear the line.
 	**/
 	public static function clear_lines(args:Args) {
-		// TODO: Implement!!!!
+		var startLine = args.arg1 * CHAR_ROWS;
+		var endLine = args.arg2 * CHAR_ROWS;
+		// TODO: Draw a rectangle over the area to hide it with the color.
 	}
 
 	// TODO: Implement text commands
