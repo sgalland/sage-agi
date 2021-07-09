@@ -72,5 +72,19 @@ class Text {
 		// TODO: Draw a rectangle over the area to hide it with the color.
 	}
 
+	/**
+		Clears a rectangle area from the top left coordinates to the bottom right coordinates using the color c.
+		@param x1 Top left
+		@param y1 Top row
+		@param x2 Bottom right
+		@param y2 Bottom row
+		@param c Color to clear the region with.
+	**/
+	public static function clear_text_rect(args:Args) {
+		// TODO: Implement clear_text_rect
+	}
+
+	public static function display(args:Args) {}
+
 	// TODO: Implement text commands
 }

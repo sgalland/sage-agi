@@ -28,6 +28,7 @@ class LogicProcessor {
 		@param resourceID ID of the resource to be executd.
 	**/
 	public function execute(resourceID:UInt) {
+		trace("Now running logic " + resourceID);
 		currentLogic = AGIInterpreter.instance.LOGICS.get(resourceID);
 		var running:Bool = true;
 		var currentByte:Int = 0;
