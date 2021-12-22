@@ -1,6 +1,8 @@
 # SAGE AGI Library
 SAGE AGI Library is a library of Haxe code for working with Sierra AGI games.
 
+NOTE: This repository will be archived soon. When I created it I had the wrong interpretation on a few things, which will be corrected in another repository. Please don't use the logic code since it is the most incorrect of all.
+
 # Recommended Development Setup
 The standard environment used for development is as follows:
 * [Haxe 4.0.0-rc2](https://haxe.org/download/version/4.0.0-rc.2/) - theoretically this should work with any newer version of Haxe.
